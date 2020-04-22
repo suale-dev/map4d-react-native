@@ -18,33 +18,40 @@ import {
 } from 'react-native';
 
 import MFMapView from './components/MFMapView'
-import UIDemo from './components/UIDemo'
 
-const App: () => React$Node = () => {
-
-  async function handleClick() {
-    var {x, y, width, height} = await UIDemo.measureLayout(
-      100,
-      100      
-    );
-    console.log(x + ':' + y + ':' + width + ':' + height);
-    console.log("kakak");
+export default class App extends React.Component {
+  handleClick() {
+    this.animateCamera();
   }
 
-  return (
-    <>
-      <SafeAreaView style={styles.safeView}>        
-        <MFMapView style={styles.container}/>        
-        <Button title={"Click me"} onPress={() => {                    
-            handleClick()
-          }}>
+  animateCamera() {
+    this.map.animateCamera({
+      tilt: 0,
+      bearing: 0,
+      zoom: 17,
+      target: {latitude: 10.772002, longitude: 106.704294}
+    })
+  }
+
+  async getCamera() {
+    const camera = await this.map.getCamera();
+    console.log(camera)
+    return camera
+  }
+
+  render() {
+    return(
+      <SafeAreaView style={this.styles.safeView}>        
+        <MFMapView ref={ref => this.map = ref} onMapReady={data => {                         
+          this.getCamera();
+        }} style={this.styles.container}/>        
+        <Button title={"Move Camera"} onPress={() => this.handleClick()}>
         </Button>
       </SafeAreaView>
-    </>
-  );
-};
+    )
+  }
 
-const styles = StyleSheet.create({
+styles = StyleSheet.create({
   safeView: {
     flex: 1,
   },
@@ -55,4 +62,5 @@ const styles = StyleSheet.create({
   }
 });
 
-export default App;
+}
+
