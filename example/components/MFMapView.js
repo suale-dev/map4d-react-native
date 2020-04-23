@@ -6,7 +6,21 @@ import {requireNativeComponent, Platform, NativeModules, findNodeHandle} from 'r
 class MFMapView extends React.Component {
     constructor(props) {
       super(props);      
+      this.state = {
+        isReady: Platform.OS === 'ios',
+      };
+
+      this._onMapReady = this._onMapReady.bind(this);
     }
+
+    _onMapReady() {        
+        const { onMapReady } = this.props;
+        this.setState({ isReady: true }, () => {
+          if (onMapReady) {
+            onMapReady();
+          }
+        });
+      }
 
     _getHandle() {
         return findNodeHandle(this.map);
@@ -59,13 +73,28 @@ class MFMapView extends React.Component {
     
     
     render() {
-      return <RMFMapView {...this.props} ref={ref => {
+        let props;
+
+        if (this.state.isReady) {
+            props = {        
+                style: this.props.style,    
+                onMapReady: this._onMapReady,
+                ...this.props,
+            };        
+        } else {
+            props = {                
+                style: this.props.style,
+                onMapReady: this._onMapReady
+            };
+        }
+
+      return <RMFMapView {...props} ref={ref => {
         this.map = ref;
       }}/>;
     }
   }  
   
-var RMFMapView = requireNativeComponent(`RMFMapView`);
+var RMFMapView = requireNativeComponent(`RMFMapView`, MFMapView);
 
 
 export default MFMapView

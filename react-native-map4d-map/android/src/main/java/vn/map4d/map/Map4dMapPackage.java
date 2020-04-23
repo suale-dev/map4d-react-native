@@ -14,8 +14,7 @@ public class Map4dMapPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         return Arrays.<NativeModule>asList(
-            new Map4dMapModule(reactContext),
-            new UIDemoModule(reactContext)    
+            new Map4dMapModule(reactContext)
             );
     }
  
@@ -23,7 +22,8 @@ public class Map4dMapPackage implements ReactPackage {
     public List<ViewManager> createViewManagers(
                               ReactApplicationContext reactContext) {
       return Arrays.<ViewManager>asList(
-        new RMFMapViewManager()
+        new RMFMapViewManager(),
+        new RMFMarkerManager()
       );
     }
 }

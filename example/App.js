@@ -18,10 +18,12 @@ import {
 } from 'react-native';
 
 import MFMapView from './components/MFMapView'
+import MFMarker from './components/MFMarker';
 
 export default class App extends React.Component {
   handleClick() {
     this.animateCamera();
+    this.marker.setLocation({latitude: 10.772002, longitude: 106.704294})
   }
 
   animateCamera() {
@@ -39,12 +41,14 @@ export default class App extends React.Component {
     return camera
   }
 
-  render() {
+  render() {    
     return(
       <SafeAreaView style={this.styles.safeView}>        
         <MFMapView ref={ref => this.map = ref} onMapReady={data => {                         
           this.getCamera();
-        }} style={this.styles.container}/>        
+        }} style={this.styles.container}>        
+          <MFMarker ref={ref => this.marker = ref}></MFMarker>
+        </MFMapView>
         <Button title={"Move Camera"} onPress={() => this.handleClick()}>
         </Button>
       </SafeAreaView>
