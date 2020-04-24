@@ -106,7 +106,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         WritableMap location = new WritableNativeMap();
         location.putDouble("latitude", marker.getPosition().getLatitude());
         location.putDouble("longitude", marker.getPosition().getLongitude());
-        event.putMap("location", location); 
+        event.putMap("coordinate", location); 
         return event;
     }
 

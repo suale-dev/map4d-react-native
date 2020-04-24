@@ -7,8 +7,8 @@ export default class MFMarker extends React.Component {
       super(props);      
     }
 
-    setLocation(location) {
-        this._runCommand("setLocation", location)
+    setCoordinate(location) {
+        this._runCommand("setCoordinate", location)
     }
 
     _getHandle() {

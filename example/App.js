@@ -23,7 +23,7 @@ import MFMarker from './components/MFMarker';
 export default class App extends React.Component {
   handleClick() {
     this.animateCamera();
-    this.marker.setLocation({latitude: 10.772002, longitude: 106.704294})
+    this.marker.setCoordinate({latitude: 10.772002, longitude: 106.704294})
   }
 
   animateCamera() {
@@ -52,6 +52,8 @@ export default class App extends React.Component {
               console.log(event.nativeEvent)
             }
           }></MFMarker>
+          <MFMarker coordinate={{latitude: 16.073034, longitude: 108.224315}}></MFMarker>
+          <MFMarker coordinate={{latitude: 16.071364, longitude: 108.224487}}></MFMarker>
         </MFMapView>
         <Button title={"Move Camera"} onPress={() => this.handleClick()}>
         </Button>

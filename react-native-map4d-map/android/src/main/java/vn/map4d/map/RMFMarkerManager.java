@@ -16,7 +16,7 @@ import vn.map4d.map.annotations.*;
 
 
 public class RMFMarkerManager extends ViewGroupManager<RMFMarker> {
-    private static final int SET_LOCATION = 1;
+    private static final int SET_COORDINATE = 1;
 
     @Override
     public String getName() {
@@ -32,7 +32,7 @@ public class RMFMarkerManager extends ViewGroupManager<RMFMarker> {
     public void receiveCommand(RMFMarker view, int commandId, @Nullable ReadableArray args) {    
       ReadableMap data;
       switch (commandId) {
-        case SET_LOCATION:
+        case SET_COORDINATE:
         data = args.getMap(0);
           view.setPosition(data);
           break;
@@ -52,13 +52,13 @@ public class RMFMarkerManager extends ViewGroupManager<RMFMarker> {
   @Override
   public Map<String, Integer> getCommandsMap() {
     HashMap<String, Integer> map = new HashMap();    
-    map.put("setLocation", SET_LOCATION);
+    map.put("setCoordinate", SET_COORDINATE);
     return map;
   }
 
 
    @ReactProp(name = "coordinate")
-   public void setPosition(RMFMarker view, ReadableMap map) {
+   public void setCoordinate(RMFMarker view, ReadableMap map) {
         view.setPosition(map);
    }
 

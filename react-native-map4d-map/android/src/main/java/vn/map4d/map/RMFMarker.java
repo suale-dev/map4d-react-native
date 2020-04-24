@@ -41,7 +41,8 @@ public class RMFMarker extends RMFFeature {
     }
 
     public void addToMap(Map4D map) {
-        this.marker = map.addMarker(getMarkerOptions());    
+        this.marker = map.addMarker(getMarkerOptions());  
+        Log.i("SUA", "position: " + position.getLatitude() + " - " + position.getLongitude());
         //updateTracksViewChanges() --> not implemented
     }
 
