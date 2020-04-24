@@ -39,6 +39,14 @@ public class RMFMarkerManager extends ViewGroupManager<RMFMarker> {
       }
     }
 
+    @Override
+    public Map getExportedCustomDirectEventTypeConstants() {
+      Map<String, Map<String, String>> map = MapBuilder.of(        
+        "onDrag", MapBuilder.of("registrationName", "onDrag")      
+      );      
+      return map;
+    }
+
 
     @Nullable
   @Override

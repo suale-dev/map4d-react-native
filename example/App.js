@@ -47,7 +47,11 @@ export default class App extends React.Component {
         <MFMapView ref={ref => this.map = ref} onMapReady={data => {                         
           this.getCamera();
         }} style={this.styles.container}>        
-          <MFMarker ref={ref => this.marker = ref}></MFMarker>
+          <MFMarker ref={ref => this.marker = ref} onDrag={
+            (event) => {
+              console.log(event.nativeEvent)
+            }
+          }></MFMarker>
         </MFMapView>
         <Button title={"Move Camera"} onPress={() => this.handleClick()}>
         </Button>

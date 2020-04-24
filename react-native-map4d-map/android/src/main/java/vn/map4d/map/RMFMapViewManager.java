@@ -33,11 +33,11 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
 
     @Override
     public Map getExportedCustomDirectEventTypeConstants() {
-        return MapBuilder.builder()
-            .put(
-                "onMapReady",
-                MapBuilder.of("registrationName", "onMapReady")
-                ).build();
+      Map<String, Map<String, String>> map = MapBuilder.of(
+        "onMapReady", MapBuilder.of("registrationName", "onMapReady"),
+        "onMarkerDrag", MapBuilder.of("registrationName", "onMarkerDrag")      
+      );      
+      return map;
     }
 
     @Nullable

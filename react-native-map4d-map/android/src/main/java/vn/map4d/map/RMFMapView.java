@@ -45,8 +45,69 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
 
     @Override
     public void onMapReady(Map4D map) {
-        this.map = map;                
+        this.map = map;          
+        final RMFMapView view = this;
+
         manager.pushEvent(getContext(), this, "onMapReady", new WritableNativeMap());
+
+        map.setOnMarkerDragListener((new Map4D.OnMarkerDragListener() {
+          @Override
+          public void onMarkerDrag(MFMarker marker) {            
+            RMFMarker rctMarker = markerMap.get(marker);
+            if (rctMarker == null) {
+              return;
+            }
+
+            //Event for MFMapView
+            WritableMap event = getMarkerEventData(marker);          
+            event.putString("action", "MarkerDrag");
+            manager.pushEvent(getContext(), view, "onMarkerDrag", event);   
+            
+            //Event for MFMarker
+            event = getMarkerEventData(marker);
+            event.putString("action", "MarkerDrag");         
+            manager.pushEvent(getContext(), rctMarker, "onDrag", event);
+          }
+
+          @Override
+          public void onMarkerDragEnd(MFMarker marker) {
+            RMFMarker rctMarker = markerMap.get(marker);
+            if (rctMarker == null) {
+              return;
+            }                      
+            WritableMap event = getMarkerEventData(marker);
+            event.putString("action", "MarkerDragEnd");
+            manager.pushEvent(getContext(), view, "onMarkerDrag", event);            
+
+            event = getMarkerEventData(marker);
+            event.putString("action", "MarkerDragEnd");
+            manager.pushEvent(getContext(), rctMarker, "onDrag", event);
+          }
+
+          @Override
+          public void onMarkerDragStart(MFMarker marker) {
+            RMFMarker rctMarker = markerMap.get(marker);
+            if (rctMarker == null) {
+              return;
+            }               
+            WritableMap event = getMarkerEventData(marker);
+            event.putString("action", "MarkerDragStart");
+            manager.pushEvent(getContext(), view, "onMarkerDrag", event);            
+
+            event = getMarkerEventData(marker);
+            event.putString("action", "MarkerDragStart");
+            manager.pushEvent(getContext(), rctMarker, "onDrag", event);
+          }
+      }));
+    }
+
+    private WritableMap getMarkerEventData(MFMarker marker) {
+        WritableMap event = new WritableNativeMap();                   
+        WritableMap location = new WritableNativeMap();
+        location.putDouble("latitude", marker.getPosition().getLatitude());
+        location.putDouble("longitude", marker.getPosition().getLongitude());
+        event.putMap("location", location); 
+        return event;
     }
 
     private MFCameraPosition parseCamera(ReadableMap camera) {        
