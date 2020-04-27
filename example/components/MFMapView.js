@@ -29,10 +29,10 @@ class MFMapView extends React.Component {
     getCamera() {
         if (Platform.OS === 'android') {
             return NativeModules.Map4dMap.getCamera(this._getHandle());
-        } else {
-            console.log("Not implemented")
-            return null
+        } else if (Platform.OS === 'ios') {
+            return this._runCommand('getCamera', []);
         }
+        return Promise.reject('getCamera not supported on this platform');
     }
 
     animateCamera(camera) {
@@ -50,8 +50,7 @@ class MFMapView extends React.Component {
             );
     
           case 'ios':
-            //return this._mapManagerCommand(name)(this._getHandle(), ...args);
-            console.log("not implemented")
+            return this._mapManagerCommand(name)(this._getHandle(), ...args);
     
           default:
             return Promise.reject(`Invalid platform was passed: ${Platform.OS}`);
@@ -70,6 +69,10 @@ class MFMapView extends React.Component {
         // RN >= 0.58        
         return UIManager.getViewManagerConfig(componentName).Commands[name];
       }   
+
+      _mapManagerCommand(name) {
+        return NativeModules[`RMFMapView`][name];
+      }
     
     
     render() {

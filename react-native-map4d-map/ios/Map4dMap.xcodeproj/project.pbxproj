@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		447AFDD3245691000088C383 /* RMFMapViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 447AFDD2245691000088C383 /* RMFMapViewManager.m */; };
+		447AFDD72456BEDA0088C383 /* RMFMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 447AFDD62456BEDA0088C383 /* RMFMapView.m */; };
 		B3E7B58A1CC2AC0600A0062D /* Map4dMap.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* Map4dMap.m */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +26,9 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libMap4dMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMap4dMap.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		447AFDD2245691000088C383 /* RMFMapViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMFMapViewManager.m; sourceTree = "<group>"; };
+		447AFDD52456BE650088C383 /* RMFMapView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMFMapView.h; sourceTree = "<group>"; };
+		447AFDD62456BEDA0088C383 /* RMFMapView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMFMapView.m; sourceTree = "<group>"; };
 		44ED59332452ECF500C1D2CC /* RMFMapViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMFMapViewManager.h; sourceTree = "<group>"; };
 		44ED59342452EDE200C1D2CC /* RMFMarkerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMFMarkerManager.h; sourceTree = "<group>"; };
 		B3E7B5881CC2AC0600A0062D /* Map4dMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map4dMap.h; sourceTree = "<group>"; };
@@ -52,6 +57,9 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				447AFDD62456BEDA0088C383 /* RMFMapView.m */,
+				447AFDD52456BE650088C383 /* RMFMapView.h */,
+				447AFDD2245691000088C383 /* RMFMapViewManager.m */,
 				44ED59342452EDE200C1D2CC /* RMFMarkerManager.h */,
 				44ED59332452ECF500C1D2CC /* RMFMapViewManager.h */,
 				B3E7B5881CC2AC0600A0062D /* Map4dMap.h */,
@@ -118,6 +126,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3E7B58A1CC2AC0600A0062D /* Map4dMap.m in Sources */,
+				447AFDD3245691000088C383 /* RMFMapViewManager.m in Sources */,
+				447AFDD72456BEDA0088C383 /* RMFMapView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
