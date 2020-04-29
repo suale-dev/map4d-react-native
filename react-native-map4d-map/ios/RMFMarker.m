@@ -22,8 +22,22 @@
   return self;
 }
 
-- (void)setCoordinate:(CLLocationCoordinate2D)coordinate {
+- (void)setCoordinate:(CLLocationCoordinate2D)coordinate
+{
   _realMarker.position = coordinate;
+}
+
+- (CLLocationCoordinate2D)coordinate {
+  return _realMarker.position;
+}
+
+- (void)setDraggable:(BOOL)draggable
+{
+  _realMarker.dragable = draggable;
+}
+
+- (BOOL)draggable {
+  return _realMarker.dragable;
 }
 
 @end

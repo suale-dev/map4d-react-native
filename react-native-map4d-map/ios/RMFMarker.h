@@ -15,6 +15,7 @@
 @interface RMFMarker : UIView
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
+@property (nonatomic, assign) BOOL draggable;
 @property (nonatomic, strong) MFMarker * realMarker;
 
 @end

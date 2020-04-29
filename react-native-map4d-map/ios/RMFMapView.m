@@ -8,7 +8,7 @@
 
 #import "RMFMapView.h"
 #import <Foundation/Foundation.h>
-#import <React/RCTConvert.h>
+#import <React/RCTConvert+CoreLocation.h>
 #import <React/RCTComponent.h>
 #import <React/RCTBridge.h>
 #import <React/RCTLog.h>
@@ -24,8 +24,7 @@
 
 - (MFCameraUpdate *) parseCamera: (id) json
 {
-  CLLocationDegrees latitude = 0;
-  CLLocationDegrees longitude = 0;
+  CLLocationCoordinate2D target = CLLocationCoordinate2DMake(0, 0);
   double zoom = 0;
   
   if (json[@"zoom"]) {
@@ -33,12 +32,10 @@
   }
 
   if (json[@"target"]) {
-    id target = [RCTConvert id:json[@"target"]];
-    latitude = [RCTConvert double:target[@"latitude"]];
-    longitude = [RCTConvert double:target[@"longitude"]];
+    target = [RCTConvert CLLocationCoordinate2D:json[@"target"]];
   }
   
-  MFCameraUpdate * cameraUpdate = [MFCameraUpdate setTarget:CLLocationCoordinate2DMake(latitude, longitude) zoom:(zoom)];
+  MFCameraUpdate * cameraUpdate = [MFCameraUpdate setTarget:target zoom:(zoom)];
   return cameraUpdate;
 }
 

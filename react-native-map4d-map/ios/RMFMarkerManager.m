@@ -8,9 +8,9 @@
 
 #import <RMFMarkerManager.h>
 #import <RMFMarker.h>
+#import <React/RCTConvert+CoreLocation.h>
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
-#import <React/RCTConvert.h>
 
 @implementation RMFMarkerManager
 
@@ -22,6 +22,7 @@ RCT_EXPORT_MODULE(RMFMarker)
 }
 
 RCT_EXPORT_VIEW_PROPERTY(coordinate, CLLocationCoordinate2D)
+RCT_EXPORT_VIEW_PROPERTY(draggable, BOOL)
 
 RCT_EXPORT_METHOD(setCoordinate:(nonnull NSNumber *)reactTag
                   withCoordinate:(id)coordinate)
@@ -32,9 +33,7 @@ RCT_EXPORT_METHOD(setCoordinate:(nonnull NSNumber *)reactTag
             RCTLogError(@"Invalid view returned from registry, expecting RMFMarker, got: %@", view);
         } else {
             RMFMarker *marker = (RMFMarker *)view;
-            double latitude = [RCTConvert double:coordinate[@"latitude"]];
-            double longitude = [RCTConvert double:coordinate[@"longitude"]];
-            [marker setCoordinate:CLLocationCoordinate2DMake(latitude, longitude)];
+            [marker setCoordinate:[RCTConvert CLLocationCoordinate2D:coordinate]];
         }
     }];
 }
