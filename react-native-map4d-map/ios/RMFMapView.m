@@ -9,6 +9,10 @@
 #import "RMFMapView.h"
 #import <Foundation/Foundation.h>
 #import <React/RCTConvert.h>
+#import <React/RCTComponent.h>
+#import <React/RCTBridge.h>
+#import <React/RCTLog.h>
+#import <RMFMarker.h>
 
 @implementation RMFMapView
 
@@ -36,5 +40,12 @@
   
   MFCameraUpdate * cameraUpdate = [MFCameraUpdate setTarget:CLLocationCoordinate2DMake(latitude, longitude) zoom:(zoom)];
   return cameraUpdate;
+}
+
+- (void)insertReactSubview:(id<RCTComponent>)subview atIndex:(NSInteger)atIndex {
+  if ([subview isKindOfClass:[RMFMarker class]]) {
+    RMFMarker *marker = (RMFMarker*)subview;
+    marker.realMarker.map = self;
+  }
 }
 @end

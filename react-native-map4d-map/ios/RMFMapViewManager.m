@@ -18,8 +18,8 @@
 RCT_EXPORT_MODULE(RMFMapView)
 
 - (UIView *)view {
-//  RMFMapView * rMap = [[RMFMapView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-  RMFMapView * rMap = [[RMFMapView alloc] init];
+  RMFMapView * rMap = [[RMFMapView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+//  RMFMapView * rMap = [[RMFMapView alloc] init];
   return rMap;
 }
 

@@ -9,17 +9,9 @@
 #ifndef RMFMarkerManager_h
 #define RMFMarkerManager_h
 
+#import <React/RCTViewManager.h>
+
 @interface RMFMarkerManager : RCTViewManager
-@end
-
-@implementation RMFMarkerManager
-
-RCT_EXPORT_MODULE(RMFMarker)
-
-- (UIView *)view {
-  return [[UITextView alloc] init];
-}
-
 @end
 
 #endif /* RMFMarkerManager_h */
