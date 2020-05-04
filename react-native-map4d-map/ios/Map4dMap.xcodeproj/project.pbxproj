@@ -11,6 +11,7 @@
 		445DDF0D2457CDE300E8F9D1 /* RMFMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 445DDF0C2457CDE300E8F9D1 /* RMFMarker.m */; };
 		447AFDD3245691000088C383 /* RMFMapViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 447AFDD2245691000088C383 /* RMFMapViewManager.m */; };
 		447AFDD72456BEDA0088C383 /* RMFMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 447AFDD62456BEDA0088C383 /* RMFMapView.m */; };
+		44BD9A70245FCF0E00C078BA /* RMFRealMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BD9A6F245FCF0E00C078BA /* RMFRealMarker.m */; };
 		B3E7B58A1CC2AC0600A0062D /* Map4dMap.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* Map4dMap.m */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,8 @@
 		447AFDD2245691000088C383 /* RMFMapViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMFMapViewManager.m; sourceTree = "<group>"; };
 		447AFDD52456BE650088C383 /* RMFMapView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMFMapView.h; sourceTree = "<group>"; };
 		447AFDD62456BEDA0088C383 /* RMFMapView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMFMapView.m; sourceTree = "<group>"; };
+		44BD9A6E245FCED300C078BA /* RMFRealMarker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMFRealMarker.h; sourceTree = "<group>"; };
+		44BD9A6F245FCF0E00C078BA /* RMFRealMarker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMFRealMarker.m; sourceTree = "<group>"; };
 		44ED59332452ECF500C1D2CC /* RMFMapViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMFMapViewManager.h; sourceTree = "<group>"; };
 		44ED59342452EDE200C1D2CC /* RMFMarkerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMFMarkerManager.h; sourceTree = "<group>"; };
 		B3E7B5881CC2AC0600A0062D /* Map4dMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map4dMap.h; sourceTree = "<group>"; };
@@ -62,6 +65,8 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				44BD9A6F245FCF0E00C078BA /* RMFRealMarker.m */,
+				44BD9A6E245FCED300C078BA /* RMFRealMarker.h */,
 				445DDF0B2457CDCC00E8F9D1 /* RMFMarker.h */,
 				445DDF0C2457CDE300E8F9D1 /* RMFMarker.m */,
 				447AFDD62456BEDA0088C383 /* RMFMapView.m */,
@@ -136,6 +141,7 @@
 				B3E7B58A1CC2AC0600A0062D /* Map4dMap.m in Sources */,
 				447AFDD3245691000088C383 /* RMFMapViewManager.m in Sources */,
 				447AFDD72456BEDA0088C383 /* RMFMapView.m in Sources */,
+				44BD9A70245FCF0E00C078BA /* RMFRealMarker.m in Sources */,
 				445DDF0A2457CD8F00E8F9D1 /* RMFMarkerManager.m in Sources */,
 				445DDF0D2457CDE300E8F9D1 /* RMFMarker.m in Sources */,
 			);

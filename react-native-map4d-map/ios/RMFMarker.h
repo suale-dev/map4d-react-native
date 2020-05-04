@@ -9,14 +9,22 @@
 #ifndef RMFMarker_h
 #define RMFMarker_h
 
-#import <Map4dMap/Map4dMap.h>
 #import <React/UIView+React.h>
+#import <RMFRealMarker.h>
 
 @interface RMFMarker : UIView
 
+@property (nonatomic, copy) RCTDirectEventBlock onDragStart;
+@property (nonatomic, copy) RCTDirectEventBlock onDrag;
+@property (nonatomic, copy) RCTDirectEventBlock onDragEnd;
+
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, assign) BOOL draggable;
-@property (nonatomic, strong) MFMarker * realMarker;
+@property (nonatomic, strong) RMFRealMarker * realMarker;
+
+- (void)didBeginDraggingMarker:(MFMarker *)marker;
+- (void)didEndDraggingMarker:(MFMarker *)marker;
+- (void)didDragMarker:(MFMarker *)marker;
 
 @end
 

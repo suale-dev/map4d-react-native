@@ -11,13 +11,17 @@
 #import <React/RCTLog.h>
 #import "Map4dMap/Map4dMap.h"
 
+@interface RMFMarker ()
+- (id)eventFromMarker:(MFMarker *)marker;
+@end
+
 @implementation RMFMarker
 
 - (instancetype)init
 {
   if ((self = [super init])) {
-    _realMarker = [[MFMarker alloc] init];
-//    _realMarker.position = CLLocationCoordinate2DMake(16.094145, 108.224987);
+    _realMarker = [[RMFRealMarker alloc] init];
+    _realMarker.fakeMarker = self;
   }
   return self;
 }
@@ -38,6 +42,39 @@
 
 - (BOOL)draggable {
   return _realMarker.dragable;
+}
+
+- (id)eventFromMarker:(MFMarker *)marker {
+
+  CLLocationCoordinate2D coordinate = marker.position;
+  CGPoint position = [self.realMarker.map.projection pointForCoordinate:coordinate];
+
+  return @{
+         @"id": @(marker.Id),
+         @"position": @{
+             @"x": @(position.x),
+             @"y": @(position.y),
+             },
+         @"coordinate": @{
+             @"latitude": @(coordinate.latitude),
+             @"longitude": @(coordinate.longitude),
+             }
+         };
+}
+
+- (void)didBeginDraggingMarker:(MFMarker *)marker {
+  if (!self.onDragStart) return;
+  self.onDragStart([self eventFromMarker:marker]);
+}
+
+- (void)didEndDraggingMarker:(MFMarker *)marker {
+  if (!self.onDragEnd) return;
+  self.onDragEnd([self eventFromMarker:marker]);
+}
+
+- (void)didDragMarker:(MFMarker *)marker {
+  if (!self.onDrag) return;
+  self.onDrag([self eventFromMarker:marker]);
 }
 
 @end

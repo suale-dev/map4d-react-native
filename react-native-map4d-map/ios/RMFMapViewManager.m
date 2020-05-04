@@ -8,10 +8,15 @@
 
 #import "RMFMapViewManager.h"
 #import <RMFMapView.h>
+#import <RMFMarker.h>
 #import <Foundation/Foundation.h>
 #import <React/RCTLog.h>
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
+
+@interface RMFMapViewManager () <MFMapViewDelegate>
+
+@end
 
 @implementation RMFMapViewManager
 
@@ -20,6 +25,7 @@ RCT_EXPORT_MODULE(RMFMapView)
 - (UIView *)view {
   RMFMapView * rMap = [[RMFMapView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
 //  RMFMapView * rMap = [[RMFMapView alloc] init];
+  rMap.delegate = self;
   return rMap;
 }
 
@@ -59,6 +65,37 @@ RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber *)reactTag
             [mapView animateCamera:json];
         }
     }];
+}
+
+
+// Delegate
+- (void)mapView: (MFMapView*)  mapView didTapAtCoordinate: (CLLocationCoordinate2D) coordinate
+{
+  RCTLogInfo(@"didTapAtCoordinate: %f, %f", coordinate.latitude, coordinate.longitude);
+}
+
+- (BOOL)mapview: (MFMapView*)  mapView didTapMarker: (MFMarker*) marker
+{
+  RCTLogInfo(@"didTapMarker: %d", (int) marker.Id);
+  return false;
+}
+
+- (void)mapview: (MFMapView*)  mapView didBeginDraggingMarker: (MFMarker*) marker
+{
+  RMFRealMarker * rMarker = (RMFRealMarker *) marker;
+  [rMarker.fakeMarker didBeginDraggingMarker:marker];
+}
+
+- (void)mapview: (MFMapView*)  mapView didEndDraggingMarker: (MFMarker*) marker
+{
+  RMFRealMarker * rMarker = (RMFRealMarker *) marker;
+  [rMarker.fakeMarker didEndDraggingMarker:marker];
+}
+
+- (void)mapview: (MFMapView*)  mapView didDragMarker: (MFMarker*) marker
+{
+  RMFRealMarker * rMarker = (RMFRealMarker *) marker;
+  [rMarker.fakeMarker didDragMarker:marker];
 }
 
 @end
