@@ -8,7 +8,7 @@ export default class MFMarker extends React.Component {
     }
 
     setCoordinate(location) {
-        this._runCommand("setCoordinate", location)
+        this._runCommand("setCoordinate", [location])
     }
 
     _getHandle() {
@@ -28,6 +28,7 @@ export default class MFMarker extends React.Component {
     
           case 'ios':
             //this.getMapManagerCommand(name)(this._getHandle(), ...args);
+            this._mapManagerCommand(name)(this._getHandle(), ...args);
             break;
     
           default:
@@ -46,7 +47,11 @@ export default class MFMarker extends React.Component {
     
         // RN >= 0.58        
         return UIManager.getViewManagerConfig(componentName).Commands[name];
-      }   
+      }
+      
+      _mapManagerCommand(name) {
+        return NativeModules[`RMFMarker`][name];
+      }
 
       render() {
         return <RMFMarker {...this.props}        

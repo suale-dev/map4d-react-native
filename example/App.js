@@ -47,12 +47,12 @@ export default class App extends React.Component {
         <MFMapView ref={ref => this.map = ref} onMapReady={data => {                         
           this.getCamera();
         }} style={this.styles.container}>        
-          <MFMarker ref={ref => this.marker = ref} onDrag={
+          <MFMarker draggable={true} ref={ref => this.marker = ref} onDrag={
             (event) => {
               console.log(event.nativeEvent)
             }
           }></MFMarker>
-          <MFMarker coordinate={{latitude: 16.073034, longitude: 108.224315}}></MFMarker>
+          <MFMarker coordinate={{latitude: 16.073034, longitude: 108.224315}} draggable={true}></MFMarker>
           <MFMarker coordinate={{latitude: 16.071364, longitude: 108.224487}}></MFMarker>
         </MFMapView>
         <Button title={"Move Camera"} onPress={() => this.handleClick()}>
