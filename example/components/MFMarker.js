@@ -22,7 +22,7 @@ export default class MFMarker extends React.Component {
             NativeModules.UIManager.dispatchViewManagerCommand(
               this._getHandle(),
               this._uiManagerCommand(name),
-              [args]
+              args
             );
             break;
     
