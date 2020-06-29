@@ -1,5 +1,6 @@
-import { NativeModules } from 'react-native';
 
-const { Map4dMap } = NativeModules;
+import MFMapView from './components/MFMapView'
+import MFMarker from './components/MFMarker'
 
-export default Map4dMap;
+
+export {MFMapView, MFMarker};

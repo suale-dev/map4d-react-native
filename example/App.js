@@ -17,8 +17,7 @@ import {
   NativeModules,
 } from 'react-native';
 
-import MFMapView from './components/MFMapView'
-import MFMarker from './components/MFMarker';
+import {MFMapView, MFMarker} from 'react-native-map4d-map'
 
 export default class App extends React.Component {
   handleClick() {
