@@ -69,15 +69,12 @@ RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber *)reactTag
 
 
 // Delegate
-- (void)mapView: (MFMapView*)  mapView didTapAtCoordinate: (CLLocationCoordinate2D) coordinate
-{
-  RCTLogInfo(@"didTapAtCoordinate: %f, %f", coordinate.latitude, coordinate.longitude);
-}
-
 - (BOOL)mapview: (MFMapView*)  mapView didTapMarker: (MFMarker*) marker
 {
   RCTLogInfo(@"didTapMarker: %d", (int) marker.Id);
-  return false;
+  RMFRealMarker * rMarker = (RMFRealMarker *) marker;
+  [rMarker.fakeMarker didTapMarker:marker];
+  return false;//TODO
 }
 
 - (void)mapview: (MFMapView*)  mapView didBeginDraggingMarker: (MFMarker*) marker
@@ -96,6 +93,67 @@ RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber *)reactTag
 {
   RMFRealMarker * rMarker = (RMFRealMarker *) marker;
   [rMarker.fakeMarker didDragMarker:marker];
+}
+
+- (void)mapview: (MFMapView*)  mapView didTapInfoWindowOfMarker: (MFMarker*) marker {
+  RMFRealMarker * rMarker = (RMFRealMarker *) marker;
+  [rMarker.fakeMarker didTapInfoWindowOfMarker:marker];
+}
+
+- (void)mapview: (MFMapView*)  mapView didTapPolyline: (MFPolyline*) polyline {
+  
+}
+
+- (void)mapview: (MFMapView*)  mapView didTapPolygon: (MFPolygon*) polygon {
+  
+}
+
+- (void)mapview: (MFMapView*)  mapView didTapCircle: (MFCircle*) circle {
+  
+}
+
+- (void)mapView: (MFMapView*)  mapView willMove: (BOOL) gesture {
+  
+}
+
+- (void)mapView: (MFMapView*)  mapView movingCameraPosition: (MFCameraPosition*) position {
+  
+}
+
+- (void)mapView: (MFMapView*)  mapView didChangeCameraPosition:(MFCameraPosition*) position {
+  
+}
+
+- (void)mapView: (MFMapView*)  mapView idleAtCameraPosition: (MFCameraPosition *) position {
+  
+}
+
+- (void)mapView: (MFMapView*)  mapView didTapAtCoordinate: (CLLocationCoordinate2D) coordinate {
+  RCTLogInfo(@"didTapAtCoordinate: %f, %f", coordinate.latitude, coordinate.longitude);
+}
+
+- (void)mapView: (MFMapView*)  mapView onModeChange: (bool) is3DMode {
+  
+}
+
+- (void)mapView: (MFMapView*)  mapView didTapObject: (MFObject*) object {
+  
+}
+
+- (void)mapView: (MFMapView*)  mapView didTapPlace: (MFPlace*) place {
+  
+}
+
+- (void)mapView: (MFMapView*)  mapView didTapMyLocation: (CLLocationCoordinate2D) location {
+  
+}
+
+- (BOOL)didTapMyLocationButtonForMapView: (MFMapView*) mapView {
+  return false;
+}
+
+- (UIView *) mapView: (MFMapView *) mapView markerInfoWindow: (MFMarker *) marker {
+  return nil;
 }
 
 @end

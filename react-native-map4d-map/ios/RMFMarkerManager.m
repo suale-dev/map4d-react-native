@@ -27,6 +27,8 @@ RCT_EXPORT_VIEW_PROPERTY(draggable, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(onDragStart, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onDrag, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onDragEnd, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onClick, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onClickInfoWindow, RCTDirectEventBlock)
 
 RCT_EXPORT_METHOD(setCoordinate:(nonnull NSNumber *)reactTag
                   withCoordinate:(id)coordinate)

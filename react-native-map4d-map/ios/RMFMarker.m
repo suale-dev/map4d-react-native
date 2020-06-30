@@ -26,6 +26,7 @@
   return self;
 }
 
+/** Property */
 - (void)setCoordinate:(CLLocationCoordinate2D)coordinate
 {
   _realMarker.position = coordinate;
@@ -44,6 +45,7 @@
   return _realMarker.dragable;
 }
 
+/** */
 - (id)eventFromMarker:(MFMarker *)marker {
 
   CLLocationCoordinate2D coordinate = marker.position;
@@ -62,6 +64,7 @@
          };
 }
 
+/** Event */
 - (void)didBeginDraggingMarker:(MFMarker *)marker {
   if (!self.onDragStart) return;
   self.onDragStart([self eventFromMarker:marker]);
@@ -75,6 +78,16 @@
 - (void)didDragMarker:(MFMarker *)marker {
   if (!self.onDrag) return;
   self.onDrag([self eventFromMarker:marker]);
+}
+
+- (void)didTapInfoWindowOfMarker:(MFMarker *)marker {
+  if (!self.onClickInfoWindow) return;
+  self.onClickInfoWindow([self eventFromMarker:marker]);
+}
+
+- (void)didTapMarker:(MFMarker *)marker {
+  if (!self.onClick) return;
+  self.onClick([self eventFromMarker:marker]);
 }
 
 @end
