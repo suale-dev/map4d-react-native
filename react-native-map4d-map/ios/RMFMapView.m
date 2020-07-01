@@ -47,6 +47,7 @@
   if ([subview isKindOfClass:[RMFMarker class]]) {
     RMFMarker *marker = (RMFMarker*)subview;
     marker.realMarker.map = self;
+//    [super insertReactSubview:marker atIndex:atIndex];
   }
 }
 @end
