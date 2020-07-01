@@ -30,19 +30,36 @@
 - (void)setCoordinate:(CLLocationCoordinate2D)coordinate
 {
   _realMarker.position = coordinate;
+  _coordinate = coordinate;
 }
 
-- (CLLocationCoordinate2D)coordinate {
-  return _realMarker.position;
+//@property (nonatomic) CGPoint groundAnchor;
+
+- (void)setElevation:(double)elevation {
+  _realMarker.elevation = elevation;
+  _elevation = elevation;
+}
+
+- (void)setRotation:(double)rotation {
+  _realMarker.rotation = rotation;
+  _rotation = rotation;
 }
 
 - (void)setDraggable:(BOOL)draggable
 {
-  _realMarker.dragable = draggable;
+  _realMarker.draggable = draggable;
+  _draggable = draggable;
 }
 
-- (BOOL)draggable {
-  return _realMarker.dragable;
+//@property (nonatomic) CGPoint infoWindowAnchor;
+//@property (nonatomic, strong, nullable) NSString *title;
+//@property (nonatomic, strong, nullable) NSString *snippet;
+//@property (nonatomic, strong, nullable, setter=setIconView:) UIView * iconView;
+//@property (nonatomic, strong, nullable) UIImage* icon;
+
+- (void)setUserInteractionEnabled:(BOOL)enabled {
+  _realMarker.userInteractionEnabled = enabled;
+  [super setUserInteractionEnabled:enabled];
 }
 
 /** */

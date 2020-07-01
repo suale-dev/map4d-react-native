@@ -140,7 +140,7 @@ RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber *)reactTag
   
 }
 
-- (void)mapView: (MFMapView*)  mapView didTapPlace: (MFPlace*) place {
+- (void)mapView: (MFMapView*)  mapView didTapPlace: (MFPOI*) place {
   
 }
 
