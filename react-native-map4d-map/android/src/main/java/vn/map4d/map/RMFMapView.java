@@ -130,6 +130,27 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     
     }
 
+    public void setSwitchMode(int mode){
+      if (map == null) return;
+      switch (mode) {
+        case 0:
+          map.setSwitchMode(MFSwitchMode.Default);
+        break;
+        case 1:
+          map.setSwitchMode(MFSwitchMode.Auto2DTo3D);
+        break;
+        case 2:
+          map.setSwitchMode(MFSwitchMode.Auto3DTo2D);
+        break;
+        case 3:
+          map.setSwitchMode(MFSwitchMode.Auto);
+        break;
+        case 4:
+          map.setSwitchMode(MFSwitchMode.Manual);
+        break;
+      }
+    }
+
     public void moveCamera(ReadableMap camera) {
       if (map == null) return;
       MFCameraPosition cameraPosition = parseCamera(camera);

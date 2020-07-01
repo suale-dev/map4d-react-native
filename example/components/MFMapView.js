@@ -50,6 +50,25 @@ class MFMapView extends React.Component {
       return Promise.reject('Function not supported on this platform');
     }
 
+    setSwitchMode(mode) {
+      let modeInt = 4;
+      switch (mode) {
+        case "Auto2DTo3D":
+          modeInt = 1;
+          break;
+        case "Auto3DTo2D":
+          modeInt = 2;
+          break;
+        case "Auto":
+          modeInt = 3;
+          break;
+        case "Manual":
+          modeInt = 4;
+          break;        
+      }
+      this._runCommand('setSwitchMode', [modeInt]);
+    }
+
     _getHandle() {
       return findNodeHandle(this.map);
     }

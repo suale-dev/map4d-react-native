@@ -48,7 +48,8 @@ export default class App extends React.Component {
   render() {    
     return(
       <SafeAreaView style={this.styles.safeView}>        
-        <MFMapView ref={ref => this.map = ref} onMapReady={data => {                         
+        <MFMapView ref={ref => this.map = ref} onMapReady={data => {         
+          this.map.setSwitchMode("Manual")                
           this.getCamera();
         }} style={this.styles.container}>        
           <MFMarker draggable={true} ref={ref => this.marker = ref} onDrag={

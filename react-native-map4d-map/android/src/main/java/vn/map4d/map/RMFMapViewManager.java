@@ -22,6 +22,7 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     private static final int ANIMATE_CAMERA = 1;
     private static final int MOVE_CAMERA = 2;
     private static final int ENABLE_3D_MODE = 3;
+    private static final int SET_SWITCH_MODE = 4;
 
     @Override
     public String getName() {
@@ -49,6 +50,7 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     map.put("animateCamera", ANIMATE_CAMERA);
     map.put("moveCamera", MOVE_CAMERA);
     map.put("enable3DMode", ENABLE_3D_MODE);
+    map.put("setSwitchMode", SET_SWITCH_MODE);
     return map;
   }
 
@@ -66,6 +68,9 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
         break;
       case ENABLE_3D_MODE:                      
         view.enable3DMode(args.getBoolean(0));
+        break;
+      case SET_SWITCH_MODE:
+        view.setSwitchMode(args.getInt(0));
         break;
     }
   }
