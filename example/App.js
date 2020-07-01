@@ -22,12 +22,16 @@ import {MFMarker} from './components/MFMarker'
 
 export default class App extends React.Component {
   handleClick() {
-    this.animateCamera();
-    this.marker.setCoordinate({latitude: 10.772002, longitude: 106.704294})
+    this.enable3DMode();
+  }
+
+  async enable3DMode() {
+    const mode3d = await this.map.is3DMode();
+    this.map.enable3DMode(!mode3d);
   }
 
   animateCamera() {
-    this.map.animateCamera({
+    this.map.moveCamera({
       tilt: 0,
       bearing: 0,
       zoom: 17,

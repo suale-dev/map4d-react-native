@@ -14,12 +14,22 @@ import com.facebook.react.uimanager.UIBlock;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.bridge.Callback;
 
+import android.view.View;
+import android.util.Log;
+
 import vn.map4d.map.camera.MFCameraPosition;
+
+import java.util.Map;
+import java.util.HashMap;
+
+interface ResolveViewCallback {
+  void found(View view);
+}
 
 public class Map4dMapModule extends ReactContextBaseJavaModule {
 
-    private final ReactApplicationContext reactContext;
-
+    private final ReactApplicationContext reactContext;    
+    
     public Map4dMapModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
@@ -30,27 +40,31 @@ public class Map4dMapModule extends ReactContextBaseJavaModule {
         return "Map4dMap";
     }
 
+    private void getView(final int tag, final ResolveViewCallback callback) {
+      final ReactApplicationContext context = getReactApplicationContext();
+
+      UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
+      uiManager.addUIBlock(new UIBlock()
+      {
+        @Override
+        public void execute(NativeViewHierarchyManager nvhm)
+        {
+          View view = nvhm.resolveView(tag);
+          if (view == null) {
+            Log.e(getName(), "View with tag: " + tag + " was not found");                 
+          }
+          callback.found(view);
+        }
+      });
+    }
+
     @ReactMethod
   public void getCamera(final int tag, final Promise promise) {
-    final ReactApplicationContext context = getReactApplicationContext();
-
-    UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
-    uiManager.addUIBlock(new UIBlock()
-    {
+    getView(tag, new ResolveViewCallback(){
       @Override
-      public void execute(NativeViewHierarchyManager nvhm)
-      {
-        RMFMapView view = (RMFMapView) nvhm.resolveView(tag);
-        if (view == null) {
-          promise.reject("RMFMapView not found");
-          return;
-        }
-        if (view.map == null) {
-          promise.reject("RMFMapView.map is not valid");
-          return;
-        }
-
-        MFCameraPosition position = view.map.getCameraPosition();
+      public void found(View view) {
+        RMFMapView mapView = (RMFMapView) view;
+        MFCameraPosition position = mapView.map.getCameraPosition();
 
         WritableMap centerJson = new WritableNativeMap();
         centerJson.putDouble("latitude", position.getTarget().getLatitude());
@@ -66,4 +80,15 @@ public class Map4dMapModule extends ReactContextBaseJavaModule {
       }
     });
   }
+
+  @ReactMethod
+  public void is3DMode(final int tag, final Promise promise) {
+    getView(tag, new ResolveViewCallback(){
+      @Override
+      public void found(View view) {
+        RMFMapView mapView = (RMFMapView) view;        
+        promise.resolve(mapView.map.is3DMode());
+      }
+    });
+  }    
 }

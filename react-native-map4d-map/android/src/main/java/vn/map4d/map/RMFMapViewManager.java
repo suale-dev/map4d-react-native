@@ -1,4 +1,3 @@
-
 package vn.map4d.map;
 
 import com.facebook.react.uimanager.ViewGroupManager;
@@ -15,11 +14,14 @@ import androidx.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.content.Context;
+import android.util.Log;
 
 import vn.map4d.types.MFLocationCoordinate;
 
 public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     private static final int ANIMATE_CAMERA = 1;
+    private static final int MOVE_CAMERA = 2;
+    private static final int ENABLE_3D_MODE = 3;
 
     @Override
     public String getName() {
@@ -45,16 +47,25 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
   public Map<String, Integer> getCommandsMap() {
     HashMap<String, Integer> map = new HashMap();    
     map.put("animateCamera", ANIMATE_CAMERA);
+    map.put("moveCamera", MOVE_CAMERA);
+    map.put("enable3DMode", ENABLE_3D_MODE);
     return map;
   }
 
   @Override
   public void receiveCommand(RMFMapView view, int commandId, @Nullable ReadableArray args) {    
-    ReadableMap camera;
+    ReadableMap map;
     switch (commandId) {
       case ANIMATE_CAMERA:
-        camera = args.getMap(0);
-        view.animateCamera(camera);
+        map = args.getMap(0);
+        view.animateCamera(map);
+        break;
+      case MOVE_CAMERA: 
+        map = args.getMap(0);
+        view.moveCamera(map);
+        break;
+      case ENABLE_3D_MODE:                      
+        view.enable3DMode(args.getBoolean(0));
         break;
     }
   }
