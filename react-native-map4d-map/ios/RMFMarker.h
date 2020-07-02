@@ -23,13 +23,13 @@
 @property (nonatomic, copy) RCTDirectEventBlock _Nullable onClickInfoWindow;
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;//position
-//@property (nonatomic) CGPoint groundAnchor;
+@property (nonatomic) CGPoint groundAnchor;
 @property (nonatomic) double elevation;
 @property (nonatomic) double rotation;
 @property (nonatomic, assign) BOOL draggable;
-//@property (nonatomic) CGPoint infoWindowAnchor;
-//@property (nonatomic, strong, nullable) NSString *title;
-//@property (nonatomic, strong, nullable) NSString *snippet;
+@property (nonatomic) CGPoint infoWindowAnchor;
+@property (nonatomic, strong, nullable) NSString *title;
+@property (nonatomic, strong, nullable) NSString *snippet;
 //@property (nonatomic, strong, nullable, setter=setIconView:) UIView * iconView;
 //@property (nonatomic, strong, nullable) UIImage* icon;
 //@property (nonatomic, getter=isUserInteractionEnabled) BOOL userInteractionEnabled;

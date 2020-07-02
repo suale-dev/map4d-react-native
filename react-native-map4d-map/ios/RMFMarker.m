@@ -17,8 +17,7 @@
 
 @implementation RMFMarker
 
-- (instancetype)init
-{
+- (instancetype)init {
   if ((self = [super init])) {
     _realMarker = [[RMFRealMarker alloc] init];
     _realMarker.fakeMarker = self;
@@ -27,13 +26,15 @@
 }
 
 /** Property */
-- (void)setCoordinate:(CLLocationCoordinate2D)coordinate
-{
+- (void)setCoordinate:(CLLocationCoordinate2D)coordinate {
   _realMarker.position = coordinate;
   _coordinate = coordinate;
 }
 
-//@property (nonatomic) CGPoint groundAnchor;
+- (void)setGroundAnchor:(CGPoint)groundAnchor {
+  _realMarker.groundAnchor = groundAnchor;
+  _groundAnchor = groundAnchor;
+}
 
 - (void)setElevation:(double)elevation {
   _realMarker.elevation = elevation;
@@ -45,15 +46,25 @@
   _rotation = rotation;
 }
 
-- (void)setDraggable:(BOOL)draggable
-{
+- (void)setDraggable:(BOOL)draggable {
   _realMarker.draggable = draggable;
   _draggable = draggable;
 }
 
-//@property (nonatomic) CGPoint infoWindowAnchor;
-//@property (nonatomic, strong, nullable) NSString *title;
-//@property (nonatomic, strong, nullable) NSString *snippet;
+- (void) setInfoWindowAnchor:(CGPoint)infoWindowAnchor {
+  _realMarker.infoWindowAnchor = infoWindowAnchor;
+  _infoWindowAnchor = infoWindowAnchor;
+}
+
+- (void)setTitle:(NSString *)title {
+  _realMarker.title = title;
+  _title = title;
+}
+
+- (void)setSnippet:(NSString *)snippet {
+  _realMarker.snippet = snippet;
+  _snippet = snippet;
+}
 //@property (nonatomic, strong, nullable, setter=setIconView:) UIView * iconView;
 //@property (nonatomic, strong, nullable) UIImage* icon;
 
