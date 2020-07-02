@@ -15,9 +15,9 @@
 
 @interface  RMFMapView : MFMapView
 
-- (void) animateCamera:(id) json;
+- (void) animateCameraRN:(id) json;
 
-- (void) moveCamera:(id) json;
+- (void) moveCameraRN:(id) json;
 
 @end
 

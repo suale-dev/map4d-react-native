@@ -16,12 +16,12 @@
 
 @implementation RMFMapView
 
-- (void) animateCamera:(id)json {
+- (void) animateCameraRN:(id)json {
   MFCameraUpdate* cameraUpdate = [self parseCamera:json];
   [super animateCamera:cameraUpdate];
 }
 
-- (void) moveCamera:(id)json {
+- (void) moveCameraRN:(id)json {
   MFCameraUpdate* cameraUpdate = [self parseCamera:json];
   [super moveCamera:cameraUpdate];
 }

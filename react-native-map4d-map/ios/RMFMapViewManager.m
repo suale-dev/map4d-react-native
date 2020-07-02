@@ -25,6 +25,7 @@ RCT_EXPORT_MODULE(RMFMapView)
 - (UIView *)view {
   RMFMapView * rMap = [[RMFMapView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
 //  RMFMapView * rMap = [[RMFMapView alloc] init];
+//  [rMap setMyLocationEnabled:true];
   rMap.delegate = self;
   return rMap;
 }
@@ -54,29 +55,27 @@ RCT_EXPORT_METHOD(getCamera:(nonnull NSNumber *)reactTag
 }
 
 RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber *)reactTag
-                  withCamera:(id)json)
-{
+                  withCamera:(id)json) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
         id view = viewRegistry[reactTag];
         if (![view isKindOfClass:[RMFMapView class]]) {
             RCTLogError(@"Invalid view returned from registry, expecting RMFMapView, got: %@", view);
         } else {
             RMFMapView *mapView = (RMFMapView *)view;
-            [mapView animateCamera:json];
+            [mapView animateCameraRN:json];
         }
     }];
 }
 
 RCT_EXPORT_METHOD(moveCamera:(nonnull NSNumber *)reactTag
-                  withCamera:(id)json)
-{
+                  withCamera:(id)json) {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
         id view = viewRegistry[reactTag];
         if (![view isKindOfClass:[RMFMapView class]]) {
             RCTLogError(@"Invalid view returned from registry, expecting RMFMapView, got: %@", view);
         } else {
             RMFMapView *mapView = (RMFMapView *)view;
-            [mapView animateCamera:json];
+            [mapView animateCameraRN:json];
         }
     }];
 }
@@ -106,6 +105,48 @@ RCT_EXPORT_METHOD(enable3DMode:(nonnull NSNumber *)reactTag
     } else {
       RMFMapView *mapView = (RMFMapView *)view;
       [mapView enable3DMode:enable];
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(setMyLocationEnabled:(nonnull NSNumber *)reactTag
+                  enable:(BOOL)enable) {
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFMapView class]]) {
+      
+    } else {
+      RMFMapView *mapView = (RMFMapView *)view;
+      [mapView setMyLocationEnabled:enable];
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(setSwitchMode:(nonnull NSNumber *)reactTag
+                  mode:(NSInteger)mode) {
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFMapView class]]) {
+      
+    } else {
+      RMFMapView *mapView = (RMFMapView *)view;
+      switch (mode) {
+        case 1:
+          [mapView setSwitchMode:MFSwitchModeAuto2DTo3D];
+        break;
+        case 2:
+          [mapView setSwitchMode:MFSwitchModeAuto3DTo2D];
+          break;
+        case 3:
+          [mapView setSwitchMode:MFSwitchModeAuto];
+          break;
+        case 4:
+          [mapView setSwitchMode:MFSwitchModeManual];
+          break;
+        default:
+          [mapView setSwitchMode:MFSwitchModeDefault];
+          break;
+      }
     }
   }];
 }
