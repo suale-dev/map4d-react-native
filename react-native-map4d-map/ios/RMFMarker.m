@@ -9,13 +9,17 @@
 #import "RMFMarker.h"
 #import <Foundation/Foundation.h>
 #import <React/RCTLog.h>
+#import <React/RCTImageLoaderProtocol.h>
 #import "Map4dMap/Map4dMap.h"
 
 @interface RMFMarker ()
+@property (nonatomic, copy, nullable) UIImage* iconImage;
 - (id)eventFromMarker:(MFMarker *)marker;
 @end
 
-@implementation RMFMarker
+@implementation RMFMarker {
+//  RCTImageLoaderCancellationBlock _reloadImageCancellationBlock;
+}
 
 - (instancetype)init {
   if ((self = [super init])) {
@@ -25,52 +29,74 @@
   return self;
 }
 
+- (void)setMapView:(RMFMapView *)mapView {
+  if (mapView != nil) {
+    _realMarker.icon = [UIImage imageWithCGImage:self.iconImage.CGImage scale:[mapView contentScaleFactor] orientation:self.iconImage.imageOrientation];
+  }
+  _realMarker.map = mapView;
+}
+
 /** Property */
 - (void)setCoordinate:(CLLocationCoordinate2D)coordinate {
-  _realMarker.position = coordinate;
   _coordinate = coordinate;
+  _realMarker.position = coordinate;
 }
 
 - (void)setGroundAnchor:(CGPoint)groundAnchor {
-  _realMarker.groundAnchor = groundAnchor;
   _groundAnchor = groundAnchor;
+  _realMarker.groundAnchor = groundAnchor;
 }
 
 - (void)setElevation:(double)elevation {
-  _realMarker.elevation = elevation;
   _elevation = elevation;
+  _realMarker.elevation = elevation;
 }
 
 - (void)setRotation:(double)rotation {
-  _realMarker.rotation = rotation;
   _rotation = rotation;
+  _realMarker.rotation = rotation;
 }
 
 - (void)setDraggable:(BOOL)draggable {
-  _realMarker.draggable = draggable;
   _draggable = draggable;
+  _realMarker.draggable = draggable;
 }
 
 - (void) setInfoWindowAnchor:(CGPoint)infoWindowAnchor {
-  _realMarker.infoWindowAnchor = infoWindowAnchor;
   _infoWindowAnchor = infoWindowAnchor;
+  _realMarker.infoWindowAnchor = infoWindowAnchor;
 }
 
 - (void)setTitle:(NSString *)title {
-  _realMarker.title = title;
   _title = title;
+  _realMarker.title = title;
 }
 
 - (void)setSnippet:(NSString *)snippet {
-  _realMarker.snippet = snippet;
   _snippet = snippet;
+  _realMarker.snippet = snippet;
 }
 //@property (nonatomic, strong, nullable, setter=setIconView:) UIView * iconView;
 //@property (nonatomic, strong, nullable) UIImage* icon;
+- (void)setIconSrc:(NSString *)iconSrc {
+  _iconSrc = iconSrc;
+  dispatch_async(dispatch_get_global_queue(0,0), ^{
+    NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: iconSrc]];
+    if (imageData != nil) {
+      dispatch_async(dispatch_get_main_queue(), ^{
+        UIImage* icon = [UIImage imageWithData:imageData];
+        self->_iconImage = icon;
+        if (self->_realMarker.map != nil) {
+          self->_realMarker.icon = [UIImage imageWithCGImage:[icon CGImage] scale:[self->_realMarker.map contentScaleFactor] orientation:icon.imageOrientation];
+        }
+      });
+    }
+  });
+}
 
 - (void)setUserInteractionEnabled:(BOOL)enabled {
-  _realMarker.userInteractionEnabled = enabled;
   [super setUserInteractionEnabled:enabled];
+  _realMarker.userInteractionEnabled = enabled;
 }
 
 /** */

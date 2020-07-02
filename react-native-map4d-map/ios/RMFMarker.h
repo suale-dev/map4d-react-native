@@ -10,10 +10,13 @@
 #define RMFMarker_h
 
 #import <React/UIView+React.h>
+#import <React/RCTBridge.h>
 #import <RMFRealMarker.h>
+#import "RMFMapView.h"
 
 @interface RMFMarker : UIView
 
+//@property (nonatomic, weak) RCTBridge *bridge;
 @property (nonatomic, strong) RMFRealMarker * realMarker;
 
 @property (nonatomic, copy) RCTDirectEventBlock _Nullable onDragStart;
@@ -31,7 +34,7 @@
 @property (nonatomic, strong, nullable) NSString *title;
 @property (nonatomic, strong, nullable) NSString *snippet;
 //@property (nonatomic, strong, nullable, setter=setIconView:) UIView * iconView;
-//@property (nonatomic, strong, nullable) UIImage* icon;
+@property (nonatomic, copy, nullable) NSString *iconSrc;
 //@property (nonatomic, getter=isUserInteractionEnabled) BOOL userInteractionEnabled;
 
 - (void)didBeginDraggingMarker:(MFMarker *)marker;
@@ -39,6 +42,8 @@
 - (void)didDragMarker:(MFMarker *)marker;
 - (void)didTapInfoWindowOfMarker:(MFMarker *)marker;
 - (void)didTapMarker:(MFMarker *)marker;
+
+- (void)setMapView:(RMFMapView* _Nullable)mapView;
 
 @end
 
