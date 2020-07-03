@@ -46,6 +46,8 @@ class MFMapView extends React.Component {
     is3DMode() {
       if (Platform.OS === 'android') {
         return NativeModules.Map4dMap.is3DMode(this._getHandle());
+      } else if (Platform.OS === 'ios') {
+        return this._runCommand('is3DMode', []);
       }
       return Promise.reject('Function not supported on this platform');
     }

@@ -45,7 +45,8 @@ export default class App extends React.Component {
     return camera
   }
 
-  render() {    
+  render() {
+    let markerIcon = require('./assets/ic_marker_tracking.png')
     return(
       <SafeAreaView style={this.styles.safeView}>        
         <MFMapView ref={ref => this.map = ref} onMapReady={data => {         
@@ -58,7 +59,7 @@ export default class App extends React.Component {
             }
           }></MFMarker>
           <MFMarker coordinate={{latitude: 16.073034, longitude: 108.224315}} draggable={true}></MFMarker>
-          <MFMarker coordinate={{latitude: 16.071364, longitude: 108.224487}}></MFMarker>
+          <MFMarker icon={markerIcon} coordinate={{latitude: 16.071364, longitude: 108.224487}}></MFMarker>
         </MFMapView>
         <Button title={"Move Camera"} onPress={() => this.handleClick()}>
         </Button>
