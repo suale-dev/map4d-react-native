@@ -19,10 +19,13 @@ import android.util.Log;
 import vn.map4d.types.MFLocationCoordinate;
 
 public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
-    private static final int ANIMATE_CAMERA = 1;
-    private static final int MOVE_CAMERA = 2;
-    private static final int ENABLE_3D_MODE = 3;
-    private static final int SET_SWITCH_MODE = 4;
+    private static final int k_animateCamera = 1;
+    private static final int k_moveCamera = 2;
+    private static final int k_enable3DMode = 3;
+    private static final int k_setSwitchMode = 4;
+    private static final int k_setMyLocationEnabled = 5;
+
+    private ThemedReactContext reactContext;
 
     @Override
     public String getName() {
@@ -30,8 +33,9 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     }
 
     @Override
-    protected RMFMapView createViewInstance(ThemedReactContext reactContext) {        
-        return new RMFMapView(reactContext, this);
+    protected RMFMapView createViewInstance(ThemedReactContext reactContext) {      
+        this.reactContext = reactContext;
+        return new RMFMapView(reactContext.getCurrentActivity(), this);
     }
 
     @Override
@@ -47,10 +51,11 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
   @Override
   public Map<String, Integer> getCommandsMap() {
     HashMap<String, Integer> map = new HashMap();    
-    map.put("animateCamera", ANIMATE_CAMERA);
-    map.put("moveCamera", MOVE_CAMERA);
-    map.put("enable3DMode", ENABLE_3D_MODE);
-    map.put("setSwitchMode", SET_SWITCH_MODE);
+    map.put("animateCamera", k_animateCamera);
+    map.put("moveCamera", k_moveCamera);
+    map.put("enable3DMode", k_enable3DMode);
+    map.put("setSwitchMode", k_setSwitchMode);
+    map.put("setMyLocationEnabled", k_setMyLocationEnabled);
     return map;
   }
 
@@ -58,19 +63,22 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
   public void receiveCommand(RMFMapView view, int commandId, @Nullable ReadableArray args) {    
     ReadableMap map;
     switch (commandId) {
-      case ANIMATE_CAMERA:
+      case k_animateCamera:
         map = args.getMap(0);
         view.animateCamera(map);
         break;
-      case MOVE_CAMERA: 
+      case k_moveCamera: 
         map = args.getMap(0);
         view.moveCamera(map);
         break;
-      case ENABLE_3D_MODE:                      
+      case k_enable3DMode:                      
         view.enable3DMode(args.getBoolean(0));
         break;
-      case SET_SWITCH_MODE:
+      case k_setSwitchMode:
         view.setSwitchMode(args.getInt(0));
+        break;
+      case k_setMyLocationEnabled:      
+        view.setMyLocationEnabled(args.getBoolean(0));
         break;
     }
   }
@@ -95,9 +103,8 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     parent.removeFeatureAt(index);
   }
 
-  void pushEvent(Context context, View view, String name, WritableMap data) {
-    ThemedReactContext c = (ThemedReactContext) context;
-    c.getJSModule(RCTEventEmitter.class)
+  void pushEvent(Context context1, View view, String name, WritableMap data) {    
+    reactContext.getJSModule(RCTEventEmitter.class)
         .receiveEvent(view.getId(), name, data);
   }
 }

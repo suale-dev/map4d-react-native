@@ -196,7 +196,8 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation 'vn.map4d:Map4dTypes:1.0.5'
-    implementation 'vn.map4d:Map4dMap:1.3.0'
+    implementation files("C:/Projects/mapes/platforms/android/Map4dMap/build/outputs/aar/Map4dMap-debug.aar")
+
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'

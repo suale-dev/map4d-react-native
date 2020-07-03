@@ -170,6 +170,11 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       map.enable3DMode(enable);
     }
 
+    public void setMyLocationEnabled(Boolean enable) {
+      if (map == null) return;      
+      map.setMyLocationEnabled(enable);         
+    }
+
     public void addFeature(View child, int index) {
         if (child instanceof RMFMarker) {
             RMFMarker annotation = (RMFMarker) child;
@@ -211,5 +216,5 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
            markerMap.remove(feature.getFeature());
         } 
         feature.removeFromMap(map);
-      }
+      }          
 }

@@ -69,6 +69,10 @@ class MFMapView extends React.Component {
       this._runCommand('setSwitchMode', [modeInt]);
     }
 
+    setMyLocationEnabled(enable) {
+      this._runCommand('setMyLocationEnabled', [enable]);
+    }
+
     _getHandle() {
       return findNodeHandle(this.map);
     }

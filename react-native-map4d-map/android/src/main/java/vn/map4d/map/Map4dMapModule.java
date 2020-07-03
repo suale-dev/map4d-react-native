@@ -91,4 +91,14 @@ public class Map4dMapModule extends ReactContextBaseJavaModule {
       }
     });
   }    
+
+  public void isMyLocationButtonEnabled(final int tag, final Promise promise) {
+    getView(tag, new ResolveViewCallback(){
+      @Override
+      public void found(View view) {
+        RMFMapView mapView = (RMFMapView) view;        
+        promise.resolve(mapView.map.getUiSettings().isMyLocationButtonEnabled());
+      }
+    });
+  }
 }
