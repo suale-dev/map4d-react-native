@@ -14,6 +14,9 @@
     "react-native": "0.62.2",
     "react-native-map4d-map": "file:../react-native-map4d-map"
   },
+  "peerDependencies": {
+    "prop-types": "^15.7.2"
+  },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/runtime": "^7.9.2",
