@@ -126,6 +126,36 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
             builder.target(new MFLocationCoordinate(center.getDouble("latitude"), center.getDouble("longitude")));
         }
         return builder.build();
+    
+    
+    }
+
+    public void setSwitchMode(int mode){
+      if (map == null) return;
+      switch (mode) {
+        case 0:
+          map.setSwitchMode(MFSwitchMode.Default);
+        break;
+        case 1:
+          map.setSwitchMode(MFSwitchMode.Auto2DTo3D);
+        break;
+        case 2:
+          map.setSwitchMode(MFSwitchMode.Auto3DTo2D);
+        break;
+        case 3:
+          map.setSwitchMode(MFSwitchMode.Auto);
+        break;
+        case 4:
+          map.setSwitchMode(MFSwitchMode.Manual);
+        break;
+      }
+    }
+
+    public void moveCamera(ReadableMap camera) {
+      if (map == null) return;
+      MFCameraPosition cameraPosition = parseCamera(camera);
+      MFCameraUpdate cameraUpdate = MFCameraUpdateFactory.newCameraPosition(cameraPosition);
+      map.moveCamera(cameraUpdate);
     }
 
     public void animateCamera(ReadableMap camera) {
@@ -133,6 +163,16 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         MFCameraPosition cameraPosition = parseCamera(camera);
         MFCameraUpdate cameraUpdate = MFCameraUpdateFactory.newCameraPosition(cameraPosition);
         map.animateCamera(cameraUpdate);
+    }
+
+    public void enable3DMode(Boolean enable) {
+      if (map == null) return;
+      map.enable3DMode(enable);
+    }
+
+    public void setMyLocationEnabled(Boolean enable) {
+      if (map == null) return;      
+      map.setMyLocationEnabled(enable);         
     }
 
     public void addFeature(View child, int index) {
@@ -176,5 +216,5 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
            markerMap.remove(feature.getFeature());
         } 
         feature.removeFromMap(map);
-      }
+      }          
 }

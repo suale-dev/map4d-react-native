@@ -20,11 +20,7 @@ class MFMapView extends React.Component {
             onMapReady();
           }
         });
-      }
-
-    _getHandle() {
-        return findNodeHandle(this.map);
-      }
+      }   
 
     getCamera() {
         if (Platform.OS === 'android') {
@@ -32,12 +28,53 @@ class MFMapView extends React.Component {
         } else if (Platform.OS === 'ios') {
             return this._runCommand('getCamera', []);
         }
-        return Promise.reject('getCamera not supported on this platform');
+        return Promise.reject('Function not supported on this platform');
     }
 
     animateCamera(camera) {
-        console.log(camera);
         this._runCommand('animateCamera', [camera]);
+    }
+
+    moveCamera(camera) {
+      this._runCommand('moveCamera', [camera]);
+    }
+
+    enable3DMode(enbale) {
+      this._runCommand('enable3DMode', [enbale]);
+    }
+
+    is3DMode() {
+      if (Platform.OS === 'android') {
+        return NativeModules.Map4dMap.is3DMode(this._getHandle());
+      }
+      return Promise.reject('Function not supported on this platform');
+    }
+
+    setSwitchMode(mode) {
+      let modeInt = 4;
+      switch (mode) {
+        case "Auto2DTo3D":
+          modeInt = 1;
+          break;
+        case "Auto3DTo2D":
+          modeInt = 2;
+          break;
+        case "Auto":
+          modeInt = 3;
+          break;
+        case "Manual":
+          modeInt = 4;
+          break;        
+      }
+      this._runCommand('setSwitchMode', [modeInt]);
+    }
+
+    setMyLocationEnabled(enable) {
+      this._runCommand('setMyLocationEnabled', [enable]);
+    }
+
+    _getHandle() {
+      return findNodeHandle(this.map);
     }
 
     _runCommand(name, args) {
