@@ -16,10 +16,14 @@
 
 @implementation RMFMapView
 
-- (void) animateCamera:(id) json
-{
-  MFCameraUpdate * cameraUpdate = [self parseCamera:json];
+- (void) animateCameraRN:(id)json {
+  MFCameraUpdate* cameraUpdate = [self parseCamera:json];
   [super animateCamera:cameraUpdate];
+}
+
+- (void) moveCameraRN:(id)json {
+  MFCameraUpdate* cameraUpdate = [self parseCamera:json];
+  [super moveCamera:cameraUpdate];
 }
 
 - (MFCameraUpdate *) parseCamera: (id) json
@@ -42,7 +46,9 @@
 - (void)insertReactSubview:(id<RCTComponent>)subview atIndex:(NSInteger)atIndex {
   if ([subview isKindOfClass:[RMFMarker class]]) {
     RMFMarker *marker = (RMFMarker*)subview;
-    marker.realMarker.map = self;
+    [marker setMapView:self];
+//    marker.realMarker.map = self;
+    [super insertReactSubview:marker atIndex:atIndex];
   }
 }
 @end

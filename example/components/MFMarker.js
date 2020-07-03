@@ -1,5 +1,11 @@
 import React from 'react';
-import {requireNativeComponent, Platform, NativeModules, findNodeHandle} from 'react-native';
+import {
+  requireNativeComponent,
+  Platform,
+  Image,
+  NativeModules,
+  findNodeHandle
+} from 'react-native';
 
 
 class MFMarker extends React.Component {
@@ -54,7 +60,12 @@ class MFMarker extends React.Component {
       }
 
       render() {
-        return <RMFMarker {...this.props}        
+        let icon = {};
+        if (this.props.icon) {
+          icon = Image.resolveAssetSource(this.props.icon) || {};
+        }
+        return <RMFMarker {...this.props}
+        icon={icon.uri}
         ref={ref => {
           this.marker = ref;
         }}/>;

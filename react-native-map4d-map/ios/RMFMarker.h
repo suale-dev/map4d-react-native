@@ -10,21 +10,40 @@
 #define RMFMarker_h
 
 #import <React/UIView+React.h>
+#import <React/RCTBridge.h>
 #import <RMFRealMarker.h>
+#import "RMFMapView.h"
 
 @interface RMFMarker : UIView
 
-@property (nonatomic, copy) RCTDirectEventBlock onDragStart;
-@property (nonatomic, copy) RCTDirectEventBlock onDrag;
-@property (nonatomic, copy) RCTDirectEventBlock onDragEnd;
-
-@property (nonatomic, assign) CLLocationCoordinate2D coordinate;
-@property (nonatomic, assign) BOOL draggable;
+//@property (nonatomic, weak) RCTBridge *bridge;
 @property (nonatomic, strong) RMFRealMarker * realMarker;
+
+@property (nonatomic, copy) RCTDirectEventBlock _Nullable onDragStart;
+@property (nonatomic, copy) RCTDirectEventBlock _Nullable onDrag;
+@property (nonatomic, copy) RCTDirectEventBlock _Nullable onDragEnd;
+@property (nonatomic, copy) RCTDirectEventBlock _Nullable onClick;
+@property (nonatomic, copy) RCTDirectEventBlock _Nullable onClickInfoWindow;
+
+@property (nonatomic, assign) CLLocationCoordinate2D coordinate;//position
+@property (nonatomic) CGPoint groundAnchor;
+@property (nonatomic) double elevation;
+@property (nonatomic) double rotation;
+@property (nonatomic, assign) BOOL draggable;
+@property (nonatomic) CGPoint infoWindowAnchor;
+@property (nonatomic, strong, nullable) NSString *title;
+@property (nonatomic, strong, nullable) NSString *snippet;
+//@property (nonatomic, strong, nullable, setter=setIconView:) UIView * iconView;
+@property (nonatomic, copy, nullable) NSString *iconSrc;
+//@property (nonatomic, getter=isUserInteractionEnabled) BOOL userInteractionEnabled;
 
 - (void)didBeginDraggingMarker:(MFMarker *)marker;
 - (void)didEndDraggingMarker:(MFMarker *)marker;
 - (void)didDragMarker:(MFMarker *)marker;
+- (void)didTapInfoWindowOfMarker:(MFMarker *)marker;
+- (void)didTapMarker:(MFMarker *)marker;
+
+- (void)setMapView:(RMFMapView* _Nullable)mapView;
 
 @end
 
