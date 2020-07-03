@@ -20,11 +20,13 @@ import {
 import {MFMapView} from './components/MFMapView'
 import {MFMarker} from './components/MFMarker'
 import {MFCircle} from './components/MFCircle'
+import {MFPolyline} from './components/MFPolyline'
 
 export default class App extends React.Component {
   handleClick() {
     // this.enable3DMode();
     this.updateCircle1();
+    this.updatePolyline();
   }
 
   updateCircle1() {
@@ -33,6 +35,20 @@ export default class App extends React.Component {
     this.circle1.setFillColor('#FF00007F')
     this.circle1.setStrokeColor('#0000FFFF')
     this.circle1.setStrokeWidth(1)
+  }
+
+  updatePolyline() {
+    this.polyline.setColor("#00FFFF7F")
+    this.polyline.setLineStyle("solid")
+    this.polyline.setWidth(5)
+    // let coordinates = [
+    //   { longitude: 108.22186589241028, latitude: 16.071021889123116 },
+    //   { longitude: 108.2194197177887, latitude: 16.07288790810347 },
+    //   { longitude: 108.22152256965637, latitude: 16.07507349922961 },
+    //   { longitude: 108.22343230247496, latitude: 16.07437246318347 },
+    //   { longitude: 108.22534203529358, latitude: 16.07627968781805 }
+    // ]
+    // this.polyline.setCoordinates(coordinates)
   }
 
   async enable3DMode() {
@@ -59,6 +75,10 @@ export default class App extends React.Component {
     console.log('press circle:', event.nativeEvent)
   }
 
+  onPressPolyline(event) {
+    console.log('press polyline:', event.nativeEvent)
+  }
+
   render() {
     let markerIcon = require('./assets/ic_marker_tracking.png')
     return(
@@ -81,6 +101,18 @@ export default class App extends React.Component {
             strokeColor="#00FF00FF"
             strokeWidth={2.5} />
           <MFCircle onPress={this.onPressCircle} center={{latitude: 16.071805413037357, longitude: 108.22395265102386}} radius={50} strokeColor="#0000FFFF" strokeWidth={2}/>
+          <MFPolyline ref={ref => this.polyline = ref}
+            coordinates={[
+              { longitude: 108.2224828004837, latitude: 16.07199098403859 },
+              { longitude: 108.2233357429504, latitude: 16.07277450413475 },
+              { longitude: 108.2245534658432, latitude: 16.07237243499733 },
+              { longitude: 108.2259321212768, latitude: 16.07394977849068 }
+            ]}
+            lineStyle="dotted"
+            width={2.5}
+            color="#FF00007F"
+            onPress={this.onPressPolyline}
+          />
         </MFMapView>
         <Button title={"Move Camera"} onPress={() => this.handleClick()}>
         </Button>

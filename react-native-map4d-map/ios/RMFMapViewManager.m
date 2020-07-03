@@ -10,6 +10,7 @@
 #import <RMFMapView.h>
 #import <RMFMarker.h>
 #import <RMFCircle.h>
+#import <RMFPolyline.h>
 #import <Foundation/Foundation.h>
 #import <React/RCTLog.h>
 #import <React/RCTBridge.h>
@@ -186,7 +187,8 @@ RCT_EXPORT_METHOD(setSwitchMode:(nonnull NSNumber *)reactTag
 }
 
 - (void)mapview: (MFMapView*)  mapView didTapPolyline: (MFPolyline*) polyline {
-  
+  RMFPolylineMap4d * rPolyline = (RMFPolylineMap4d *) polyline;
+  [rPolyline.reactPolyline didTap];
 }
 
 - (void)mapview: (MFMapView*)  mapView didTapPolygon: (MFPolygon*) polygon {
