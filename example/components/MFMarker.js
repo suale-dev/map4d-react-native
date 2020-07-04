@@ -1,11 +1,100 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
   requireNativeComponent,
   Platform,
   Image,
   NativeModules,
+  ViewPropTypes,
   findNodeHandle
 } from 'react-native';
+
+// if ViewPropTypes is not defined fall back to View.propType (to support RN < 0.44)
+const viewPropTypes = ViewPropTypes || View.propTypes;
+
+const propTypes = {
+  ...viewPropTypes,
+
+  /**
+   * The coordinate for the marker.
+   */
+  coordinate: PropTypes.shape({
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired,
+  }).isRequired,
+
+  /**
+   * Default value is `false`
+   */
+  draggable: PropTypes.bool,
+
+  /**
+   * Sets the ground anchor point for the marker.
+   */
+  groundAnchor: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }),
+
+  /**
+   * 
+   */
+  elevation: PropTypes.number,
+
+  /**
+   * 
+   */
+  rotation: PropTypes.number,
+
+  /**
+   * Sets the infor window anchor point for the marker.
+   */
+  infoWindowAnchor: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }),
+
+  /**
+   * The title of the marker.
+   */
+  title: PropTypes.string,
+
+  /**
+   * The snippet of the marker.
+   */
+  snippet: PropTypes.string,
+
+  /**
+   * Marker icon to render.
+   */
+  icon: PropTypes.any,
+
+  /**
+   * Callback that is called when the user presses on the marker
+   */
+  onPress: PropTypes.func,
+
+  /**
+   * Callback that is called when the user presses on the info window
+   */
+  onPressInfoWindow: PropTypes.func,
+
+  /**
+   * Callback that is called when the user initiates a drag on this marker (if it is draggable)
+   */
+  onDragStart: PropTypes.func,
+
+  /**
+   * Callback called continuously as the marker is dragged
+   */
+  onDrag: PropTypes.func,
+
+  /**
+   * Callback that is called when a drag on this marker finishes. This is usually the point you
+   * will want to setState on the marker's coordinate again
+   */
+  onDragEnd: PropTypes.func,
+};
 
 
 class MFMarker extends React.Component {
@@ -78,6 +167,7 @@ class MFMarker extends React.Component {
       }
 }
 
+MFMarker.propTypes = propTypes;
 var RMFMarker = requireNativeComponent(`RMFMarker`, MFMarker);
 
 export {MFMarker}
