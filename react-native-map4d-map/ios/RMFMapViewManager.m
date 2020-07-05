@@ -16,6 +16,7 @@
 #import <React/RCTLog.h>
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
+#import <RCTConvert+Map4dMap.h>
 
 @interface RMFMapViewManager () <MFMapViewDelegate>
 
@@ -33,54 +34,69 @@ RCT_EXPORT_MODULE(RMFMapView)
   return rMap;
 }
 
+//RCT_EXPORT_VIEW_PROPERTY(onMapReady, RCTBubblingEventBlock)
+//RCT_EXPORT_VIEW_PROPERTY(onMapLoaded, RCTBubblingEventBlock)
+//RCT_EXPORT_VIEW_PROPERTY(onKmlReady, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
+//RCT_EXPORT_VIEW_PROPERTY(onLongPress, RCTBubblingEventBlock)
+//RCT_EXPORT_VIEW_PROPERTY(onPanDrag, RCTBubblingEventBlock)
+//RCT_EXPORT_VIEW_PROPERTY(onUserLocationChange, RCTBubblingEventBlock)
+//RCT_EXPORT_VIEW_PROPERTY(onChange, RCTBubblingEventBlock)
+//RCT_EXPORT_VIEW_PROPERTY(onMarkerPress, RCTDirectEventBlock)
+//RCT_EXPORT_VIEW_PROPERTY(onRegionChange, RCTDirectEventBlock)
+//RCT_EXPORT_VIEW_PROPERTY(onRegionChangeComplete, RCTDirectEventBlock)
+//RCT_EXPORT_VIEW_PROPERTY(onPoiClick, RCTDirectEventBlock)
+//RCT_EXPORT_VIEW_PROPERTY(onIndoorLevelActivated, RCTDirectEventBlock)
+//RCT_EXPORT_VIEW_PROPERTY(onIndoorBuildingFocused, RCTDirectEventBlock)
+
 RCT_EXPORT_METHOD(getCamera:(nonnull NSNumber *)reactTag
                   resolver: (RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
-        id view = viewRegistry[reactTag];
-        RMFMapView *mapView = (RMFMapView *)view;
-        if (![view isKindOfClass:[RMFMapView class]]) {
-            reject(@"Invalid argument", [NSString stringWithFormat:@"Invalid view returned from registry, expecting RMFMapView, got: %@", view], NULL);
-        } else {
-            MFCameraPosition *camera = [mapView camera];
-            resolve(@{
-                      @"target": @{
-                              @"latitude": @(camera.target.latitude),
-                              @"longitude": @(camera.target.longitude),
-                      },
-                      @"bearing": @(camera.bearing),
-                      @"zoom": @(camera.zoom),
-                      @"tilt": @(camera.tilt),
-            });
-        }
-    }];
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFMapView class]]) {
+      reject(@"Invalid argument", [NSString stringWithFormat:@"Invalid view returned from registry, expecting RMFMapView, got: %@", view], NULL);
+    } else {
+      RMFMapView *mapView = (RMFMapView *)view;
+      MFCameraPosition *camera = [mapView camera];
+      resolve(@{
+        @"target": @{
+          @"latitude": @(camera.target.latitude),
+          @"longitude": @(camera.target.longitude),
+        },
+        @"bearing": @(camera.bearing),
+        @"zoom": @(camera.zoom),
+        @"tilt": @(camera.tilt),
+      });
+    }
+  }];
 }
 
 RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber *)reactTag
                   withCamera:(id)json) {
-    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
-        id view = viewRegistry[reactTag];
-        if (![view isKindOfClass:[RMFMapView class]]) {
-            RCTLogError(@"Invalid view returned from registry, expecting RMFMapView, got: %@", view);
-        } else {
-            RMFMapView *mapView = (RMFMapView *)view;
-            [mapView animateCameraRN:json];
-        }
-    }];
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFMapView class]]) {
+      RCTLogError(@"Invalid view returned from registry, expecting RMFMapView, got: %@", view);
+    } else {
+      RMFMapView *mapView = (RMFMapView *)view;
+      [mapView animateCamera:[RCTConvert MFCameraUpdate:json]];
+    }
+  }];
 }
 
 RCT_EXPORT_METHOD(moveCamera:(nonnull NSNumber *)reactTag
                   withCamera:(id)json) {
-    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
-        id view = viewRegistry[reactTag];
-        if (![view isKindOfClass:[RMFMapView class]]) {
-            RCTLogError(@"Invalid view returned from registry, expecting RMFMapView, got: %@", view);
-        } else {
-            RMFMapView *mapView = (RMFMapView *)view;
-            [mapView animateCameraRN:json];
-        }
-    }];
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFMapView class]]) {
+      RCTLogError(@"Invalid view returned from registry, expecting RMFMapView, got: %@", view);
+    } else {
+      RMFMapView *mapView = (RMFMapView *)view;
+      [mapView moveCamera:[RCTConvert MFCameraUpdate:json]];
+    }
+  }];
 }
 
 
@@ -219,10 +235,12 @@ RCT_EXPORT_METHOD(setSwitchMode:(nonnull NSNumber *)reactTag
 
 - (void)mapView: (MFMapView*)  mapView didTapAtCoordinate: (CLLocationCoordinate2D) coordinate {
   RCTLogInfo(@"didTapAtCoordinate: %f, %f", coordinate.latitude, coordinate.longitude);
+  RMFMapView* map = (RMFMapView*)mapView;
+  [map didTapAtCoordinate:coordinate];
 }
 
 - (void)mapView: (MFMapView*)  mapView onModeChange: (bool) is3DMode {
-  
+
 }
 
 - (void)mapView: (MFMapView*)  mapView didTapObject: (MFObject*) object {

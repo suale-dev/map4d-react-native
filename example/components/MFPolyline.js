@@ -114,10 +114,16 @@ class MFPolyline extends React.Component {
   }
 
   render() {
-    return <RMFPolyline {...this.props}
-      ref={ref => {
-        this.marker = ref;
-      }} />;
+    return <RMFPolyline
+      {...this.props}
+      ref={ref => { this.marker = ref; }}
+      onPress={event => {
+        event.stopPropagation();
+        if (this.props.onPress) {
+          this.props.onPress(event);
+        }
+      }}
+    />;
   }
 }
 

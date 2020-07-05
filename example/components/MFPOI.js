@@ -131,6 +131,7 @@ class MFPOI extends React.Component {
       icon={icon.uri}
       ref={ref => {this.poi = ref;}}
       onPress={event => {
+        event.stopPropagation();
         if (this.props.onPress) {
           this.props.onPress(event);
         }

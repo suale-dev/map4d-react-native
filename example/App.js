@@ -25,9 +25,10 @@ import {MFPOI} from './components/MFPOI'
 
 export default class App extends React.Component {
   handleClick() {
+    this.animateCamera();
     // this.enable3DMode();
-    this.updateCircle1();
-    this.updatePolyline();
+    // this.updateCircle1();
+    // this.updatePolyline();
   }
 
   updateCircle1() {
@@ -58,7 +59,7 @@ export default class App extends React.Component {
   }
 
   animateCamera() {
-    this.map.moveCamera({
+    this.map.animateCamera({
       tilt: 0,
       bearing: 0,
       zoom: 17,
@@ -84,14 +85,24 @@ export default class App extends React.Component {
     console.log('press poi:', event.nativeEvent)
   }
 
+  onPressMapView(event) {
+    console.log('on press coordinate:', event.nativeEvent)
+  }
+
   render() {
     let markerIcon = require('./assets/ic_marker_tracking.png')
     return(
       <SafeAreaView style={this.styles.safeView}>        
-        <MFMapView ref={ref => this.map = ref} onMapReady={data => {         
-          this.map.setSwitchMode("Manual")                
-          this.getCamera();
-        }} style={this.styles.container}>        
+        <MFMapView ref={ref => this.map = ref}
+          onMapReady={
+            data => {
+              this.map.setSwitchMode("Manual")                
+              this.getCamera();
+            }
+          }
+          style={this.styles.container}
+          onPress={this.onPressMapView}
+          >
           <MFMarker draggable={true} ref={ref => this.marker = ref} onDrag={
             (event) => {
               console.log(event.nativeEvent)
@@ -108,13 +119,14 @@ export default class App extends React.Component {
           <MFCircle onPress={this.onPressCircle} center={{latitude: 16.071805413037357, longitude: 108.22395265102386}} radius={50} strokeColor="#0000FFFF" strokeWidth={2}/>
           <MFPolyline ref={ref => this.polyline = ref}
             coordinates={[
-              { longitude: 108.2224828004837, latitude: 16.07199098403859 },
-              { longitude: 108.2233357429504, latitude: 16.07277450413475 },
-              { longitude: 108.2245534658432, latitude: 16.07237243499733 },
-              { longitude: 108.2259321212768, latitude: 16.07394977849068 }
+              { longitude: 108.22033166885375, latitude: 16.07134148477669 },
+              { longitude: 108.22500944137573, latitude: 16.07196005555040 },
+              { longitude: 108.22421550750732, latitude: 16.07571267699986 },
+              { longitude: 108.22346448898315, latitude: 16.07554772809458 },
+              { longitude: 108.22365760803223, latitude: 16.07426936943880 }
             ]}
             lineStyle="dotted"
-            width={2.5}
+            width={5}
             color="#FF00007F"
             onPress={this.onPressPolyline}
           />
