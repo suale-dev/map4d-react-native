@@ -9,6 +9,7 @@
 #import "RMFMapViewManager.h"
 #import <RMFMapView.h>
 #import <RMFMarker.h>
+#import <RMFCircle.h>
 #import <Foundation/Foundation.h>
 #import <React/RCTLog.h>
 #import <React/RCTBridge.h>
@@ -193,7 +194,8 @@ RCT_EXPORT_METHOD(setSwitchMode:(nonnull NSNumber *)reactTag
 }
 
 - (void)mapview: (MFMapView*)  mapView didTapCircle: (MFCircle*) circle {
-  
+  RMFCircleMap4d * rCircle = (RMFCircleMap4d*)circle;
+  [rCircle.reactCircle didTap];
 }
 
 - (void)mapView: (MFMapView*)  mapView willMove: (BOOL) gesture {

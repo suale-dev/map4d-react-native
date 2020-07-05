@@ -13,6 +13,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTLog.h>
 #import <RMFMarker.h>
+#import <RMFCircle.h>
 
 @implementation RMFMapView
 
@@ -47,8 +48,24 @@
   if ([subview isKindOfClass:[RMFMarker class]]) {
     RMFMarker *marker = (RMFMarker*)subview;
     [marker setMapView:self];
-//    marker.realMarker.map = self;
     [super insertReactSubview:marker atIndex:atIndex];
   }
+  else if ([subview isKindOfClass:[RMFCircle class]]) {
+    RMFCircle *circle = (RMFCircle*)subview;
+    [circle setMapView:self];
+    [super insertReactSubview:circle atIndex:atIndex];
+  }
+}
+
+- (void)removeReactSubview:(UIView *)subview {
+  if ([subview isKindOfClass:[RMFMarker class]]) {
+    RMFMarker* marker = (RMFMarker*)subview;
+    marker.realMarker.map = nil;
+  }
+  else if ([subview isKindOfClass:[RMFCircle class]]) {
+    RMFCircle* circle = (RMFCircle*)subview;
+    circle.map4dCircle.map = nil;
+  }
+  [super removeReactSubview:subview];
 }
 @end
