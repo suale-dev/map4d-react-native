@@ -19,33 +19,6 @@
 
 @implementation RMFMapView
 
-- (void) animateCameraRN:(id)json {
-  MFCameraUpdate* cameraUpdate = [self parseCamera:json];
-  [super animateCamera:cameraUpdate];
-}
-
-- (void) moveCameraRN:(id)json {
-  MFCameraUpdate* cameraUpdate = [self parseCamera:json];
-  [super moveCamera:cameraUpdate];
-}
-
-- (MFCameraUpdate *) parseCamera: (id) json
-{
-  CLLocationCoordinate2D target = CLLocationCoordinate2DMake(0, 0);
-  double zoom = 0;
-  
-  if (json[@"zoom"]) {
-    zoom = [RCTConvert double:json[@"zoom"]];
-  }
-
-  if (json[@"target"]) {
-    target = [RCTConvert CLLocationCoordinate2D:json[@"target"]];
-  }
-  
-  MFCameraUpdate * cameraUpdate = [MFCameraUpdate setTarget:target zoom:(zoom)];
-  return cameraUpdate;
-}
-
 - (void)insertReactSubview:(id<RCTComponent>)subview atIndex:(NSInteger)atIndex {
   if ([subview isKindOfClass:[RMFMarker class]]) {
     RMFMarker *marker = (RMFMarker*)subview;
@@ -88,4 +61,17 @@
   }
   [super removeReactSubview:subview];
 }
+
+- (void)didTapAtCoordinate:(CLLocationCoordinate2D)coordinate {
+  if (!self.onPress) return;
+  self.onPress(
+    @{
+      @"coordinate": @{
+        @"latitude": @(coordinate.latitude),
+        @"longitude": @(coordinate.longitude),
+      }
+    }
+  );
+}
+
 @end

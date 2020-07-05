@@ -125,6 +125,7 @@ class MFCircle extends React.Component {
       {...this.props}
       ref={ref => {this.circle = ref;}}
       onPress={event => {
+        event.stopPropagation();
         if (this.props.onPress) {
           this.props.onPress(event);
         }

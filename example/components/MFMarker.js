@@ -64,11 +64,17 @@ class MFMarker extends React.Component {
         if (this.props.icon) {
           icon = Image.resolveAssetSource(this.props.icon) || {};
         }
-        return <RMFMarker {...this.props}
-        icon={icon.uri}
-        ref={ref => {
-          this.marker = ref;
-        }}/>;
+        return <RMFMarker
+          {...this.props}
+          icon={icon.uri}
+          ref={ref => { this.marker = ref; }}
+          onPress={event => {
+            event.stopPropagation();
+            if (this.props.onPress) {
+              this.props.onPress(event);
+            }
+          }}
+        />;
       }
 }
 

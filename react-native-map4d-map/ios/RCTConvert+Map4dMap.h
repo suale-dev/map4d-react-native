@@ -10,12 +10,15 @@
 #define RCTConvert_Map4dMap_h
 
 #import <React/RCTConvert.h>
-#import <MFCoordinate.h>
+
+@class MFCoordinate;
+@class MFCameraUpdate;
 
 @interface RCTConvert(Map4dMap)
 
 + (MFCoordinate *)MFCoordinate:(id)json;
 + (NSArray<MFCoordinate *> *)MFCoordinateArray:(id)json;
++ (MFCameraUpdate *)MFCameraUpdate:(id)json;
 
 @end
 
