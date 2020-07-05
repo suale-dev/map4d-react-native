@@ -11,6 +11,7 @@
 #import <RMFMarker.h>
 #import <RMFCircle.h>
 #import <RMFPolyline.h>
+#import <RMFPOI.h>
 #import <Foundation/Foundation.h>
 #import <React/RCTLog.h>
 #import <React/RCTBridge.h>
@@ -228,8 +229,28 @@ RCT_EXPORT_METHOD(setSwitchMode:(nonnull NSNumber *)reactTag
   
 }
 
-- (void)mapView: (MFMapView*)  mapView didTapPlace: (MFPOI*) place {
-  
+- (void)mapView: (MFMapView*)  mapView didTapPOI: (MFPOI*) poi {
+  //TODO find other case to detect annotation
+  long annotationId = [poi.poiId longLongValue];
+  if (annotationId != 0 || [poi.poiId isEqualToString:@"0"]) {
+    //MFPOI call from delegate is new MFPOI. Consider to return User POI annotation instead of new MFPOI
+    //RMFPOIMap4d* rPOI = (RMFPOIMap4d*)poi;
+    //[rPOI.reactPOI didTap];
+    NSUInteger count = [mapView.reactSubviews count];
+    for (NSUInteger i = 0; i < count; i++) {
+      UIView* uiView = [mapView.reactSubviews objectAtIndex:i];
+      if ([uiView isKindOfClass:[RMFPOI class]]) {
+        RMFPOI* reactPOI = (RMFPOI*) uiView;
+        if (reactPOI.map4dPOI.Id == annotationId) {
+          [reactPOI didTap];
+          return;
+        }
+      }
+    }
+  }
+  else {
+    
+  }
 }
 
 - (void)mapView: (MFMapView*)  mapView didTapMyLocation: (CLLocationCoordinate2D) location {

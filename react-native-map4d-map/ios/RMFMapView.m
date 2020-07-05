@@ -15,6 +15,7 @@
 #import <RMFMarker.h>
 #import <RMFCircle.h>
 #import <RMFPolyline.h>
+#import <RMFPOI.h>
 
 @implementation RMFMapView
 
@@ -61,6 +62,11 @@
     [polyline setMapView:self];
     [super insertReactSubview:polyline atIndex:atIndex];
   }
+  else if ([subview isKindOfClass:[RMFPOI class]]) {
+    RMFPOI* poi = (RMFPOI*)subview;
+    [poi setMapView:self];
+    [super insertReactSubview:poi atIndex:atIndex];
+  }
 }
 
 - (void)removeReactSubview:(UIView *)subview {
@@ -75,6 +81,10 @@
   else if ([subview isKindOfClass:[RMFPolyline class]]) {
     RMFPolyline* polyline = (RMFPolyline*)subview;
     polyline.map4dPolyline.map = nil;
+  }
+  else if ([subview isKindOfClass:[RMFPOI class]]) {
+    RMFPOI* poi = (RMFPOI*)subview;
+    poi.map4dPOI.map = nil;
   }
   [super removeReactSubview:subview];
 }

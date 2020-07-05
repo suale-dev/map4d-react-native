@@ -21,6 +21,7 @@ import {MFMapView} from './components/MFMapView'
 import {MFMarker} from './components/MFMarker'
 import {MFCircle} from './components/MFCircle'
 import {MFPolyline} from './components/MFPolyline'
+import {MFPOI} from './components/MFPOI'
 
 export default class App extends React.Component {
   handleClick() {
@@ -79,6 +80,10 @@ export default class App extends React.Component {
     console.log('press polyline:', event.nativeEvent)
   }
 
+  onPressPOI(event) {
+    console.log('press poi:', event.nativeEvent)
+  }
+
   render() {
     let markerIcon = require('./assets/ic_marker_tracking.png')
     return(
@@ -112,6 +117,13 @@ export default class App extends React.Component {
             width={2.5}
             color="#FF00007F"
             onPress={this.onPressPolyline}
+          />
+          <MFPOI ref={ref => this.poi = ref}
+            coordinate={{latitude: 16.075671439786362, longitude: 108.22427988052367}}
+            title="Map4D React-Native"
+            titleColor="#00FF00FF"
+            poiType="cafe"
+            onPress={this.onPressPOI}
           />
         </MFMapView>
         <Button title={"Move Camera"} onPress={() => this.handleClick()}>
