@@ -14,6 +14,7 @@
 #import <React/RCTLog.h>
 #import <RMFMarker.h>
 #import <RMFCircle.h>
+#import <RMFPolyline.h>
 
 @implementation RMFMapView
 
@@ -55,6 +56,11 @@
     [circle setMapView:self];
     [super insertReactSubview:circle atIndex:atIndex];
   }
+  else if ([subview isKindOfClass:[RMFPolyline class]]) {
+    RMFPolyline* polyline = (RMFPolyline*)subview;
+    [polyline setMapView:self];
+    [super insertReactSubview:polyline atIndex:atIndex];
+  }
 }
 
 - (void)removeReactSubview:(UIView *)subview {
@@ -65,6 +71,10 @@
   else if ([subview isKindOfClass:[RMFCircle class]]) {
     RMFCircle* circle = (RMFCircle*)subview;
     circle.map4dCircle.map = nil;
+  }
+  else if ([subview isKindOfClass:[RMFPolyline class]]) {
+    RMFPolyline* polyline = (RMFPolyline*)subview;
+    polyline.map4dPolyline.map = nil;
   }
   [super removeReactSubview:subview];
 }
