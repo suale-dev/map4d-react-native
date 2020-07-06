@@ -62,6 +62,16 @@
   [super removeReactSubview:subview];
 }
 
+- (void)setShowsBuildings:(BOOL)showsBuildings {
+  _showsBuildings = showsBuildings;
+  [self setObjectsEnabled:showsBuildings];
+}
+
+- (void)setShowsMyLocationButton:(BOOL)showsMyLocationButton {
+  _showsMyLocationButton = showsMyLocationButton;
+  [self setMyLocationEnabled:showsMyLocationButton];
+}
+
 - (void)didTapAtCoordinate:(CLLocationCoordinate2D)coordinate {
   if (!self.onPress) return;
   self.onPress(
