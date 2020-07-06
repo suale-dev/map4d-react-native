@@ -42,7 +42,8 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     public Map getExportedCustomDirectEventTypeConstants() {
       Map<String, Map<String, String>> map = MapBuilder.of(
         "onMapReady", MapBuilder.of("registrationName", "onMapReady"),
-        "onMarkerDrag", MapBuilder.of("registrationName", "onMarkerDrag")
+        "onMarkerDrag", MapBuilder.of("registrationName", "onMarkerDrag"),
+        "onMarkerPress", MapBuilder.of("registrationName", "onMarkerPress")
       );
       return map;
     }
