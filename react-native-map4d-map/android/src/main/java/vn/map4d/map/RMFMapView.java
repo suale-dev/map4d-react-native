@@ -38,35 +38,35 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     private final Map<MFMarker, RMFMarker> markerMap = new HashMap<>();
     private final Map<MFCircle, RMFCircle> circleMap = new HashMap<>();
 
-    public RMFMapView(Context context, RMFMapViewManager manager) {        
-        super(context, null);        
+    public RMFMapView(Context context, RMFMapViewManager manager) {
+        super(context, null);
         this.manager = manager;
-        this.getMapAsync(this);             
+        this.getMapAsync(this);
     } 
 
     @Override
     public void onMapReady(Map4D map) {
-        this.map = map;          
+        this.map = map;
         final RMFMapView view = this;
 
         manager.pushEvent(getContext(), this, "onMapReady", new WritableNativeMap());
 
         map.setOnMarkerDragListener((new Map4D.OnMarkerDragListener() {
           @Override
-          public void onMarkerDrag(MFMarker marker) {            
+          public void onMarkerDrag(MFMarker marker) {
             RMFMarker rctMarker = markerMap.get(marker);
             if (rctMarker == null) {
               return;
             }
 
             //Event for MFMapView
-            WritableMap event = getMarkerEventData(marker);          
+            WritableMap event = getMarkerEventData(marker);
             event.putString("action", "MarkerDrag");
-            manager.pushEvent(getContext(), view, "onMarkerDrag", event);   
+            manager.pushEvent(getContext(), view, "onMarkerDrag", event);
             
             //Event for MFMarker
             event = getMarkerEventData(marker);
-            event.putString("action", "MarkerDrag");         
+            event.putString("action", "MarkerDrag");
             manager.pushEvent(getContext(), rctMarker, "onDrag", event);
           }
 
@@ -75,10 +75,10 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
             RMFMarker rctMarker = markerMap.get(marker);
             if (rctMarker == null) {
               return;
-            }                      
+            }
             WritableMap event = getMarkerEventData(marker);
             event.putString("action", "MarkerDragEnd");
-            manager.pushEvent(getContext(), view, "onMarkerDrag", event);            
+            manager.pushEvent(getContext(), view, "onMarkerDrag", event);
 
             event = getMarkerEventData(marker);
             event.putString("action", "MarkerDragEnd");
@@ -90,10 +90,10 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
             RMFMarker rctMarker = markerMap.get(marker);
             if (rctMarker == null) {
               return;
-            }               
+            }
             WritableMap event = getMarkerEventData(marker);
             event.putString("action", "MarkerDragStart");
-            manager.pushEvent(getContext(), view, "onMarkerDrag", event);            
+            manager.pushEvent(getContext(), view, "onMarkerDrag", event);
 
             event = getMarkerEventData(marker);
             event.putString("action", "MarkerDragStart");
@@ -103,7 +103,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     }
 
     private WritableMap getMarkerEventData(MFMarker marker) {
-        WritableMap event = new WritableNativeMap();                   
+        WritableMap event = new WritableNativeMap();
         WritableMap location = new WritableNativeMap();
         location.putDouble("latitude", marker.getPosition().getLatitude());
         location.putDouble("longitude", marker.getPosition().getLongitude());
@@ -111,24 +111,22 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         return event;
     }
 
-    private MFCameraPosition parseCamera(ReadableMap camera) {        
+    private MFCameraPosition parseCamera(ReadableMap camera) {
         MFCameraPosition.Builder builder = new MFCameraPosition.Builder(map.getCameraPosition());
         if (camera.hasKey("zoom")) {
-            builder.zoom(camera.getDouble("zoom"));
+          builder.zoom(camera.getDouble("zoom"));
         }
         if (camera.hasKey("bearing")) {
-            builder.bearing(camera.getDouble("bearing"));
+          builder.bearing(camera.getDouble("bearing"));
         }
         if (camera.hasKey("tilt")) {
-            builder.tilt(camera.getDouble("tilt"));
+          builder.tilt(camera.getDouble("tilt"));
         }
         if (camera.hasKey("target")) {
-            ReadableMap center = camera.getMap("target");
-            builder.target(new MFLocationCoordinate(center.getDouble("latitude"), center.getDouble("longitude")));
+          ReadableMap center = camera.getMap("target");
+          builder.target(new MFLocationCoordinate(center.getDouble("latitude"), center.getDouble("longitude")));
         }
         return builder.build();
-    
-    
     }
 
     public void setSwitchMode(int mode){
@@ -172,22 +170,22 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     }
 
     public void setMyLocationEnabled(Boolean enable) {
-      if (map == null) return;      
-      map.setMyLocationEnabled(enable);         
+      if (map == null) return;
+      map.setMyLocationEnabled(enable);
     }
 
     public void addFeature(View child, int index) {
         if (child instanceof RMFMarker) {
             RMFMarker annotation = (RMFMarker) child;
             annotation.addToMap(map);
-            features.add(index, annotation);      
+            features.add(index, annotation);
       
             // Remove from a view group if already present, prevent "specified child
             // already had a parent" error.
             ViewGroup annotationParent = (ViewGroup)annotation.getParent();
             if (annotationParent != null) {
               annotationParent.removeView(annotation);
-            }                  
+            }
       
             MFMarker marker = (MFMarker) annotation.getFeature();
             markerMap.put(marker, annotation);
@@ -218,12 +216,12 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     }
 
     public int getFeatureCount() {
-        return features.size();
-      }
+      return features.size();
+    }
     
-      public View getFeatureAt(int index) {
-        return features.get(index);
-      }
+    public View getFeatureAt(int index) {
+      return features.get(index);
+    }
     
       public void removeFeatureAt(int index) {
         RMFFeature feature = features.remove(index);

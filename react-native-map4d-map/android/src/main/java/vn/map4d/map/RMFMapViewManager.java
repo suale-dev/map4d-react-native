@@ -33,7 +33,7 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     }
 
     @Override
-    protected RMFMapView createViewInstance(ThemedReactContext reactContext) {      
+    protected RMFMapView createViewInstance(ThemedReactContext reactContext) {
         this.reactContext = reactContext;
         return new RMFMapView(reactContext.getCurrentActivity(), this);
     }
@@ -42,8 +42,8 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     public Map getExportedCustomDirectEventTypeConstants() {
       Map<String, Map<String, String>> map = MapBuilder.of(
         "onMapReady", MapBuilder.of("registrationName", "onMapReady"),
-        "onMarkerDrag", MapBuilder.of("registrationName", "onMarkerDrag")      
-      );      
+        "onMarkerDrag", MapBuilder.of("registrationName", "onMarkerDrag")
+      );
       return map;
     }
 
@@ -71,13 +71,13 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
         map = args.getMap(0);
         view.moveCamera(map);
         break;
-      case k_enable3DMode:                      
+      case k_enable3DMode:
         view.enable3DMode(args.getBoolean(0));
         break;
       case k_setSwitchMode:
         view.setSwitchMode(args.getInt(0));
         break;
-      case k_setMyLocationEnabled:      
+      case k_setMyLocationEnabled:
         view.setMyLocationEnabled(args.getBoolean(0));
         break;
     }
