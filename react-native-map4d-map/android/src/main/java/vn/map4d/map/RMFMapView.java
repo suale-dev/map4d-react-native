@@ -82,7 +82,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
 
             event = getMarkerEventData(marker);
             event.putString("action", "MarkerDragEnd");
-            manager.pushEvent(getContext(), rctMarker, "onDrag", event);
+            manager.pushEvent(getContext(), rctMarker, "onDragEnd", event);
           }
 
           @Override
@@ -97,9 +97,27 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
 
             event = getMarkerEventData(marker);
             event.putString("action", "MarkerDragStart");
-            manager.pushEvent(getContext(), rctMarker, "onDrag", event);
+            manager.pushEvent(getContext(), rctMarker, "onDragStart", event);
           }
       }));
+
+      map.setOnMarkerClickListener(new Map4D.OnMarkerClickListener() {
+        @Override
+        public boolean onMarkerClick(MFMarker marker) {
+          RMFMarker rctMarker = markerMap.get(marker);
+          if (rctMarker == null) {
+            return false;
+          }
+          WritableMap event = getMarkerEventData(marker);
+          event.putString("action", "MarkerPress");
+          manager.pushEvent(getContext(), view, "onMarkerPress", event);
+
+          event = getMarkerEventData(marker);
+          event.putString("action", "MarkerPress");
+          manager.pushEvent(getContext(), rctMarker, "onPress", event);
+          return true;
+        }
+      });
     }
 
     private WritableMap getMarkerEventData(MFMarker marker) {
