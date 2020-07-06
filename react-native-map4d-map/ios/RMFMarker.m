@@ -25,6 +25,8 @@
   if ((self = [super init])) {
     _realMarker = [[RMFRealMarker alloc] init];
     _realMarker.fakeMarker = self;
+    _isHidden = false;
+    _zIndex = _realMarker.zIndex;
   }
   return self;
 }
@@ -37,6 +39,7 @@
 }
 
 /** Property */
+
 - (void)setCoordinate:(CLLocationCoordinate2D)coordinate {
   _coordinate = coordinate;
   _realMarker.position = coordinate;
@@ -76,8 +79,7 @@
   _snippet = snippet;
   _realMarker.snippet = snippet;
 }
-//@property (nonatomic, strong, nullable, setter=setIconView:) UIView * iconView;
-//@property (nonatomic, strong, nullable) UIImage* icon;
+
 - (void)setIconSrc:(NSString *)iconSrc {
   _iconSrc = iconSrc;
   dispatch_async(dispatch_get_global_queue(0,0), ^{
@@ -92,6 +94,16 @@
       });
     }
   });
+}
+
+- (void)setZIndex:(float)zIndex {
+  _zIndex = zIndex;
+  _realMarker.zIndex = zIndex;
+}
+
+- (void)setIsHidden:(bool)isHidden {
+  _isHidden = isHidden;
+  _realMarker.isHidden = isHidden;
 }
 
 - (void)setUserInteractionEnabled:(BOOL)enabled {
@@ -135,13 +147,13 @@
 }
 
 - (void)didTapInfoWindowOfMarker:(MFMarker *)marker {
-  if (!self.onClickInfoWindow) return;
-  self.onClickInfoWindow([self eventFromMarker:marker]);
+  if (!self.onPressInfoWindow) return;
+  self.onPressInfoWindow([self eventFromMarker:marker]);
 }
 
 - (void)didTapMarker:(MFMarker *)marker {
-  if (!self.onClick) return;
-  self.onClick([self eventFromMarker:marker]);
+  if (!self.onPress) return;
+  self.onPress([self eventFromMarker:marker]);
 }
 
 @end

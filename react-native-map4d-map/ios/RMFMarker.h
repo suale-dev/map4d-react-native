@@ -19,23 +19,24 @@
 //@property (nonatomic, weak) RCTBridge *bridge;
 @property (nonatomic, strong) RMFRealMarker * realMarker;
 
+@property (nonatomic, copy) RCTBubblingEventBlock _Nullable onPress;
+@property (nonatomic, copy) RCTDirectEventBlock _Nullable onPressInfoWindow;
 @property (nonatomic, copy) RCTDirectEventBlock _Nullable onDragStart;
 @property (nonatomic, copy) RCTDirectEventBlock _Nullable onDrag;
 @property (nonatomic, copy) RCTDirectEventBlock _Nullable onDragEnd;
-@property (nonatomic, copy) RCTDirectEventBlock _Nullable onClick;
-@property (nonatomic, copy) RCTDirectEventBlock _Nullable onClickInfoWindow;
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;//position
-@property (nonatomic) CGPoint groundAnchor;
-@property (nonatomic) double elevation;
-@property (nonatomic) double rotation;
+@property (nonatomic, assign) CGPoint groundAnchor;
+@property (nonatomic, assign) double elevation;
+@property (nonatomic, assign) double rotation;
 @property (nonatomic, assign) BOOL draggable;
-@property (nonatomic) CGPoint infoWindowAnchor;
-@property (nonatomic, strong, nullable) NSString *title;
-@property (nonatomic, strong, nullable) NSString *snippet;
-//@property (nonatomic, strong, nullable, setter=setIconView:) UIView * iconView;
+@property (nonatomic, assign) CGPoint infoWindowAnchor;
+@property (nonatomic, copy, nullable) NSString *title;
+@property (nonatomic, copy, nullable) NSString *snippet;
 @property (nonatomic, copy, nullable) NSString *iconSrc;
-//@property (nonatomic, getter=isUserInteractionEnabled) BOOL userInteractionEnabled;
+@property (nonatomic, assign, setter=setIsHidden:) bool isHidden;
+@property (nonatomic, assign, setter=setZIndex:) float zIndex;
+
 
 - (void)didBeginDraggingMarker:(MFMarker *)marker;
 - (void)didEndDraggingMarker:(MFMarker *)marker;

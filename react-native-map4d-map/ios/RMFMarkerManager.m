@@ -32,11 +32,11 @@ RCT_EXPORT_VIEW_PROPERTY(snippet, NSString)
 RCT_EXPORT_VIEW_PROPERTY(userInteractionEnabled, BOOL)
 RCT_REMAP_VIEW_PROPERTY(icon, iconSrc, NSString)
 
+RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onPressInfoWindow, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onDragStart, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onDrag, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onDragEnd, RCTDirectEventBlock)
-RCT_EXPORT_VIEW_PROPERTY(onClick, RCTDirectEventBlock)
-RCT_EXPORT_VIEW_PROPERTY(onClickInfoWindow, RCTDirectEventBlock)
 
 RCT_EXPORT_METHOD(setCoordinate:(nonnull NSNumber *)reactTag
                   withCoordinate:(id)coordinate)
@@ -48,6 +48,90 @@ RCT_EXPORT_METHOD(setCoordinate:(nonnull NSNumber *)reactTag
         } else {
             RMFMarker *marker = (RMFMarker *)view;
             [marker setCoordinate:[RCTConvert CLLocationCoordinate2D:coordinate]];
+        }
+    }];
+}
+
+RCT_EXPORT_METHOD(setRotation:(nonnull NSNumber *)reactTag
+                  rotation:(double)rotation)
+{
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        id view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[RMFMarker class]]) {
+            RCTLogError(@"Invalid view returned from registry, expecting RMFMarker, got: %@", view);
+        } else {
+            RMFMarker *marker = (RMFMarker *)view;
+            [marker setRotation:rotation];
+        }
+    }];
+}
+
+RCT_EXPORT_METHOD(setTitle:(nonnull NSNumber *)reactTag
+                  title:(NSString*)title)
+{
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        id view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[RMFMarker class]]) {
+            RCTLogError(@"Invalid view returned from registry, expecting RMFMarker, got: %@", view);
+        } else {
+            RMFMarker *marker = (RMFMarker *)view;
+            [marker setTitle:title];
+        }
+    }];
+}
+
+RCT_EXPORT_METHOD(setSnippet:(nonnull NSNumber *)reactTag
+                  snippet:(NSString*)snippet)
+{
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        id view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[RMFMarker class]]) {
+            RCTLogError(@"Invalid view returned from registry, expecting RMFMarker, got: %@", view);
+        } else {
+            RMFMarker *marker = (RMFMarker *)view;
+            [marker setSnippet:snippet];
+        }
+    }];
+}
+
+RCT_EXPORT_METHOD(setDraggable:(nonnull NSNumber *)reactTag
+                  draggable:(BOOL)draggable)
+{
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        id view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[RMFMarker class]]) {
+            RCTLogError(@"Invalid view returned from registry, expecting RMFMarker, got: %@", view);
+        } else {
+            RMFMarker *marker = (RMFMarker *)view;
+            [marker setDraggable:draggable];
+        }
+    }];
+}
+
+RCT_EXPORT_METHOD(setZIndex:(nonnull NSNumber *)reactTag
+                  zIndex:(float)zIndex)
+{
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        id view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[RMFMarker class]]) {
+            RCTLogError(@"Invalid view returned from registry, expecting RMFMarker, got: %@", view);
+        } else {
+            RMFMarker *marker = (RMFMarker *)view;
+            [marker setZIndex:zIndex];
+        }
+    }];
+}
+
+RCT_EXPORT_METHOD(setVisible:(nonnull NSNumber *)reactTag
+                  visible:(BOOL)visible)
+{
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        id view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[RMFMarker class]]) {
+            RCTLogError(@"Invalid view returned from registry, expecting RMFMarker, got: %@", view);
+        } else {
+          RMFMarker *marker = (RMFMarker *)view;
+          [marker setIsHidden:!visible];
         }
     }];
 }
