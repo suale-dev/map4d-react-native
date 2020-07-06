@@ -102,6 +102,8 @@ export default class App extends React.Component {
           }
           style={this.styles.container}
           onPress={this.onPressMapView}
+          showsMyLocationButton={true}
+          showsBuildings={true}
           >
           <MFMarker draggable={true} ref={ref => this.marker = ref} onDrag={
             (event) => {

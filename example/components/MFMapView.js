@@ -1,6 +1,44 @@
-// ImageView.js
+import PropTypes from 'prop-types';
 import React from 'react';
-import {requireNativeComponent, Platform, NativeModules, findNodeHandle} from 'react-native';
+import {
+  requireNativeComponent,
+  Platform,
+  NativeModules,
+  ViewPropTypes,
+  ColorPropType,
+  CameraShape,
+  findNodeHandle
+} from 'react-native';
+
+// if ViewPropTypes is not defined fall back to View.propType (to support RN < 0.44)
+const viewPropTypes = ViewPropTypes || View.propTypes;
+
+const propTypes = {
+  ...viewPropTypes,
+
+  /**
+   * If `false` hide the button to move map to the current user's location.
+   * Default value is `false`.
+   */
+  showsMyLocationButton: PropTypes.bool,
+
+  /**
+   * A Boolean indicating whether the map displays buildings.
+   * Default value is `true`.
+   */
+  showsBuildings: PropTypes.bool,
+
+  /**
+   * Callback that is called once the map is fully loaded.
+   * @platform android
+   */
+  onMapReady: PropTypes.func,
+
+  /**
+   * Callback that is called when user taps on the map.
+   */
+  onPress: PropTypes.func,
+};
 
 
 class MFMapView extends React.Component {
@@ -135,7 +173,8 @@ class MFMapView extends React.Component {
       }}/>;
     }
   }  
-  
+
+MFMapView.propTypes = propTypes;
 var RMFMapView = requireNativeComponent(`RMFMapView`, MFMapView);
 
 
