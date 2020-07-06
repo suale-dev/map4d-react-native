@@ -23,46 +23,49 @@ import vn.map4d.map.camera.*;
 import vn.map4d.types.MFLocationCoordinate;
 import vn.map4d.map.camera.MFCameraPosition;
 
-public class RMFCircle extends RMFFeature {   
-    private MFCircleOptions options;
-    private MFLocationCoordinate position;
+public class RMFCircle extends RMFFeature {       
     private MFCircle circle;
+    private MFLocationCoordinate position;
+    private Double radius;
 
     public RMFCircle(Context context) {        
-        super(context);
-        this.position = new MFLocationCoordinate(0, 0); 
+        super(context);        
     } 
 
     public void setCenter(ReadableMap data) {
         this.position = new MFLocationCoordinate(data.getDouble("latitude"), data.getDouble("longitude"));
         if (circle != null) {
-            circle.setCenter(this.position);
+          circle.setCenter(this.position);
         }
     }
 
+    public void setRadius(double data) {      
+      radius = data;
+      if (circle != null) {
+          circle.setRadius(radius);
+      }
+  }
+
     public void addToMap(Map4D map) {
-                
+      this.circle = map.addCircle(getOptions());  
     }
 
    public void removeFromMap(Map4D map) {
-    
+    if (circle == null) {
+      return;
+    }
+    circle.remove();
+    circle = null;
+    //updateTracksViewChanges();
    }
 
    public MFCircleOptions getOptions() {
-    if (options == null) {
-      options = new MFCircleOptions();
-    }
-
-    fillOptions(options);
+    MFCircleOptions options = new MFCircleOptions()
+    .center(this.position)
+    .radius(radius)
+    ;    
     return options;
   }
-
-  private MFCircleOptions fillOptions(MFCircleOptions options) {
-    options.center(position); 
-    options.zIndex(12);
-    return options;
-  }
-
    public Object getFeature() {
        return circle;
    }

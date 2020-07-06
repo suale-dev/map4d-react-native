@@ -36,6 +36,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     private RMFMapViewManager manager;
     private final List<RMFFeature> features = new ArrayList<>();
     private final Map<MFMarker, RMFMarker> markerMap = new HashMap<>();
+    private final Map<MFCircle, RMFCircle> circleMap = new HashMap<>();
 
     public RMFMapView(Context context, RMFMapViewManager manager) {        
         super(context, null);        
@@ -190,7 +191,21 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       
             MFMarker marker = (MFMarker) annotation.getFeature();
             markerMap.put(marker, annotation);
-          } 
+          } else if (child instanceof RMFCircle) {
+            RMFCircle annotation = (RMFCircle) child;
+            annotation.addToMap(map);
+            features.add(index, annotation);      
+      
+            // Remove from a view group if already present, prevent "specified child
+            // already had a parent" error.
+            ViewGroup annotationParent = (ViewGroup)annotation.getParent();
+            if (annotationParent != null) {
+              annotationParent.removeView(annotation);
+            }                  
+      
+            MFCircle circle = (MFCircle) annotation.getFeature();
+            circleMap.put(circle, annotation);
+          }
           //else if child instanceof Polyline, Polygon {}
           else if (child instanceof ViewGroup) {
             ViewGroup children = (ViewGroup) child;
@@ -214,7 +229,9 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         RMFFeature feature = features.remove(index);
         if (feature instanceof RMFMarker) {
            markerMap.remove(feature.getFeature());
-        } 
+        }  else if (feature instanceof RMFCircle) {
+          circleMap.remove(feature.getFeature());
+        }
         feature.removeFromMap(map);
       }          
 }

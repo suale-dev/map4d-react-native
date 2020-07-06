@@ -17,6 +17,7 @@ import vn.map4d.map.annotations.*;
 
 public class RMFCircleManager extends ViewGroupManager<RMFCircle> {
     private static final int k_setCenter = 1;
+    private static final int k_setRadius = 2;
 
     @Override
     public String getName() {
@@ -36,6 +37,9 @@ public class RMFCircleManager extends ViewGroupManager<RMFCircle> {
         data = args.getMap(0);
           view.setCenter(data);
           break;
+        case k_setRadius:        
+          view.setRadius(args.getDouble(0));
+          break;
       }
     }
 
@@ -53,6 +57,7 @@ public class RMFCircleManager extends ViewGroupManager<RMFCircle> {
   public Map<String, Integer> getCommandsMap() {
     HashMap<String, Integer> map = new HashMap();    
     map.put("setCenter", k_setCenter);
+    map.put("setRadius", k_setRadius);
     return map;
   }
 
@@ -60,6 +65,11 @@ public class RMFCircleManager extends ViewGroupManager<RMFCircle> {
    @ReactProp(name = "center")
    public void setCenter(RMFCircle view, ReadableMap map) {
         view.setCenter(map);
+   }
+
+   @ReactProp(name = "radius")
+   public void setRadius(RMFCircle view, double data) {
+        view.setRadius(data);
    }
 
 }
