@@ -31,7 +31,7 @@ const propTypes = {
   /**
    * Sets the ground anchor point for the marker.
    */
-  groundAnchor: PropTypes.shape({
+  anchor: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
   }),
@@ -104,6 +104,38 @@ class MFMarker extends React.Component {
 
     setCoordinate(location) {
         this._runCommand("setCoordinate", [location])
+    }
+
+    setRotation(rotation) {
+      this._runCommand("setRotation", [rotation])
+    }
+
+    setTitle(title) {
+      this._runCommand("setTitle", [title])
+    }
+
+    setSnippet(snippet) {
+      this._runCommand("setSnippet", [snippet])
+    }
+
+    setDraggable(draggable) {
+      this._runCommand("setDraggable", [draggable])
+    }
+
+    setZIndex(zIndex) {
+      this._runCommand("setZIndex", [zIndex])
+    }
+
+    setVisible(visible) {
+      this._runCommand("setVisible", [visible])
+    }
+
+    setInfoWindowAnchor(anchor) {
+      this._runCommand("setInfoWindowAnchor", [anchor])
+    }
+
+    setElevation(elevation) {
+      this._runCommand("setElevation", [elevation])
     }
 
     _getHandle() {
