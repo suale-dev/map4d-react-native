@@ -123,6 +123,9 @@ class MFCircle extends React.Component {
   render() {
     return <RMFCircle
       {...this.props}
+      fillColor={processColor(this.props.fillColor)}
+      strokeColor={processColor(this.props.strokeColor)}
+
       ref={ref => {this.circle = ref;}}
       onPress={event => {
         event.stopPropagation();

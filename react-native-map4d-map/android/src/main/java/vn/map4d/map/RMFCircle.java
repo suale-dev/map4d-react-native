@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.view.ViewTreeObserver;
 
+import androidx.annotation.ColorInt;
+
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.Callback;
@@ -27,6 +29,8 @@ public class RMFCircle extends RMFFeature {
     private MFCircle circle;
     private MFLocationCoordinate position;
     private Double radius;
+    private @ColorInt int fillColor;
+    private @ColorInt int strokeColor;
 
     public RMFCircle(Context context) {        
         super(context);        
@@ -45,6 +49,20 @@ public class RMFCircle extends RMFFeature {
           circle.setRadius(radius);
       }
   }
+  
+  public void setStrokeColor(@ColorInt int strokeColor) {    
+    this.strokeColor = strokeColor;
+    if (circle != null) {
+        circle.setStrokeColor(this.strokeColor);
+    }
+  };
+
+  public void setFillColor(@ColorInt int fillColor) {
+    this.fillColor = fillColor;
+    if (circle != null) {
+        circle.setFillColor(this.fillColor);
+    }
+  };
 
     public void addToMap(Map4D map) {
       this.circle = map.addCircle(getOptions());  
@@ -63,6 +81,9 @@ public class RMFCircle extends RMFFeature {
     MFCircleOptions options = new MFCircleOptions()
     .center(this.position)
     .radius(radius)
+    .fillColor(fillColor)
+    .strokeColor(strokeColor)
+    .strokeWidth(5.0f)
     ;    
     return options;
   }

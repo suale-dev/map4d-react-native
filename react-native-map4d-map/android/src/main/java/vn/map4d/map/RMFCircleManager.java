@@ -7,6 +7,7 @@ import com.facebook.react.uimanager.annotations.*;
 import com.facebook.react.common.MapBuilder;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.ColorInt;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -18,6 +19,9 @@ import vn.map4d.map.annotations.*;
 public class RMFCircleManager extends ViewGroupManager<RMFCircle> {
     private static final int k_setCenter = 1;
     private static final int k_setRadius = 2;
+    private static final int k_setFillColor = 3;
+    private static final int k_setStrokeColor = 4;
+
 
     @Override
     public String getName() {
@@ -40,6 +44,12 @@ public class RMFCircleManager extends ViewGroupManager<RMFCircle> {
         case k_setRadius:        
           view.setRadius(args.getDouble(0));
           break;
+        case k_setFillColor:
+          view.setFillColor(args.getInt(0));
+          break;
+        case k_setStrokeColor:
+          view.setStrokeColor(args.getInt(0));
+          break;
       }
     }
 
@@ -58,6 +68,8 @@ public class RMFCircleManager extends ViewGroupManager<RMFCircle> {
     HashMap<String, Integer> map = new HashMap();    
     map.put("setCenter", k_setCenter);
     map.put("setRadius", k_setRadius);
+    map.put("setFillColor", k_setFillColor);
+    map.put("setStrokeColor", k_setStrokeColor);
     return map;
   }
 
@@ -71,5 +83,15 @@ public class RMFCircleManager extends ViewGroupManager<RMFCircle> {
    public void setRadius(RMFCircle view, double data) {
         view.setRadius(data);
    }
+
+   @ReactProp(name = "fillColor")
+   public void setFillColor(RMFCircle view, @ColorInt int data) {
+        view.setFillColor(data);
+   }
+
+   @ReactProp(name = "strokeColor")
+   public void setStrokeColor(RMFCircle view, @ColorInt int data) {
+        view.setStrokeColor(data);
+   }   
 
 }
