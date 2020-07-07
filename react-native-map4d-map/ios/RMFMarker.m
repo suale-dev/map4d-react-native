@@ -23,61 +23,71 @@
 
 - (instancetype)init {
   if ((self = [super init])) {
-    _realMarker = [[RMFRealMarker alloc] init];
-    _realMarker.fakeMarker = self;
-    _isHidden = false;
-    _zIndex = _realMarker.zIndex;
+    _map4dMarker = [[RMFMarkerMap4d alloc] init];
+    _map4dMarker.reactMarker = self;
+    
+    _coordinate = _map4dMarker.position;
+    _anchor = _map4dMarker.groundAnchor;
+    _elevation = _map4dMarker.elevation;
+    _rotation = _map4dMarker.rotation;
+    _draggable = _map4dMarker.draggable;
+    _infoWindowAnchor = _map4dMarker.infoWindowAnchor;
+    _title = nil;//_map4dMarker.title;
+    _snippet = nil;//_map4dMarker.snippet;
+    _iconSrc = nil;
+    _zIndex = _map4dMarker.zIndex;
+    _visible = true;//!_map4dMarker.isHidden;
   }
   return self;
 }
 
 - (void)setMapView:(RMFMapView *)mapView {
   if (mapView != nil && self.iconImage != nil) {
-    _realMarker.icon = [UIImage imageWithCGImage:self.iconImage.CGImage scale:[mapView contentScaleFactor] orientation:self.iconImage.imageOrientation];
+    _map4dMarker.icon = [UIImage imageWithCGImage:self.iconImage.CGImage scale:[mapView contentScaleFactor] orientation:self.iconImage.imageOrientation];
   }
-  _realMarker.map = mapView;
+  _map4dMarker.map = mapView;
 }
 
 /** Property */
 
 - (void)setCoordinate:(CLLocationCoordinate2D)coordinate {
   _coordinate = coordinate;
-  _realMarker.position = coordinate;
+  _map4dMarker.position = coordinate;
 }
 
 - (void)setAnchor:(CGPoint)anchor {
   _anchor = anchor;
-  _realMarker.groundAnchor = anchor;
+  _map4dMarker.groundAnchor = anchor;
 }
 
 - (void)setElevation:(double)elevation {
   _elevation = elevation;
-  _realMarker.elevation = elevation;
+  _map4dMarker.elevation = elevation;
 }
 
 - (void)setRotation:(double)rotation {
   _rotation = rotation;
-  _realMarker.rotation = rotation;
+  _map4dMarker.rotation = rotation;
 }
 
 - (void)setDraggable:(BOOL)draggable {
   _draggable = draggable;
-  _realMarker.draggable = draggable;
+  _map4dMarker.draggable = draggable;
 }
 
 - (void) setInfoWindowAnchor:(CGPoint)infoWindowAnchor {
   _infoWindowAnchor = infoWindowAnchor;
-  _realMarker.infoWindowAnchor = infoWindowAnchor;
+  _map4dMarker.infoWindowAnchor = infoWindowAnchor;
 }
 
 - (void)setTitle:(NSString *)title {
   _title = title;
-  _realMarker.title = title;
+  _map4dMarker.title = title;
 }
 
 - (void)setSnippet:(NSString *)snippet {
   _snippet = snippet;
-  _realMarker.snippet = snippet;
+  _map4dMarker.snippet = snippet;
 }
 
 - (void)setIconSrc:(NSString *)iconSrc {
@@ -88,8 +98,8 @@
       dispatch_async(dispatch_get_main_queue(), ^{
         UIImage* icon = [UIImage imageWithData:imageData];
         self->_iconImage = icon;
-        if (self->_realMarker.map != nil) {
-          self->_realMarker.icon = [UIImage imageWithCGImage:[icon CGImage] scale:[self->_realMarker.map contentScaleFactor] orientation:icon.imageOrientation];
+        if (self->_map4dMarker.map != nil) {
+          self->_map4dMarker.icon = [UIImage imageWithCGImage:[icon CGImage] scale:[self->_map4dMarker.map contentScaleFactor] orientation:icon.imageOrientation];
         }
       });
     }
@@ -98,24 +108,24 @@
 
 - (void)setZIndex:(float)zIndex {
   _zIndex = zIndex;
-  _realMarker.zIndex = zIndex;
+  _map4dMarker.zIndex = zIndex;
 }
 
-- (void)setIsHidden:(bool)isHidden {
-  _isHidden = isHidden;
-  _realMarker.isHidden = isHidden;
+- (void)setVisible:(BOOL)visible {
+  _visible = visible;
+  _map4dMarker.isHidden = !visible;
 }
 
 - (void)setUserInteractionEnabled:(BOOL)enabled {
   [super setUserInteractionEnabled:enabled];
-  _realMarker.userInteractionEnabled = enabled;
+  _map4dMarker.userInteractionEnabled = enabled;
 }
 
 /** */
 - (id)eventFromMarker:(MFMarker *)marker {
 
   CLLocationCoordinate2D coordinate = marker.position;
-  CGPoint position = [self.realMarker.map.projection pointForCoordinate:coordinate];
+  CGPoint position = [self.map4dMarker.map.projection pointForCoordinate:coordinate];
 
   return @{
          @"id": @(marker.Id),

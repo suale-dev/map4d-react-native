@@ -45,7 +45,7 @@
 - (void)removeReactSubview:(UIView *)subview {
   if ([subview isKindOfClass:[RMFMarker class]]) {
     RMFMarker* marker = (RMFMarker*)subview;
-    marker.realMarker.map = nil;
+    marker.map4dMarker.map = nil;
   }
   else if ([subview isKindOfClass:[RMFCircle class]]) {
     RMFCircle* circle = (RMFCircle*)subview;
