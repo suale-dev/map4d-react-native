@@ -15,6 +15,13 @@
   if ((self = [super init])) {
     _map4dPolyline = [[RMFPolylineMap4d alloc] init];
     _map4dPolyline.reactPolyline = self;
+    
+    _coordinates = nil;
+    _width = _map4dPolyline.width;
+    _lineStyle = @"solid";//MFPolylineStyleSolid
+    _color = _map4dPolyline.color;
+    _zIndex = _map4dPolyline.zIndex;
+    _visible = true;//!_map4dPolyline.isHidden
   }
   return self;
 }
@@ -52,6 +59,16 @@
   } else {
     _map4dPolyline.style = MFPolylineStyleSolid;
   }
+}
+
+- (void)setZIndex:(float)zIndex {
+  _zIndex = zIndex;
+  _map4dPolyline.zIndex = zIndex;
+}
+
+- (void)setVisible:(BOOL)visible {
+  _visible = visible;
+  _map4dPolyline.isHidden = !visible;
 }
 
 /** Event */
