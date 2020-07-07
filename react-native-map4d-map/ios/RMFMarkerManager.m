@@ -22,7 +22,7 @@ RCT_EXPORT_MODULE(RMFMarker)
 }
 
 RCT_EXPORT_VIEW_PROPERTY(coordinate, CLLocationCoordinate2D)
-RCT_EXPORT_VIEW_PROPERTY(groundAnchor, CGPoint)
+RCT_EXPORT_VIEW_PROPERTY(anchor, CGPoint)
 RCT_EXPORT_VIEW_PROPERTY(elevation, double)
 RCT_EXPORT_VIEW_PROPERTY(rotation, double)
 RCT_EXPORT_VIEW_PROPERTY(draggable, BOOL)

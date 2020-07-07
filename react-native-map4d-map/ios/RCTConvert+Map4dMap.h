@@ -12,13 +12,13 @@
 #import <React/RCTConvert.h>
 
 @class MFCoordinate;
-@class MFCameraUpdate;
+@class MFCameraPosition;
 
 @interface RCTConvert(Map4dMap)
 
 + (MFCoordinate *)MFCoordinate:(id)json;
 + (NSArray<MFCoordinate *> *)MFCoordinateArray:(id)json;
-+ (MFCameraUpdate *)MFCameraUpdate:(id)json;
++ (MFCameraPosition *)MFCameraPosition:(id)json;
 
 @end
 

@@ -104,12 +104,22 @@ export default class App extends React.Component {
           onPress={this.onPressMapView}
           showsMyLocationButton={true}
           showsBuildings={true}
+          camera={{
+            target: {latitude: 16.07026929087801, longitude: 108.22406530380249},
+            zoom: 16,
+            bearing: 0,
+            tilt: 0,
+          }}
           >
-          <MFMarker draggable={true} ref={ref => this.marker = ref} onDrag={
-            (event) => {
-              console.log(event.nativeEvent)
-            }
-          }></MFMarker>
+          <MFMarker
+            draggable={true}
+            ref={ref => this.marker = ref}
+            onDrag={
+              (event) => {
+                console.log(event.nativeEvent)
+            }}
+            coordinate={{latitude: 10.772002, longitude: 106.704294}}
+          />
           <MFMarker coordinate={{latitude: 16.073034, longitude: 108.224315}} draggable={true}></MFMarker>
           <MFMarker icon={markerIcon} coordinate={{latitude: 16.071364, longitude: 108.224487}}></MFMarker>
           <MFCircle ref={ref => this.circle1 = ref}

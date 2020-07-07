@@ -32,7 +32,7 @@
 }
 
 - (void)setMapView:(RMFMapView *)mapView {
-  if (mapView != nil) {
+  if (mapView != nil && self.iconImage != nil) {
     _realMarker.icon = [UIImage imageWithCGImage:self.iconImage.CGImage scale:[mapView contentScaleFactor] orientation:self.iconImage.imageOrientation];
   }
   _realMarker.map = mapView;
@@ -45,9 +45,9 @@
   _realMarker.position = coordinate;
 }
 
-- (void)setGroundAnchor:(CGPoint)groundAnchor {
-  _groundAnchor = groundAnchor;
-  _realMarker.groundAnchor = groundAnchor;
+- (void)setAnchor:(CGPoint)anchor {
+  _anchor = anchor;
+  _realMarker.groundAnchor = anchor;
 }
 
 - (void)setElevation:(double)elevation {

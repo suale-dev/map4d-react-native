@@ -62,6 +62,11 @@
   [super removeReactSubview:subview];
 }
 
+- (void)setCameraProp:(MFCameraPosition *)cameraProp {
+  _cameraProp = cameraProp;
+  self.camera = cameraProp;
+}
+
 - (void)setShowsBuildings:(BOOL)showsBuildings {
   _showsBuildings = showsBuildings;
   [self setObjectsEnabled:showsBuildings];

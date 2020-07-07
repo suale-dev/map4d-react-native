@@ -24,7 +24,7 @@
 }
 
 - (void)setMapView:(RMFMapView *)mapView {
-  if (mapView != nil) {
+  if (mapView != nil && self.iconImage != nil) {
     _map4dPOI.icon = [UIImage imageWithCGImage:self.iconImage.CGImage
                                          scale:[mapView contentScaleFactor]
                                    orientation:self.iconImage.imageOrientation];

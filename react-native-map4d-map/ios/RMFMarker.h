@@ -26,7 +26,7 @@
 @property (nonatomic, copy) RCTDirectEventBlock _Nullable onDragEnd;
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;//position
-@property (nonatomic, assign) CGPoint groundAnchor;
+@property (nonatomic, assign) CGPoint anchor;
 @property (nonatomic, assign) double elevation;
 @property (nonatomic, assign) double rotation;
 @property (nonatomic, assign) BOOL draggable;
