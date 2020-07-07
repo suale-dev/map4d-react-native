@@ -45,6 +45,16 @@ const propTypes = {
   lineStyle: PropTypes.oneOf(['solid', 'dotted']),
 
   /**
+   * zIndex
+   */
+  zIndex: PropTypes.number,
+
+  /**
+   * visible
+   */
+  visible: PropTypes.bool,
+
+  /**
    * Callback that is called when the user presses on the polyline
    */
   onPress: PropTypes.func,

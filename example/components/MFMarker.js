@@ -69,6 +69,17 @@ const propTypes = {
    */
   icon: PropTypes.any,
 
+
+  /**
+   * zIndex
+   */
+  zIndex: PropTypes.number,
+
+  /**
+   * visible
+   */
+  visible: PropTypes.bool,
+
   /**
    * Callback that is called when the user presses on the marker
    */

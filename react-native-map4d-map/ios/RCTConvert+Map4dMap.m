@@ -22,21 +22,31 @@
 
 RCT_ARRAY_CONVERTER(MFCoordinate)
 
-+ (MFCameraUpdate *)MFCameraUpdate:(id)json
++ (MFCameraPosition *)MFCameraPosition:(id)json
 {
-  CLLocationCoordinate2D target = CLLocationCoordinate2DMake(0, 0);
+  json = [self NSDictionary:json];
   double zoom = 0;
+  double tilt = 0;
+  double bearing = 0;
+  CLLocationCoordinate2D target = CLLocationCoordinate2DMake(0, 0);
   
-  if (json[@"zoom"]) {
-    zoom = [self double:json[@"zoom"]];
-  }
-
   if (json[@"target"]) {
     target = [self CLLocationCoordinate2D:json[@"target"]];
   }
   
-  MFCameraUpdate * cameraUpdate = [MFCameraUpdate setTarget:target zoom:(zoom)];
-  return cameraUpdate;
+  if (json[@"zoom"]) {
+    zoom = [self double:json[@"zoom"]];
+  }
+  
+  if (json[@"tilt"]) {
+    tilt = [self double:json[@"tilt"]];
+  }
+  
+  if (json[@"bearing"]) {
+    bearing = [self double:json[@"bearing"]];
+  }
+  
+  return [[MFCameraPosition alloc] initWithTarget:target zoom:zoom tilt:tilt bearing:bearing];
 }
 
 @end

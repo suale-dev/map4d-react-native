@@ -15,15 +15,17 @@
 
 @interface RMFCircle : UIView
 
-@property (nonatomic, strong) RMFCircleMap4d * map4dCircle;
+@property(nonatomic, strong) RMFCircleMap4d * map4dCircle;
 
-@property (nonatomic, copy) RCTBubblingEventBlock _Nullable onPress;
+@property(nonatomic, copy) RCTBubblingEventBlock _Nullable onPress;
 
 @property(nonatomic, assign) CLLocationCoordinate2D centerCoordinate;
 @property(nonatomic, assign) UIColor* fillColor;
 @property(nonatomic, assign) UIColor* strokeColor;
 @property(nonatomic, assign) double strokeWidth;
 @property(nonatomic, assign) double radius;
+@property(nonatomic, assign) float zIndex;
+@property(nonatomic, assign) BOOL visible;
 
 - (void)didTap;
 - (void)setMapView:(RMFMapView* _Nullable)mapView;

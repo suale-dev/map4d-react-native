@@ -49,6 +49,8 @@ RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onIndoorLevelActivated, RCTDirectEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onIndoorBuildingFocused, RCTDirectEventBlock)
 
+RCT_REMAP_VIEW_PROPERTY(camera, cameraProp, MFCameraPosition)
+
 RCT_EXPORT_VIEW_PROPERTY(showsBuildings, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(showsMyLocationButton, BOOL)
 
@@ -85,7 +87,7 @@ RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber *)reactTag
       RCTLogError(@"Invalid view returned from registry, expecting RMFMapView, got: %@", view);
     } else {
       RMFMapView *mapView = (RMFMapView *)view;
-      [mapView animateCamera:[RCTConvert MFCameraUpdate:json]];
+      [mapView animateCamera:[MFCameraUpdate setCamera:[RCTConvert MFCameraPosition:json]]];
     }
   }];
 }
@@ -98,7 +100,7 @@ RCT_EXPORT_METHOD(moveCamera:(nonnull NSNumber *)reactTag
       RCTLogError(@"Invalid view returned from registry, expecting RMFMapView, got: %@", view);
     } else {
       RMFMapView *mapView = (RMFMapView *)view;
-      [mapView moveCamera:[RCTConvert MFCameraUpdate:json]];
+      [mapView moveCamera:[MFCameraUpdate setCamera:[RCTConvert MFCameraPosition:json]]];
     }
   }];
 }
@@ -179,32 +181,32 @@ RCT_EXPORT_METHOD(setSwitchMode:(nonnull NSNumber *)reactTag
 - (BOOL)mapview: (MFMapView*)  mapView didTapMarker: (MFMarker*) marker
 {
   RCTLogInfo(@"didTapMarker: %d", (int) marker.Id);
-  RMFRealMarker * rMarker = (RMFRealMarker *) marker;
-  [rMarker.fakeMarker didTapMarker:marker];
+  RMFMarkerMap4d * rMarker = (RMFMarkerMap4d *) marker;
+  [rMarker.reactMarker didTapMarker:marker];
   return false;//TODO
 }
 
 - (void)mapview: (MFMapView*)  mapView didBeginDraggingMarker: (MFMarker*) marker
 {
-  RMFRealMarker * rMarker = (RMFRealMarker *) marker;
-  [rMarker.fakeMarker didBeginDraggingMarker:marker];
+  RMFMarkerMap4d * rMarker = (RMFMarkerMap4d *) marker;
+  [rMarker.reactMarker didBeginDraggingMarker:marker];
 }
 
 - (void)mapview: (MFMapView*)  mapView didEndDraggingMarker: (MFMarker*) marker
 {
-  RMFRealMarker * rMarker = (RMFRealMarker *) marker;
-  [rMarker.fakeMarker didEndDraggingMarker:marker];
+  RMFMarkerMap4d * rMarker = (RMFMarkerMap4d *) marker;
+  [rMarker.reactMarker didEndDraggingMarker:marker];
 }
 
 - (void)mapview: (MFMapView*)  mapView didDragMarker: (MFMarker*) marker
 {
-  RMFRealMarker * rMarker = (RMFRealMarker *) marker;
-  [rMarker.fakeMarker didDragMarker:marker];
+  RMFMarkerMap4d * rMarker = (RMFMarkerMap4d *) marker;
+  [rMarker.reactMarker didDragMarker:marker];
 }
 
 - (void)mapview: (MFMapView*)  mapView didTapInfoWindowOfMarker: (MFMarker*) marker {
-  RMFRealMarker * rMarker = (RMFRealMarker *) marker;
-  [rMarker.fakeMarker didTapInfoWindowOfMarker:marker];
+  RMFMarkerMap4d * rMarker = (RMFMarkerMap4d *) marker;
+  [rMarker.reactMarker didTapInfoWindowOfMarker:marker];
 }
 
 - (void)mapview: (MFMapView*)  mapView didTapPolyline: (MFPolyline*) polyline {

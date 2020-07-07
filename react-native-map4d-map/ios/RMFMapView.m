@@ -45,7 +45,7 @@
 - (void)removeReactSubview:(UIView *)subview {
   if ([subview isKindOfClass:[RMFMarker class]]) {
     RMFMarker* marker = (RMFMarker*)subview;
-    marker.realMarker.map = nil;
+    marker.map4dMarker.map = nil;
   }
   else if ([subview isKindOfClass:[RMFCircle class]]) {
     RMFCircle* circle = (RMFCircle*)subview;
@@ -60,6 +60,11 @@
     poi.map4dPOI.map = nil;
   }
   [super removeReactSubview:subview];
+}
+
+- (void)setCameraProp:(MFCameraPosition *)cameraProp {
+  _cameraProp = cameraProp;
+  self.camera = cameraProp;
 }
 
 - (void)setShowsBuildings:(BOOL)showsBuildings {

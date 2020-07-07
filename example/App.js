@@ -104,21 +104,39 @@ export default class App extends React.Component {
           onPress={this.onPressMapView}
           showsMyLocationButton={true}
           showsBuildings={true}
+          camera={{
+            target: {latitude: 16.07026929087801, longitude: 108.22406530380249},
+            zoom: 16,
+            bearing: 0,
+            tilt: 0,
+          }}
           >
-          <MFMarker draggable={true} ref={ref => this.marker = ref} onDrag={
-            (event) => {
-              console.log(event.nativeEvent)
-            }
-          }></MFMarker>
+          <MFMarker
+            draggable={true}
+            ref={ref => this.marker = ref}
+            onDrag={
+              (event) => {
+                console.log(event.nativeEvent)
+            }}
+            coordinate={{latitude: 10.772002, longitude: 106.704294}}
+          />
           <MFMarker coordinate={{latitude: 16.073034, longitude: 108.224315}} draggable={true}></MFMarker>
-          <MFMarker icon={markerIcon} coordinate={{latitude: 16.071364, longitude: 108.224487}}></MFMarker>
+          <MFMarker icon={markerIcon} coordinate={{latitude: 16.071364, longitude: 108.224487}} zIndex={3.0} visible={true}></MFMarker>
           <MFCircle ref={ref => this.circle1 = ref}
             onPress={this.onPressCircle}
             center={{latitude: 16.071364, longitude: 108.224487}}
-            radius={150} fillColor="#F00FF07F"
+            radius={150}
+            zIndex={2.0}
+            visible={true}
+            fillColor="#F00FF07F"
             strokeColor="#00FF00FF"
             strokeWidth={2.5} />
-          <MFCircle onPress={this.onPressCircle} center={{latitude: 16.071805413037357, longitude: 108.22395265102386}} radius={50} strokeColor="#0000FFFF" strokeWidth={2}/>
+          <MFCircle
+            onPress={this.onPressCircle}
+            center={{latitude: 16.071805413037357, longitude: 108.22395265102386}}
+            radius={50}
+            strokeColor="#0000FFFF" strokeWidth={2}
+            zIndex ={3.0} />
           <MFPolyline ref={ref => this.polyline = ref}
             coordinates={[
               { longitude: 108.22033166885375, latitude: 16.07134148477669 },
@@ -131,6 +149,8 @@ export default class App extends React.Component {
             width={5}
             color="#FF00007F"
             onPress={this.onPressPolyline}
+            zIndex={4.0}
+            visible={true}
           />
           <MFPOI ref={ref => this.poi = ref}
             coordinate={{latitude: 16.075671439786362, longitude: 108.22427988052367}}
@@ -138,6 +158,7 @@ export default class App extends React.Component {
             titleColor="#00FF00FF"
             poiType="cafe"
             onPress={this.onPressPOI}
+            zIndex={10}
           />
         </MFMapView>
         <Button title={"Move Camera"} onPress={() => this.handleClick()}>

@@ -51,6 +51,17 @@ const propTypes = {
   icon: PropTypes.any,
 
   /**
+   * zIndex
+   */
+  zIndex: PropTypes.number,
+
+  /**
+   * visible
+   */
+  //TODO
+  // visible: PropTypes.bool,
+
+  /**
    * Callback that is called when the user presses on the POI
    */
   onPress: PropTypes.func,

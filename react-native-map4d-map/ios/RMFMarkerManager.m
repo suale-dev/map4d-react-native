@@ -22,7 +22,7 @@ RCT_EXPORT_MODULE(RMFMarker)
 }
 
 RCT_EXPORT_VIEW_PROPERTY(coordinate, CLLocationCoordinate2D)
-RCT_EXPORT_VIEW_PROPERTY(groundAnchor, CGPoint)
+RCT_EXPORT_VIEW_PROPERTY(anchor, CGPoint)
 RCT_EXPORT_VIEW_PROPERTY(elevation, double)
 RCT_EXPORT_VIEW_PROPERTY(rotation, double)
 RCT_EXPORT_VIEW_PROPERTY(draggable, BOOL)
@@ -30,6 +30,8 @@ RCT_EXPORT_VIEW_PROPERTY(infoWindowAnchor, CGPoint)
 RCT_EXPORT_VIEW_PROPERTY(title, NSString)
 RCT_EXPORT_VIEW_PROPERTY(snippet, NSString)
 RCT_EXPORT_VIEW_PROPERTY(userInteractionEnabled, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(zIndex, float)
+RCT_EXPORT_VIEW_PROPERTY(visible, BOOL)
 RCT_REMAP_VIEW_PROPERTY(icon, iconSrc, NSString)
 
 RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
@@ -131,7 +133,7 @@ RCT_EXPORT_METHOD(setVisible:(nonnull NSNumber *)reactTag
             RCTLogError(@"Invalid view returned from registry, expecting RMFMarker, got: %@", view);
         } else {
           RMFMarker *marker = (RMFMarker *)view;
-          [marker setIsHidden:!visible];
+          [marker setVisible:visible];
         }
     }];
 }

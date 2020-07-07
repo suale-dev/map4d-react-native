@@ -15,11 +15,14 @@
   if ((self = [super init])) {
     _map4dCircle = [[RMFCircleMap4d alloc] init];
     _map4dCircle.reactCircle = self;
-//    _radius = _map4dCircle.radius;
-//    _fillColor = _map4dCircle.fillColor;
-//    _strokeWidth = _map4dCircle.strokeWidth;
-//    _strokeColor = _map4dCircle.strokeColor;
-//    _centerCoordinate = _map4dCircle.position;
+
+    _radius = _map4dCircle.radius;
+    _fillColor = _map4dCircle.fillColor;
+    _strokeWidth = _map4dCircle.strokeWidth;
+    _strokeColor = _map4dCircle.strokeColor;
+    _centerCoordinate = _map4dCircle.position;
+    _zIndex = _map4dCircle.zIndex;
+    _visible = true;//!_map4dCircle.isHidden;
   }
   return self;
 }
@@ -57,6 +60,16 @@
 - (void)setUserInteractionEnabled:(BOOL)enabled {
   [super setUserInteractionEnabled:enabled];
   _map4dCircle.userInteractionEnabled = enabled;
+}
+
+- (void)setZIndex:(float)zIndex {
+  _zIndex = zIndex;
+  _map4dCircle.zIndex = zIndex;
+}
+
+- (void)setVisible:(BOOL)visible {
+  _visible = visible;
+  _map4dCircle.isHidden = !visible;
 }
 
 /** Event */

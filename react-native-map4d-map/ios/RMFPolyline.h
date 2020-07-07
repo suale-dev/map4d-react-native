@@ -21,11 +21,12 @@
 
 @property (nonatomic, copy) RCTBubblingEventBlock _Nullable onPress;
 
-//@property(nonatomic, strong, nullable) MFPath *path;
 @property(nonatomic, strong) NSArray<MFCoordinate *> * coordinates;
 @property(nonatomic, assign) CGFloat width;
 @property(nonatomic, assign) NSString * lineStyle;
 @property(nonatomic, assign, nullable) UIColor * color;
+@property(nonatomic, assign) float zIndex;
+@property(nonatomic, assign) BOOL visible;
 
 - (void)didTap;
 - (void)setMapView:(RMFMapView* _Nullable)mapView;

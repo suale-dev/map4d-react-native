@@ -6,9 +6,18 @@ import {
   NativeModules,
   ViewPropTypes,
   ColorPropType,
-  CameraShape,
   findNodeHandle
 } from 'react-native';
+
+const CameraShape = PropTypes.shape({
+  target: PropTypes.shape({
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired,
+  }),
+  zoom: PropTypes.number.isRequired,
+  bearing: PropTypes.number.isRequired,
+  tilt: PropTypes.number.isRequired,
+});
 
 // if ViewPropTypes is not defined fall back to View.propType (to support RN < 0.44)
 const viewPropTypes = ViewPropTypes || View.propTypes;
@@ -27,6 +36,11 @@ const propTypes = {
    * Default value is `true`.
    */
   showsBuildings: PropTypes.bool,
+
+  /**
+   * The camera view position.
+   */
+  camera: CameraShape,
 
   /**
    * Callback that is called once the map is fully loaded.
