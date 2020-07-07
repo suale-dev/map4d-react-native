@@ -31,6 +31,9 @@ public class RMFCircle extends RMFFeature {
     private Double radius;
     private @ColorInt int fillColor;
     private @ColorInt int strokeColor;
+    private double strokeWidth;
+    private double zIndex;
+    private Boolean visible = true;
 
     public RMFCircle(Context context) {        
         super(context);        
@@ -49,6 +52,20 @@ public class RMFCircle extends RMFFeature {
           circle.setRadius(radius);
       }
   }
+
+  public void setZIndex(double data) {      
+    zIndex = data;
+    if (circle != null) {
+        circle.setZIndex((float)zIndex);
+    }
+}
+
+public void setVisible(Boolean data) {
+  visible = data;
+  if (circle != null) {
+    circle.setVisible(data);
+  }
+}
   
   public void setStrokeColor(@ColorInt int strokeColor) {    
     this.strokeColor = strokeColor;
@@ -63,6 +80,13 @@ public class RMFCircle extends RMFFeature {
         circle.setFillColor(this.fillColor);
     }
   };
+
+  public void setStrokeWidth(double width) {
+    this.strokeWidth = width;
+    if (circle != null) {
+      circle.setStrokeWidth((float)this.strokeWidth);
+    }
+  }
 
     public void addToMap(Map4D map) {
       this.circle = map.addCircle(getOptions());  
@@ -83,7 +107,9 @@ public class RMFCircle extends RMFFeature {
     .radius(radius)
     .fillColor(fillColor)
     .strokeColor(strokeColor)
-    .strokeWidth(5.0f)
+    .strokeWidth((float)strokeWidth)
+    .zIndex((float)zIndex)
+    .visible(visible)
     ;    
     return options;
   }

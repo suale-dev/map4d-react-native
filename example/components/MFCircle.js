@@ -89,6 +89,14 @@ class MFCircle extends React.Component {
     this._runCommand("setStrokeWidth", [width])
   }
 
+  setZIndex(zIndex) {
+    this._runCommand("setStrokeWidth", [zIndex])
+  }
+
+  setVisible(visible) {
+    this._runCommand("setVisible", [visible])
+  }
+
   _getHandle() {
     return findNodeHandle(this.circle);
   }

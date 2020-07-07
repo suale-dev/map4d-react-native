@@ -21,7 +21,9 @@ public class RMFCircleManager extends ViewGroupManager<RMFCircle> {
     private static final int k_setRadius = 2;
     private static final int k_setFillColor = 3;
     private static final int k_setStrokeColor = 4;
-
+    private static final int k_setZIndex = 5;
+    private static final int k_setStrokeWidth = 6;
+    private static final int k_setVisible = 7;
 
     @Override
     public String getName() {
@@ -50,6 +52,15 @@ public class RMFCircleManager extends ViewGroupManager<RMFCircle> {
         case k_setStrokeColor:
           view.setStrokeColor(args.getInt(0));
           break;
+        case k_setStrokeWidth:
+          view.setStrokeWidth(args.getDouble(0));
+          break;
+        case k_setZIndex:
+          view.setZIndex(args.getDouble(0));
+          break;
+        case k_setVisible:
+          view.setVisible(args.getBoolean(0));
+          break;
       }
     }
 
@@ -70,13 +81,30 @@ public class RMFCircleManager extends ViewGroupManager<RMFCircle> {
     map.put("setRadius", k_setRadius);
     map.put("setFillColor", k_setFillColor);
     map.put("setStrokeColor", k_setStrokeColor);
+    map.put("setZIndex", k_setZIndex);  
+    map.put("setStrokeWidth", k_setStrokeWidth); 
+    map.put("setVisible", k_setVisible); 
     return map;
   }
 
+  @ReactProp(name = "visible")
+  public void setVisible(RMFCircle view, Boolean data) {
+    view.setVisible(data);
+  }
 
    @ReactProp(name = "center")
    public void setCenter(RMFCircle view, ReadableMap map) {
         view.setCenter(map);
+   }
+
+   @ReactProp(name = "strokeWidth")
+   public void setStrokeWidth(RMFCircle view, double data) {
+        view.setStrokeWidth(data);
+   }
+
+   @ReactProp(name = "zIndex")
+   public void setZIndex(RMFCircle view, double data) {
+        view.setZIndex(data);
    }
 
    @ReactProp(name = "radius")
