@@ -48,6 +48,16 @@ const propTypes = {
   fillColor: ColorPropType,
 
   /**
+   * zIndex
+   */
+  zIndex: PropTypes.number,
+
+  /**
+   * visible
+   */
+  visible: PropTypes.bool,
+
+  /**
    * Callback that is called when the user presses on the circle
    */
   onPress: PropTypes.func,
