@@ -84,12 +84,12 @@ public class RMFCircleManager extends ViewGroupManager<RMFCircle> {
         view.setRadius(data);
    }
 
-   @ReactProp(name = "fillColor")
+   @ReactProp(name = "fillColor", customType = "Color")
    public void setFillColor(RMFCircle view, @ColorInt int data) {
         view.setFillColor(data);
    }
 
-   @ReactProp(name = "strokeColor")
+   @ReactProp(name = "strokeColor", customType = "Color")
    public void setStrokeColor(RMFCircle view, @ColorInt int data) {
         view.setStrokeColor(data);
    }   

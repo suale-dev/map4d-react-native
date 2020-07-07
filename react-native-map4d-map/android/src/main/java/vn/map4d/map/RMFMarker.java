@@ -93,7 +93,7 @@ public class RMFMarker extends RMFFeature {
           }
         }
 
-        if (RMFMarker.this.imageUri != null && iconBitmapDescriptor != null) {
+        if (RMFMarker.this.marker != null) {
           Log.i("Dung", "Gia tri iconBitmapDescriptor: " + iconBitmapDescriptor);
           RMFMarker.this.marker.setIcon(iconBitmapDescriptor);
         }
@@ -223,7 +223,7 @@ public class RMFMarker extends RMFFeature {
   }
 
   public void addToMap(Map4D map) {
-    this.marker = map.addMarker(getMarkerOptions());  
+    this.marker = map.addMarker(getMarkerOptions());      
     Log.i("SUA", "position: " + position.getLatitude() + " - " + position.getLongitude());
     //updateTracksViewChanges() --> not implemented
   }
@@ -256,6 +256,7 @@ public class RMFMarker extends RMFFeature {
     options.draggable(draggable);
     options.elevation(elevation);
     options.zIndex(zIndex);
+    options.icon(iconBitmapDescriptor);
     return options;
   }
 
