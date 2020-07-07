@@ -19,6 +19,15 @@
   if ((self = [super init])) {
     _map4dPOI = [[RMFPOIMap4d alloc] init];
     _map4dPOI.reactPOI = self;
+    
+    _coordinate = _map4dPOI.position;
+    _title = nil;//_map4dPOI.title;
+    _titleColor = _map4dPOI.titleColor;
+    _subtitle = nil;//_map4dPOI.subtitle;
+    _poiType = nil;//_map4dPOI.type;
+    _iconSrc = nil;
+    _zIndex = _map4dPOI.zIndex;
+    _visible = true;//!_map4dPOI.isHidden;
   }
   return self;
 }
@@ -77,6 +86,15 @@
   });
 }
 
+- (void)setZIndex:(float)zIndex {
+  _zIndex = zIndex;
+  _map4dPOI.zIndex = zIndex;
+}
+
+- (void)setVisible:(BOOL)visible {
+  _visible = visible;
+  _map4dPOI.isHidden = !visible;
+}
 
 /** Event */
 
