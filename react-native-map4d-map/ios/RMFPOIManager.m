@@ -30,6 +30,7 @@ RCT_EXPORT_VIEW_PROPERTY(poiType, NSString)
 RCT_REMAP_VIEW_PROPERTY(icon, iconSrc, NSString)
 RCT_EXPORT_VIEW_PROPERTY(zIndex, float)
 RCT_EXPORT_VIEW_PROPERTY(visible, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(userData, NSDictionary)
 //RCT_EXPORT_VIEW_PROPERTY(userInteractionEnabled, BOOL)
 
 RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
@@ -145,6 +146,20 @@ RCT_EXPORT_METHOD(setVisible:(nonnull NSNumber *)reactTag
     } else {
       RMFPOI *poi = (RMFPOI *)view;
       [poi setVisible:visible];
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(setUserData:(nonnull NSNumber *)reactTag
+                  userData:(id)json)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFPOI class]]) {
+      RCTLogError(@"Invalid view returned from registry, expecting RMFMarker, got: %@", view);
+    } else {
+      RMFPOI *poi = (RMFPOI *)view;
+      [poi setUserData:[RCTConvert NSDictionary:json]];
     }
   }];
 }

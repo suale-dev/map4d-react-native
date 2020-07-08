@@ -16,6 +16,7 @@
 #import <RMFCircle.h>
 #import <RMFPolyline.h>
 #import <RMFPOI.h>
+#import "MFEventResponse.h"
 
 @implementation RMFMapView
 
@@ -79,14 +80,12 @@
 
 - (void)didTapAtCoordinate:(CLLocationCoordinate2D)coordinate {
   if (!self.onPress) return;
-  self.onPress(
-    @{
-      @"coordinate": @{
-        @"latitude": @(coordinate.latitude),
-        @"longitude": @(coordinate.longitude),
-      }
-    }
-  );
+  self.onPress([MFEventResponse eventFromCoordinate:coordinate action:@"coordinate-press" projection:nil userData:nil]);
+}
+
+- (void)didTapPOI:(MFPOI *)poi {
+  if (!self.onPoiPress) return;
+  self.onPoiPress([MFEventResponse eventFromMap4dPOI:poi action:@"poi-press"]);
 }
 
 @end

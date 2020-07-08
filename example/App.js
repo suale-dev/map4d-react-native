@@ -100,6 +100,7 @@ export default class App extends React.Component {
               this.getCamera();
             }
           }
+          onPoiPress={(event)=>{console.log('place:', event.nativeEvent)}}
           style={this.styles.container}
           onPress={this.onPressMapView}
           showsMyLocationButton={true}
@@ -120,10 +121,17 @@ export default class App extends React.Component {
             }}
             coordinate={{latitude: 10.772002, longitude: 106.704294}}
           />
-          <MFMarker coordinate={{latitude: 16.073034, longitude: 108.224315}} draggable={true}></MFMarker>
+          <MFMarker
+            coordinate={{latitude: 16.073034, longitude: 108.224315}}
+            draggable={true}
+            userData={{name: "Marker 1", arr:[1, 5, 9], obj:{x:10, y:11}}}
+            onPress={(event) => {console.log('on press marker:', event.nativeEvent)}}
+            zIndex={20}
+          />
           <MFMarker icon={markerIcon} coordinate={{latitude: 16.071364, longitude: 108.224487}} zIndex={3.0} visible={true}></MFMarker>
           <MFCircle ref={ref => this.circle1 = ref}
             onPress={this.onPressCircle}
+            userData={{name: "Circle 1", arr:[1, 5, 9], obj:{x:10, y:11}}}
             center={{latitude: 16.071364, longitude: 108.224487}}
             radius={150}
             zIndex={2.0}
@@ -153,6 +161,7 @@ export default class App extends React.Component {
             visible={true}
           />
           <MFPOI ref={ref => this.poi = ref}
+            userData={{name: "POI 1", arr:[1, 5, 9], obj:{x:10, y:11}}}
             coordinate={{latitude: 16.075671439786362, longitude: 108.22427988052367}}
             title="Map4D React-Native"
             titleColor="#00FF00FF"

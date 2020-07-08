@@ -55,6 +55,11 @@ const propTypes = {
   visible: PropTypes.bool,
 
   /**
+   * userData
+   */
+  userData:PropTypes.object,
+
+  /**
    * Callback that is called when the user presses on the polyline
    */
   onPress: PropTypes.func,

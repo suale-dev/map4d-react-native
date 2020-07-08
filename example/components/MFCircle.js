@@ -58,6 +58,11 @@ const propTypes = {
   visible: PropTypes.bool,
 
   /**
+   * userData
+   */
+  userData:PropTypes.object,
+
+  /**
    * Callback that is called when the user presses on the circle
    */
   onPress: PropTypes.func,
@@ -88,11 +93,12 @@ class MFCircle extends React.Component {
   setStrokeWidth(width) {
     this._runCommand("setStrokeWidth", [width])
   }
-
-  setZIndex(zIndex) {
-    this._runCommand("setStrokeWidth", [zIndex])
+  setUserData(userData) {
+    this._runCommand("setUserData", [userData])
   }
-
+  setZIndex(zIndex) {
+    this._runCommand("setZIndex", [zIndex])
+  }
   setVisible(visible) {
     this._runCommand("setVisible", [visible])
   }

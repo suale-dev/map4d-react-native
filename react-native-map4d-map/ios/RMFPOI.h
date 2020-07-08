@@ -25,10 +25,11 @@
 @property (nonatomic, strong, nullable) NSString* subtitle;
 @property (nonatomic, strong, nullable) NSString* poiType;
 @property (nonatomic, copy, nullable) NSString *iconSrc;
-@property(nonatomic, assign) float zIndex;
-@property(nonatomic, assign) BOOL visible;
+@property (nonatomic, assign) float zIndex;
+@property (nonatomic, assign) BOOL visible;
+@property (nonatomic, copy, nullable) NSDictionary * userData;
 
-- (void)didTap;
+- (bool)didTap;
 - (void)setMapView:(RMFMapView* _Nullable)mapView;
 
 @end

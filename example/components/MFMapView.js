@@ -52,6 +52,11 @@ const propTypes = {
    * Callback that is called when user taps on the map.
    */
   onPress: PropTypes.func,
+
+  /**
+   * Callback that is called when user taps on the POIs
+   */
+  onPoiPress: PropTypes.func,
 };
 
 

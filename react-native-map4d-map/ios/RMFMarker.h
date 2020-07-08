@@ -34,15 +34,16 @@
 @property (nonatomic, copy, nullable) NSString *title;
 @property (nonatomic, copy, nullable) NSString *snippet;
 @property (nonatomic, copy, nullable) NSString *iconSrc;
-@property(nonatomic, assign) float zIndex;
-@property(nonatomic, assign) BOOL visible;
+@property (nonatomic, assign) float zIndex;
+@property (nonatomic, assign) BOOL visible;
+@property (nonatomic, copy, nullable) NSDictionary * userData;
 
 
-- (void)didBeginDraggingMarker:(MFMarker *)marker;
-- (void)didEndDraggingMarker:(MFMarker *)marker;
-- (void)didDragMarker:(MFMarker *)marker;
-- (void)didTapInfoWindowOfMarker:(MFMarker *)marker;
-- (void)didTapMarker:(MFMarker *)marker;
+- (void)didBeginDraggingMarker;
+- (void)didEndDraggingMarker;
+- (void)didDragMarker;
+- (void)didTapInfoWindowOfMarker;
+- (void)didTapMarker;
 
 - (void)setMapView:(RMFMapView* _Nullable)mapView;
 

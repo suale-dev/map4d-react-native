@@ -8,6 +8,7 @@
 
 #import "RMFPOI.h"
 #import <Foundation/Foundation.h>
+#import "MFEventResponse.h"
 
 @interface RMFPOI()
 @property (nonatomic, copy, nullable) UIImage* iconImage;
@@ -28,6 +29,7 @@
     _iconSrc = nil;
     _zIndex = _map4dPOI.zIndex;
     _visible = true;//!_map4dPOI.isHidden;
+    _userData = nil;
   }
   return self;
 }
@@ -96,21 +98,22 @@
   _map4dPOI.isHidden = !visible;
 }
 
+- (void)setUserInteractionEnabled:(BOOL)enabled {
+  [super setUserInteractionEnabled:enabled];
+  _map4dPOI.userInteractionEnabled = enabled;
+}
+
+ - (void)setUserData:(NSDictionary *)userData {
+   _userData = userData;
+//   _map4dPOI.userData = userData;
+ }
+
 /** Event */
 
-- (void)didTap {
-  if (!self.onPress) return;
-  RMFPOIMap4d* poi = self.map4dPOI;
-  NSString* poiId = poi.poiId ? poi.poiId : @"";
-  self.onPress(
-    @{
-      @"id": poiId,
-      @"coordinate": @{
-        @"latitude": @(self.coordinate.latitude),
-        @"longitude": @(self.coordinate.longitude),
-      }
-    }
-  );
+- (bool)didTap {
+  if (!self.onPress) return false;
+  self.onPress([MFEventResponse eventFromUserPOI:self action:@"poi-press"]);
+  return true;
 }
 
 @end

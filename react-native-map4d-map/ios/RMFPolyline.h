@@ -27,6 +27,7 @@
 @property(nonatomic, assign, nullable) UIColor * color;
 @property(nonatomic, assign) float zIndex;
 @property(nonatomic, assign) BOOL visible;
+@property(nonatomic, copy, nullable) NSDictionary * userData;
 
 - (void)didTap;
 - (void)setMapView:(RMFMapView* _Nullable)mapView;
