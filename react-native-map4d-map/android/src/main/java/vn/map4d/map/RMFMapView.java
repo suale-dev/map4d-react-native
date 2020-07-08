@@ -37,6 +37,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     private final List<RMFFeature> features = new ArrayList<>();
     private final Map<MFMarker, RMFMarker> markerMap = new HashMap<>();
     private final Map<MFCircle, RMFCircle> circleMap = new HashMap<>();
+    private final Map<MFPolyline, RMFPolyline> polylineMap = new HashMap<>();
 
     public RMFMapView(Context context, RMFMapViewManager manager) {
         super(context, null);
@@ -118,6 +119,19 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
           return true;
         }
       });
+
+      map.setOnPolylineClickListener(new Map4D.OnPolylineClickListener() {
+        @Override
+        public void onPolylineClick(MFPolyline polyline) {
+          RMFPolyline rctPolyline = polylineMap.get(polyline);
+          if (rctPolyline == null) {
+            return;
+          }
+          WritableMap event = getPolylineEventData(polyline);
+          event.putString("action", "PolylinePress");
+          manager.pushEvent(getContext(), rctPolyline, "onPress", event);
+        }
+    });
     }
 
     private WritableMap getMarkerEventData(MFMarker marker) {
@@ -125,8 +139,33 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         WritableMap location = new WritableNativeMap();
         location.putDouble("latitude", marker.getPosition().getLatitude());
         location.putDouble("longitude", marker.getPosition().getLongitude());
-        event.putMap("coordinate", location); 
+        event.putMap("coordinate", location);
+        Object userData = marker.getUserData();
+        String userDataByString = "null";
+        if (userData != null) {
+
+        }
+        event.putString("userData", userDataByString);
         return event;
+    }
+
+    private WritableMap getPolylineEventData(MFPolyline polyline) {
+      WritableMap event = new WritableNativeMap();
+      WritableMap location = new WritableNativeMap();
+      MFLocationCoordinate coordinate = polyline.getPoints().get(0);
+      location.putDouble("latitude", coordinate.getLatitude());
+      location.putDouble("longitude", coordinate.getLongitude());
+      event.putMap("coordinate", location);
+      Object userData = polyline.getUserData();
+      String userDataByString = "null";
+      if (userData != null) {
+        userDataByString = userData.toString();
+        int begin = userDataByString.indexOf(":") + 2;
+        int end = userDataByString.length() - 2;
+        userDataByString = userDataByString.substring(begin, end);
+      }
+      event.putString("userData", userDataByString);
+      return event;
     }
 
     private MFCameraPosition parseCamera(ReadableMap camera) {
@@ -221,6 +260,20 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       
             MFCircle circle = (MFCircle) annotation.getFeature();
             circleMap.put(circle, annotation);
+          } else if (child instanceof RMFPolyline) {
+            RMFPolyline annotation = (RMFPolyline) child;
+            annotation.addToMap(map);
+            features.add(index, annotation);
+      
+            // Remove from a view group if already present, prevent "specified child
+            // already had a parent" error.
+            ViewGroup annotationParent = (ViewGroup)annotation.getParent();
+            if (annotationParent != null) {
+              annotationParent.removeView(annotation);
+            }                  
+      
+            MFPolyline polyline = (MFPolyline) annotation.getFeature();
+            polylineMap.put(polyline, annotation);
           }
           //else if child instanceof Polyline, Polygon {}
           else if (child instanceof ViewGroup) {
@@ -245,9 +298,12 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         RMFFeature feature = features.remove(index);
         if (feature instanceof RMFMarker) {
            markerMap.remove(feature.getFeature());
-        }  else if (feature instanceof RMFCircle) {
+        } else if (feature instanceof RMFCircle) {
           circleMap.remove(feature.getFeature());
         }
+        else if (feature instanceof RMFPolyline) {
+          polylineMap.remove(feature.getFeature());
+        }
         feature.removeFromMap(map);
-      }          
+      }
 }
