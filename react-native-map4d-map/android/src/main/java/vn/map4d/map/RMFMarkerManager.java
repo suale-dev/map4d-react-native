@@ -25,6 +25,7 @@ public class RMFMarkerManager extends ViewGroupManager<RMFMarker> {
   private static final int k_setVisible = k_setZIndex + 1;
   private static final int k_setInfoWindowAnchor = k_setVisible + 1;
   private static final int k_setElevation = k_setInfoWindowAnchor + 1;
+  private static final int k_setUserData = k_setElevation + 1;
 
   @Override
   public String getName() {
@@ -69,6 +70,10 @@ public class RMFMarkerManager extends ViewGroupManager<RMFMarker> {
       case k_setElevation:
         view.setElevation(args.getDouble(0));
         break;
+      case k_setUserData:
+        data = args.getMap(0);
+        view.setUserData(data);
+        break;
     }
   }
 
@@ -96,6 +101,7 @@ public class RMFMarkerManager extends ViewGroupManager<RMFMarker> {
     map.put("setVisible", k_setVisible);
     map.put("setInfoWindowAnchor", k_setInfoWindowAnchor);
     map.put("setElevation", k_setElevation);
+    map.put("setUserData", k_setUserData);
     return map;
   }
 
@@ -152,6 +158,11 @@ public class RMFMarkerManager extends ViewGroupManager<RMFMarker> {
   @ReactProp(name = "elevation")
   public void setElevation(RMFMarker view, double elevation) {
     view.setElevation(elevation);
+  }
+
+  @ReactProp(name = "userData")
+  public void setUserData(RMFMarker view, ReadableMap userData) {
+    view.setUserData(userData);
   }
 
 }

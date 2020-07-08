@@ -61,6 +61,7 @@ public class RMFMarker extends RMFFeature {
   private double elevation;
   private String imageUri;
   private MFBitmapDescriptor iconBitmapDescriptor;
+  private String userData;
   private MFMarker marker;
 
   private final DraweeHolder<?> logoHolder;
@@ -113,6 +114,7 @@ public class RMFMarker extends RMFFeature {
     this.anchorU = 0.5;
     this.anchorV = 0.5;
     this.elevation = 0.0;
+    this.userData = null;
 
     logoHolder = DraweeHolder.create(createDraweeHierarchy(), context);
     logoHolder.onAttach();
@@ -220,6 +222,13 @@ public class RMFMarker extends RMFFeature {
     }
   }
 
+  public void setUserData(ReadableMap userData) {
+    this.userData = userData.toString();
+    if (marker != null) {
+      marker.setUserData(this.userData);
+    }
+  }
+
   public void addToMap(Map4D map) {
     this.marker = map.addMarker(getMarkerOptions());      
     //updateTracksViewChanges() --> not implemented
@@ -254,6 +263,7 @@ public class RMFMarker extends RMFFeature {
     options.elevation(elevation);
     options.zIndex(zIndex);
     options.icon(iconBitmapDescriptor);
+    options.userData(userData);
     return options;
   }
 

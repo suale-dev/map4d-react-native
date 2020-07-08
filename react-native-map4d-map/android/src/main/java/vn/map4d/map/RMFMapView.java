@@ -62,12 +62,12 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
 
             //Event for MFMapView
             WritableMap event = getMarkerEventData(marker);
-            event.putString("action", "MarkerDrag");
+            event.putString("action", "marker-drag");
             manager.pushEvent(getContext(), view, "onMarkerDrag", event);
             
             //Event for MFMarker
             event = getMarkerEventData(marker);
-            event.putString("action", "MarkerDrag");
+            event.putString("action", "marker-drag");
             manager.pushEvent(getContext(), rctMarker, "onDrag", event);
           }
 
@@ -78,11 +78,11 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
               return;
             }
             WritableMap event = getMarkerEventData(marker);
-            event.putString("action", "MarkerDragEnd");
+            event.putString("action", "marker-drag-end");
             manager.pushEvent(getContext(), view, "onMarkerDrag", event);
 
             event = getMarkerEventData(marker);
-            event.putString("action", "MarkerDragEnd");
+            event.putString("action", "marker-drag-end");
             manager.pushEvent(getContext(), rctMarker, "onDragEnd", event);
           }
 
@@ -93,11 +93,11 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
               return;
             }
             WritableMap event = getMarkerEventData(marker);
-            event.putString("action", "MarkerDragStart");
+            event.putString("action", "marker-drag-start");
             manager.pushEvent(getContext(), view, "onMarkerDrag", event);
 
             event = getMarkerEventData(marker);
-            event.putString("action", "MarkerDragStart");
+            event.putString("action", "marker-drag-start");
             manager.pushEvent(getContext(), rctMarker, "onDragStart", event);
           }
       }));
@@ -110,11 +110,11 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
             return false;
           }
           WritableMap event = getMarkerEventData(marker);
-          event.putString("action", "MarkerPress");
+          event.putString("action", "marker-press");
           manager.pushEvent(getContext(), view, "onMarkerPress", event);
 
           event = getMarkerEventData(marker);
-          event.putString("action", "MarkerPress");
+          event.putString("action", "marker-press");
           manager.pushEvent(getContext(), rctMarker, "onPress", event);
           return true;
         }
@@ -128,7 +128,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
             return;
           }
           WritableMap event = getPolylineEventData(polyline);
-          event.putString("action", "PolylinePress");
+          event.putString("action", "polyline-press");
           manager.pushEvent(getContext(), rctPolyline, "onPress", event);
         }
     });
@@ -143,7 +143,10 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         Object userData = marker.getUserData();
         String userDataByString = "null";
         if (userData != null) {
-
+          userDataByString = userData.toString();
+          int begin = userDataByString.indexOf(":") + 2;
+          int end = userDataByString.length() - 2;
+          userDataByString = userDataByString.substring(begin, end);
         }
         event.putString("userData", userDataByString);
         return event;
