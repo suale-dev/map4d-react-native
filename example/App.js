@@ -23,6 +23,11 @@ import {MFCircle} from './components/MFCircle'
 import {MFPolyline} from './components/MFPolyline'
 import {MFPOI} from './components/MFPOI'
 
+//From NPM
+/*
+import {MFMapView, MFMarker, MFCircle, MFPolyline} from 'react-native-map4d-map'
+*/
+
 export default class App extends React.Component {
   handleClick() {
     this.animateCamera();

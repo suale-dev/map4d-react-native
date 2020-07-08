@@ -1,7 +1,7 @@
 {
   "name": "react-native-map4d-map",
-  "title": "React Native Map4d Map",
-  "version": "0.0.1",
+  "title": "React Native Map4dMap",
+  "version": "1.0.0",
   "description": "TODO",
   "main": "index.js",
   "scripts": {
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/github_account/react-native-map4d-map.git",
-    "baseUrl": "https://github.com/github_account/react-native-map4d-map"
+    "url": "git+https://github.com/sua8051/react-native-map4d-map.git",
+    "baseUrl": "https://github.com/sua8051/react-native-map4d-map"
   },
   "keywords": [
     "react-native"
   ],
   "author": {
-    "name": "Your Name",
-    "email": "yourname@email.com"
+    "name": "Sua Le",
+    "email": "sua8051@gmail.com"
   },
   "license": "MIT",
   "licenseFilename": "LICENSE",

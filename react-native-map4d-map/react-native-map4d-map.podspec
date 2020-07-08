@@ -9,14 +9,14 @@ Pod::Spec.new do |s|
   s.description  = <<-DESC
                   react-native-map4d-map
                    DESC
-  s.homepage     = "https://github.com/github_account/react-native-map4d-map"
+  s.homepage     = "https://github.com/sua8051/react-native-map4d-map"
   # brief license entry:
   s.license      = "MIT"
   # optional - use expanded license entry instead:
   # s.license    = { :type => "MIT", :file => "LICENSE" }
   s.authors      = { "Your Name" => "yourname@email.com" }
   s.platforms    = { :ios => "10.0" }
-  s.source       = { :git => "https://github.com/github_account/react-native-map4d-map.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/sua8051/react-native-map4d-map.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,swift}"
   s.requires_arc = true
