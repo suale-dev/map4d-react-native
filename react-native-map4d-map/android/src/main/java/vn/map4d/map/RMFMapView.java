@@ -147,6 +147,36 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       }
     });
 
+      map.setOnMapModeChange(new Map4D.OnMapModeChangeListener() {
+        @Override
+        public void onMapModeChange(boolean is3DMode) {
+          WritableMap event = new WritableNativeMap();
+          event.putString("mode", is3DMode ? "3d" : "2d");
+          event.putString("action", "mode-change");
+          manager.pushEvent(getContext(), view, "onModeChange", event);
+        }
+      });
+
+      map.setOnCameraMoveListener(new Map4D.OnCameraMoveListener() {
+        @Override
+        public void onCameraMove() {
+          manager.pushEvent(getContext(), view, "onCameraMove", new WritableNativeMap());
+        }
+      });
+
+      map.setOnCameraIdleListener(new Map4D.OnCameraIdleListener() {
+          @Override
+          public void onCameraIdle() {
+            manager.pushEvent(getContext(), view, "onCameraIdle", new WritableNativeMap());
+          }
+      });
+
+      map.setOnCameraMoveStartedListener(new Map4D.OnCameraMoveStartedListener() {
+          @Override
+          public void onCameraMoveStarted(int reason) {
+            manager.pushEvent(getContext(), view, "onCameraStart", new WritableNativeMap());
+          }
+      });
     }
 
     private WritableMap getCircleEventData(MFCircle circle) {

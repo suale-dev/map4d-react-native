@@ -43,7 +43,11 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
       Map<String, Map<String, String>> map = MapBuilder.of(
         "onMapReady", MapBuilder.of("registrationName", "onMapReady"),
         "onMarkerDrag", MapBuilder.of("registrationName", "onMarkerDrag"),
-        "onMarkerPress", MapBuilder.of("registrationName", "onMarkerPress")
+        "onMarkerPress", MapBuilder.of("registrationName", "onMarkerPress"),
+        "onModeChange", MapBuilder.of("registrationName", "onModeChange"),
+        "onCameraStart", MapBuilder.of("registrationName", "onCameraStart"),
+        "onCameraMove", MapBuilder.of("registrationName", "onCameraMove"),
+        "onCameraIdle", MapBuilder.of("registrationName", "onCameraIdle")
       );
       return map;
     }
