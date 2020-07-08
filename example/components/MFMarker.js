@@ -154,6 +154,10 @@ class MFMarker extends React.Component {
       this._runCommand("setElevation", [elevation])
     }
 
+    setUserData(userData) {
+      this._runCommand("setUserData", [userData])
+    }
+
     _getHandle() {
         return findNodeHandle(this.marker);
       }

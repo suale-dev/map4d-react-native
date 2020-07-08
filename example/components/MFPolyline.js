@@ -84,8 +84,24 @@ class MFPolyline extends React.Component {
     this._runCommand("setColor", [processColor(color)])
   }
 
+  setVisible(visible) {
+    this._runCommand("setVisible", [visible])
+  }
+
+  setTouchable(color) {
+    this._runCommand("setTouchable", [touchable])
+  }
+
+  setZIndex(zIndex) {
+    this._runCommand("setZIndex", [touchable])
+  }
+
   setLineStyle(style) {
     this._runCommand("setLineStyle", [style])
+  }
+
+  setUserData(userData) {
+    this._runCommand("setUserData", [userData])
   }
 
   _getHandle() {

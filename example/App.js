@@ -158,6 +158,7 @@ export default class App extends React.Component {
             color="#FF00007F"
             onPress={this.onPressPolyline}
             zIndex={4.0}
+            userData={{ten: "Dung", id: 10}}
             visible={true}
           />
           <MFPOI ref={ref => this.poi = ref}
