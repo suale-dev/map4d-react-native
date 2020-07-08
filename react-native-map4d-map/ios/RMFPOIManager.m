@@ -121,4 +121,32 @@ RCT_EXPORT_METHOD(setIcon:(nonnull NSNumber *)reactTag
   }];
 }
 
+RCT_EXPORT_METHOD(setZIndex:(nonnull NSNumber *)reactTag
+                  withZIndex:(float)zIndex)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFPOI class]]) {
+      RCTLogError(@"Invalid view returned from registry, expecting RMFMarker, got: %@", view);
+    } else {
+      RMFPOI *poi = (RMFPOI *)view;
+      [poi setZIndex:zIndex];
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(setVisible:(nonnull NSNumber *)reactTag
+                  visible:(BOOL)visible)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFPOI class]]) {
+      RCTLogError(@"Invalid view returned from registry, expecting RMFMarker, got: %@", view);
+    } else {
+      RMFPOI *poi = (RMFPOI *)view;
+      [poi setVisible:visible];
+    }
+  }];
+}
+
 @end

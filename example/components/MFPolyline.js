@@ -67,9 +67,9 @@ class MFPolyline extends React.Component {
   }
 
   // TODO - bug
-  // setCoordinates(coordinates) {
-  //   this._runCommand("setCoordinates", [coordinates])
-  // }
+  setCoordinates(coordinates) {
+    this._runCommand("setCoordinates", [coordinates])
+  }
 
   setWidth(width) {
     this._runCommand("setWidth", [width])

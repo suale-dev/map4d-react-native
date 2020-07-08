@@ -33,17 +33,17 @@ const propTypes = {
   radius: PropTypes.number.isRequired,
 
   /**
-   * The stroke width to use for the path.
+   * The stroke width to use for the circle.
    */
   strokeWidth: PropTypes.number,
 
   /**
-   * The stroke color to use for the path.
+   * The stroke color to use for the circle.
    */
   strokeColor: ColorPropType,
 
   /**
-   * The fill color to use for the path.
+   * The fill color to use for the circle.
    */
   fillColor: ColorPropType,
 

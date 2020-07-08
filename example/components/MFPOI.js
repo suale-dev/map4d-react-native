@@ -90,6 +90,12 @@ class MFPOI extends React.Component {
   setIcon(icon) {
     this._runCommand("setIcon", [icon])
   }
+  setZIndex(zIndex) {
+    this._runCommand("setZIndex", [zIndex])
+  }
+  // setVisible(visible) {
+  //   this._runCommand("setVisible", [visible])
+  // }
 
   _getHandle() {
     return findNodeHandle(this.poi);

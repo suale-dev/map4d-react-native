@@ -22,6 +22,11 @@
 
 RCT_ARRAY_CONVERTER(MFCoordinate)
 
++ (NSArray<NSArray<MFCoordinate *> *> *)MFCoordinateArrayArray:(id)json
+{
+    return RCTConvertArrayValue(@selector(MFCoordinateArray:), json);
+}
+
 + (MFCameraPosition *)MFCameraPosition:(id)json
 {
   json = [self NSDictionary:json];

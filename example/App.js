@@ -43,14 +43,14 @@ export default class App extends React.Component {
     this.polyline.setColor("#00FFFF7F")
     this.polyline.setLineStyle("solid")
     this.polyline.setWidth(5)
-    // let coordinates = [
-    //   { longitude: 108.22186589241028, latitude: 16.071021889123116 },
-    //   { longitude: 108.2194197177887, latitude: 16.07288790810347 },
-    //   { longitude: 108.22152256965637, latitude: 16.07507349922961 },
-    //   { longitude: 108.22343230247496, latitude: 16.07437246318347 },
-    //   { longitude: 108.22534203529358, latitude: 16.07627968781805 }
-    // ]
-    // this.polyline.setCoordinates(coordinates)
+    let coordinates = [
+      { longitude: 108.22186589241028, latitude: 16.07102188912311 },
+      { longitude: 108.21941971778870, latitude: 16.07288790810347 },
+      { longitude: 108.22152256965637, latitude: 16.07507349922961 },
+      { longitude: 108.22343230247496, latitude: 16.07437246318347 },
+      { longitude: 108.22534203529358, latitude: 16.07627968781805 }
+    ]
+    this.polyline.setCoordinates(coordinates)
   }
 
   async enable3DMode() {

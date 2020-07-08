@@ -109,4 +109,32 @@ RCT_EXPORT_METHOD(setStrokeWidth:(nonnull NSNumber *)reactTag
   }];
 }
 
+RCT_EXPORT_METHOD(setZIndex:(nonnull NSNumber *)reactTag
+                  zIndex:(float)zIndex)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFCircle class]]) {
+      RCTLogError(@"Invalid view returned from registry, expecting RMFCircle, got: %@", view);
+    } else {
+      RMFCircle *circle = (RMFCircle *)view;
+      [circle setZIndex:zIndex];
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(setVisible:(nonnull NSNumber *)reactTag
+                  visible:(BOOL)visible)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFCircle class]]) {
+      RCTLogError(@"Invalid view returned from registry, expecting RMFCircle, got: %@", view);
+    } else {
+      RMFCircle *circle = (RMFCircle *)view;
+      [circle setVisible:visible];
+    }
+  }];
+}
+
 @end
