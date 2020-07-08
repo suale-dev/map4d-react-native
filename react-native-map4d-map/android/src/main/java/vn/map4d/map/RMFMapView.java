@@ -174,7 +174,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       map.setOnCameraMoveStartedListener(new Map4D.OnCameraMoveStartedListener() {
           @Override
           public void onCameraMoveStarted(int reason) {
-            manager.pushEvent(getContext(), view, "onCameraStart", new WritableNativeMap());
+            manager.pushEvent(getContext(), view, "onCameraMoveStart", new WritableNativeMap());
           }
       });
     }
