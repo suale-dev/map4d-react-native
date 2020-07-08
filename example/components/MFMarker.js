@@ -116,6 +116,7 @@ const propTypes = {
 class MFMarker extends React.Component {
     constructor(props) {
       super(props);      
+      this._onPress = this._onPress.bind(this)
     }
 
     setCoordinate(location) {
@@ -200,6 +201,13 @@ class MFMarker extends React.Component {
         return NativeModules[`RMFMarker`][name];
       }
 
+      _onPress(event) {
+        event.stopPropagation();
+          if (this.props.onPress) {
+            this.props.onPress(event);
+        }
+      }
+
       render() {
         let icon = {};
         if (this.props.icon) {
@@ -209,12 +217,7 @@ class MFMarker extends React.Component {
           {...this.props}
           icon={icon.uri}
           ref={ref => { this.marker = ref; }}
-          onPress={event => {
-            event.stopPropagation();
-            if (this.props.onPress) {
-              this.props.onPress(event);
-            }
-          }}
+          onPress={this._onPress}
         />;
       }
 }

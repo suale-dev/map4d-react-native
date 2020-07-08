@@ -155,15 +155,15 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       location.putDouble("latitude", circle.getCenter().getLatitude());
       location.putDouble("longitude", circle.getCenter().getLongitude());
       event.putMap("coordinate", location);
-      Object userData = circle.getUserData();
-      String userDataByString = "null";
+      Object userData = circle.getUserData();      
       if (userData != null) {
+        String userDataByString = "";
         userDataByString = userData.toString();
         int begin = userDataByString.indexOf(":") + 2;
         int end = userDataByString.length() - 2;
         userDataByString = userDataByString.substring(begin, end);
-      }
-      event.putString("userData", userDataByString);
+        event.putString("userData", userDataByString);
+      }      
       return event;
   }
 
@@ -175,14 +175,15 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         location.putDouble("longitude", marker.getPosition().getLongitude());
         event.putMap("coordinate", location);
         Object userData = marker.getUserData();
-        String userDataByString = "null";
+
         if (userData != null) {
+          String userDataByString = "";
           userDataByString = userData.toString();
           int begin = userDataByString.indexOf(":") + 2;
           int end = userDataByString.length() - 2;
           userDataByString = userDataByString.substring(begin, end);
-        }
-        event.putString("userData", userDataByString);
+          event.putString("userData", userDataByString);
+        }        
         return event;
     }
 
@@ -194,14 +195,15 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       location.putDouble("longitude", coordinate.getLongitude());
       event.putMap("coordinate", location);
       Object userData = polyline.getUserData();
-      String userDataByString = "null";
+      
       if (userData != null) {
+        String userDataByString = "";
         userDataByString = userData.toString();
         int begin = userDataByString.indexOf(":") + 2;
         int end = userDataByString.length() - 2;
         userDataByString = userDataByString.substring(begin, end);
-      }
-      event.putString("userData", userDataByString);
+        event.putString("userData", userDataByString);
+      }      
       return event;
     }
 

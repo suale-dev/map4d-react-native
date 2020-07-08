@@ -115,9 +115,17 @@ export default class App extends React.Component {
           <MFMarker
             draggable={true}
             ref={ref => this.marker = ref}
+            onDragStart={
+              (event) => {
+                console.log("startDrag: ", event.nativeEvent)
+            }}
             onDrag={
               (event) => {
-                console.log(event.nativeEvent)
+                console.log("drag: ", event.nativeEvent)
+            }}
+            onDragEnd={
+              (event) => {
+                console.log("dragEnd: ", event.nativeEvent)
             }}
             coordinate={{latitude: 10.772002, longitude: 106.704294}}
           />
@@ -126,6 +134,18 @@ export default class App extends React.Component {
             draggable={true}
             userData={{name: "Marker 1", arr:[1, 5, 9], obj:{x:10, y:11}}}
             onPress={(event) => {console.log('on press marker:', event.nativeEvent)}}
+            onDragStart={
+              (event) => {
+                console.log("startDrag: ", event.nativeEvent)
+            }}
+            onDrag={
+              (event) => {
+                console.log("drag: ", event.nativeEvent)
+            }}
+            onDragEnd={
+              (event) => {
+                console.log("dragEnd: ", event.nativeEvent)
+            }}
             zIndex={20}
           />
           <MFMarker icon={markerIcon} coordinate={{latitude: 16.071364, longitude: 108.224487}} zIndex={3.0} visible={true}></MFMarker>
