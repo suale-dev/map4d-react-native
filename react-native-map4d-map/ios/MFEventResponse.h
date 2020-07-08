@@ -18,6 +18,7 @@
 
 @class MFPOI;
 @class MFProjection;
+@class MFCameraPosition;
 
 @interface MFEventResponse : NSObject
 
@@ -32,6 +33,8 @@
 
 + (NSDictionary*)eventFromMap4dPOI:(MFPOI*) poi action:(NSString*)action;
 + (NSDictionary*)eventFromUserPOI:(RMFPOI*) poi action:(NSString*)action;
+
++ (NSDictionary*)eventFromCameraPosition:(MFCameraPosition*) position;
 
 @end
 

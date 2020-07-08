@@ -48,6 +48,10 @@ RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onPoiPress, RCTDirectEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onIndoorLevelActivated, RCTDirectEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onIndoorBuildingFocused, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onModeChange, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onCameraIdle, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onCameraMove, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onCameraMoveStart, RCTDirectEventBlock)
 
 RCT_REMAP_VIEW_PROPERTY(camera, cameraProp, MFCameraPosition)
 
@@ -224,19 +228,22 @@ RCT_EXPORT_METHOD(setSwitchMode:(nonnull NSNumber *)reactTag
 }
 
 - (void)mapView: (MFMapView*)  mapView willMove: (BOOL) gesture {
-  
+  RMFMapView* reactMapView = (RMFMapView*) mapView;
+  [reactMapView willMove:gesture];
 }
 
 - (void)mapView: (MFMapView*)  mapView movingCameraPosition: (MFCameraPosition*) position {
-  
+  RMFMapView* reactMapView = (RMFMapView*) mapView;
+  [reactMapView movingCameraPosition:position];
 }
 
 - (void)mapView: (MFMapView*)  mapView didChangeCameraPosition:(MFCameraPosition*) position {
-  
+  //TODO
 }
 
 - (void)mapView: (MFMapView*)  mapView idleAtCameraPosition: (MFCameraPosition *) position {
-  
+  RMFMapView* reactMapView = (RMFMapView*) mapView;
+  [reactMapView idleAtCameraPosition:position];
 }
 
 - (void)mapView: (MFMapView*)  mapView didTapAtCoordinate: (CLLocationCoordinate2D) coordinate {
@@ -246,7 +253,8 @@ RCT_EXPORT_METHOD(setSwitchMode:(nonnull NSNumber *)reactTag
 }
 
 - (void)mapView: (MFMapView*)  mapView onModeChange: (bool) is3DMode {
-
+  RMFMapView* reactMapView = (RMFMapView*) mapView;
+  [reactMapView on3dModeChange:is3DMode];
 }
 
 - (void)mapView: (MFMapView*)  mapView didTapObject: (MFObject*) object {

@@ -88,4 +88,33 @@
   self.onPoiPress([MFEventResponse eventFromMap4dPOI:poi action:@"poi-press"]);
 }
 
+- (void)willMove: (BOOL) gesture {
+  if (!self.onCameraMoveStart) return;
+  self.onCameraMoveStart(@{@"gesture": gesture ? @"true" : @"false"});
+}
+
+- (void)movingCameraPosition: (MFCameraPosition*) position {
+  if (!self.onCameraMove) return;
+  self.onCameraMove([MFEventResponse eventFromCameraPosition:position]);
+}
+
+- (void)didChangeCameraPosition:(MFCameraPosition *)position {
+  //TODO
+}
+
+- (void)idleAtCameraPosition: (MFCameraPosition *) position {
+  if (!self.onCameraIdle) return;
+  self.onCameraIdle([MFEventResponse eventFromCameraPosition:position]);
+}
+
+- (void)on3dModeChange: (bool) is3DMode {
+  if (!self.onModeChange) return;
+  if (is3DMode) {
+    self.onModeChange(@{@"mode": @"3d"});
+  }
+  else {
+    self.onModeChange(@{@"mode": @"2d"});
+  }
+}
+
 @end

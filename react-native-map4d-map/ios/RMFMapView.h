@@ -29,6 +29,10 @@
 //@property (nonatomic, copy) RCTDirectEventBlock onRegionChangeComplete;
 //@property (nonatomic, copy) RCTDirectEventBlock onIndoorLevelActivated;
 //@property (nonatomic, copy) RCTDirectEventBlock onIndoorBuildingFocused;
+@property (nonatomic, copy) RCTDirectEventBlock onModeChange;
+@property (nonatomic, copy) RCTDirectEventBlock onCameraMove;
+@property (nonatomic, copy) RCTDirectEventBlock onCameraMoveStart;
+@property (nonatomic, copy) RCTDirectEventBlock onCameraIdle;
 
 //@property (nonatomic, assign) MKCoordinateRegion initialRegion;
 //@property (nonatomic, assign) MKCoordinateRegion region;
@@ -52,6 +56,11 @@
 //@property (nonatomic, assign) BOOL showsIndoorLevelPicker;
 //@property (nonatomic, assign) NSString *kmlSrc;
 
+- (void)willMove: (BOOL) gesture;
+- (void)movingCameraPosition: (MFCameraPosition*) position;
+- (void)didChangeCameraPosition: (MFCameraPosition*) position;
+- (void)idleAtCameraPosition: (MFCameraPosition *) position;
+- (void)on3dModeChange: (bool) is3DMode;
 
 - (void)didTapAtCoordinate:(CLLocationCoordinate2D)coordinate;
 - (void)didTapPOI:(MFPOI*)poi;

@@ -101,6 +101,10 @@ export default class App extends React.Component {
             }
           }
           onPoiPress={(event)=>{console.log('place:', event.nativeEvent)}}
+          onCameraMove={(event)=>{console.log('camera move:', event.nativeEvent)}}
+          onCameraMoveStart={(event)=>{console.log('camera move start:', event.nativeEvent)}}
+          onCameraIdle={(event)=>{console.log('camera idle:', event.nativeEvent)}}
+          onModeChange={(event)=>{console.log('mode change:', event.nativeEvent)}}
           style={this.styles.container}
           onPress={this.onPressMapView}
           showsMyLocationButton={true}

@@ -101,4 +101,16 @@
   return dict;
 }
 
++ (NSDictionary*)eventFromCameraPosition:(MFCameraPosition*) position {
+  return (@{
+    @"target": @{
+        @"latitude": @(position.target.latitude),
+        @"longitude": @(position.target.longitude)
+    },
+    @"zoom": @(position.zoom),
+    @"bearing": @(position.bearing),
+    @"tilt": @(position.tilt)
+  });
+}
+
 @end

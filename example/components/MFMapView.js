@@ -57,6 +57,26 @@ const propTypes = {
    * Callback that is called when user taps on the POIs
    */
   onPoiPress: PropTypes.func,
+
+  /**
+   * Callback that is called when change 3d mode
+   */
+  onModeChange: PropTypes.func,
+
+  /**
+   * Callback that is called when moving camera
+   */
+  onCameraMove: PropTypes.func,
+
+  /**
+   * Callback that is called when camera start moving
+   */
+  onCameraMoveStart: PropTypes.func,
+
+  /**
+   * Callback that is called when camera idle
+   */
+  onCameraIdle: PropTypes.func,
 };
 
 
