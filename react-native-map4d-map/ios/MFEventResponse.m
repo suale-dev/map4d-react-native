@@ -14,6 +14,15 @@
 
 @implementation MFEventResponse
 
++ (NSString*) hexStringFromColor:(UIColor*) color {
+  if (color != nil) {
+    CGFloat r, g, b, a;
+    [color getRed:&r green:&g blue:&b alpha:&a];
+    return [NSString stringWithFormat:@"#%02lX%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255), lroundf(a * 255)];
+  }
+  return @"";
+}
+
 + (NSMutableDictionary*)eventFromCoordinate:(CLLocationCoordinate2D)coordinate
                                      action:(NSString*)action
                                  projection:(MFProjection*)projection
@@ -61,7 +70,7 @@
   CLLocationCoordinate2D coordinate = poi.position;
   NSMutableDictionary* dict = [self eventFromCoordinate:coordinate action:action projection:poi.map.projection userData:reactPOI.userData];
   dict[@"title"] = poi.title ? poi.title : @"";
-  dict[@"titleColor"] = poi.titleColor ? poi.titleColor : @"";
+  dict[@"titleColor"] = [self hexStringFromColor:poi.titleColor];
   dict[@"subtitle"] = poi.subtitle ? poi.subtitle : @"";
   dict[@"type"] = poi.type ? poi.type : @"";
   return dict;
@@ -73,7 +82,7 @@
     dict[@"action"] = action;
   }
   dict[@"title"] = poi.title ? poi.title : @"";
-  dict[@"titleColor"] = poi.titleColor ? poi.titleColor : @"";
+  dict[@"titleColor"] = [self hexStringFromColor:poi.titleColor];
   dict[@"subtitle"] = poi.subtitle ? poi.subtitle : @"";
   dict[@"type"] = poi.type ? poi.type : @"";
   return dict;
