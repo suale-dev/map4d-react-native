@@ -33,17 +33,17 @@ const propTypes = {
   radius: PropTypes.number.isRequired,
 
   /**
-   * The stroke width to use for the path.
+   * The stroke width to use for the circle.
    */
   strokeWidth: PropTypes.number,
 
   /**
-   * The stroke color to use for the path.
+   * The stroke color to use for the circle.
    */
   strokeColor: ColorPropType,
 
   /**
-   * The fill color to use for the path.
+   * The fill color to use for the circle.
    */
   fillColor: ColorPropType,
 
@@ -56,6 +56,11 @@ const propTypes = {
    * visible
    */
   visible: PropTypes.bool,
+
+  /**
+   * userData
+   */
+  userData:PropTypes.object,
 
   /**
    * Callback that is called when the user presses on the circle
@@ -88,11 +93,12 @@ class MFCircle extends React.Component {
   setStrokeWidth(width) {
     this._runCommand("setStrokeWidth", [width])
   }
-
-  setZIndex(zIndex) {
-    this._runCommand("setStrokeWidth", [zIndex])
+  setUserData(userData) {
+    this._runCommand("setUserData", [userData])
   }
-
+  setZIndex(zIndex) {
+    this._runCommand("setZIndex", [zIndex])
+  }
   setVisible(visible) {
     this._runCommand("setVisible", [visible])
   }

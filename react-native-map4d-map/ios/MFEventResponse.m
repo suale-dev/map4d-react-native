@@ -1,0 +1,95 @@
+//
+//  MFEventResponse.m
+//  Map4dMap
+//
+//  Created by Huy Dang on 7/8/20.
+//  Copyright © 2020 Facebook. All rights reserved.
+//
+
+#import "MFEventResponse.h"
+#import "RMFMarker.h"
+#import "RMFCircle.h"
+#import "RMFPolyline.h"
+#import "RMFPOI.h"
+
+@implementation MFEventResponse
+
++ (NSMutableDictionary*)eventFromCoordinate:(CLLocationCoordinate2D)coordinate
+                                     action:(NSString*)action
+                                 projection:(MFProjection*)projection
+                                   userData:(NSDictionary*)userData {
+  NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithDictionary:@{
+    @"coordinate": @{
+      @"latitude": @(coordinate.latitude),
+      @"longitude": @(coordinate.longitude),
+    }
+  }];
+  
+  if (action != nil) {
+    dict[@"action"] = action;
+  }
+  
+  if (projection != nil) {
+    CGPoint position = [projection pointForCoordinate:coordinate];
+    dict[@"position"] = @{
+      @"x": @(position.x),
+      @"y": @(position.y),
+    };
+  }
+  
+  if (userData != nil) {
+    dict[@"userData"] = userData;
+  }
+  
+  return dict;
+}
+
++ (NSDictionary*)eventFromMarker:(RMFMarker*) reactMarker action:(NSString*)action {
+  MFMarker* marker = reactMarker.map4dMarker;
+  CLLocationCoordinate2D coordinate = marker.position;
+  return [self eventFromCoordinate:coordinate action:action projection:marker.map.projection userData:reactMarker.userData];
+}
+
++ (NSDictionary*)eventFromCircle:(RMFCircle *)reactCircle action:(NSString*)action {
+  MFCircle* circle = reactCircle.map4dCircle;
+  CLLocationCoordinate2D coordinate = circle.position;
+  return [self eventFromCoordinate:coordinate action:action projection:circle.map.projection userData:reactCircle.userData];
+}
+
++ (NSDictionary*)eventFromUserPOI:(RMFPOI *)reactPOI action:(NSString*)action {
+  MFPOI* poi = reactPOI.map4dPOI;
+  CLLocationCoordinate2D coordinate = poi.position;
+  NSMutableDictionary* dict = [self eventFromCoordinate:coordinate action:action projection:poi.map.projection userData:reactPOI.userData];
+  dict[@"title"] = poi.title ? poi.title : @"";
+  dict[@"titleColor"] = poi.titleColor ? poi.titleColor : @"";
+  dict[@"subtitle"] = poi.subtitle ? poi.subtitle : @"";
+  dict[@"type"] = poi.type ? poi.type : @"";
+  return dict;
+}
+
++ (NSDictionary*)eventFromMap4dPOI:(MFPOI *)poi action:(NSString*)action {
+  NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
+  if (action != nil) {
+    dict[@"action"] = action;
+  }
+  dict[@"title"] = poi.title ? poi.title : @"";
+  dict[@"titleColor"] = poi.titleColor ? poi.titleColor : @"";
+  dict[@"subtitle"] = poi.subtitle ? poi.subtitle : @"";
+  dict[@"type"] = poi.type ? poi.type : @"";
+  return dict;
+}
+
++ (NSDictionary*)eventFromPolyline:(RMFPolyline *)reactPolyline action:(NSString*)action {
+//  MFPolyline* polyline = reactPolyline.map4dPolyline;
+  NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
+  if (action != nil) {
+    dict[@"action"] = action;
+  }
+  if (reactPolyline.userData != nil) {
+    dict[@"userData"] = reactPolyline.userData;
+  }
+  
+  return dict;
+}
+
+@end

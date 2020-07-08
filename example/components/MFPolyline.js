@@ -55,6 +55,11 @@ const propTypes = {
   visible: PropTypes.bool,
 
   /**
+   * userData
+   */
+  userData:PropTypes.object,
+
+  /**
    * Callback that is called when the user presses on the polyline
    */
   onPress: PropTypes.func,
@@ -67,9 +72,9 @@ class MFPolyline extends React.Component {
   }
 
   // TODO - bug
-  // setCoordinates(coordinates) {
-  //   this._runCommand("setCoordinates", [coordinates])
-  // }
+  setCoordinates(coordinates) {
+    this._runCommand("setCoordinates", [coordinates])
+  }
 
   setWidth(width) {
     this._runCommand("setWidth", [width])

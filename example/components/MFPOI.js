@@ -62,6 +62,11 @@ const propTypes = {
   // visible: PropTypes.bool,
 
   /**
+   * userData
+   */
+  userData:PropTypes.object,
+
+  /**
    * Callback that is called when the user presses on the POI
    */
   onPress: PropTypes.func,
@@ -89,6 +94,15 @@ class MFPOI extends React.Component {
   }
   setIcon(icon) {
     this._runCommand("setIcon", [icon])
+  }
+  setZIndex(zIndex) {
+    this._runCommand("setZIndex", [zIndex])
+  }
+  // setVisible(visible) {
+  //   this._runCommand("setVisible", [visible])
+  // }
+  setUserData(userData) {
+    this._runCommand("setUserData", [userData])
   }
 
   _getHandle() {

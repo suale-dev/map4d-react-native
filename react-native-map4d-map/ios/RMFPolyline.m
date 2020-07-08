@@ -7,7 +7,7 @@
 //
 
 #import "RMFPolyline.h"
-#import <Foundation/Foundation.h>
+#import "MFEventResponse.h"
 
 @implementation RMFPolyline
 
@@ -22,6 +22,7 @@
     _color = _map4dPolyline.color;
     _zIndex = _map4dPolyline.zIndex;
     _visible = true;//!_map4dPolyline.isHidden
+    _userData = nil;
   }
   return self;
 }
@@ -71,16 +72,21 @@
   _map4dPolyline.isHidden = !visible;
 }
 
+- (void)setUserInteractionEnabled:(BOOL)enabled {
+  [super setUserInteractionEnabled:enabled];
+  _map4dPolyline.userInteractionEnabled = enabled;
+}
+
+ - (void)setUserData:(NSDictionary *)userData {
+   _userData = userData;
+//   _map4dPolyline.userData = userData;
+ }
+
 /** Event */
 
 - (void)didTap {
   if (!self.onPress) return;
-  RMFPolylineMap4d* polyline = self.map4dPolyline;
-  self.onPress(
-    @{
-      @"id": @(polyline.Id)
-    }
-  );
+  self.onPress([MFEventResponse eventFromPolyline:self action:@"polyline-press"]);
 }
 
 @end

@@ -30,6 +30,7 @@ RCT_EXPORT_VIEW_PROPERTY(strokeWidth, double)
 RCT_EXPORT_VIEW_PROPERTY(userInteractionEnabled, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(zIndex, float)
 RCT_EXPORT_VIEW_PROPERTY(visible, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(userData, NSDictionary)
 
 RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
 
@@ -105,6 +106,48 @@ RCT_EXPORT_METHOD(setStrokeWidth:(nonnull NSNumber *)reactTag
     } else {
       RMFCircle *circle = (RMFCircle *)view;
       [circle setStrokeWidth:width];
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(setZIndex:(nonnull NSNumber *)reactTag
+                  zIndex:(float)zIndex)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFCircle class]]) {
+      RCTLogError(@"Invalid view returned from registry, expecting RMFCircle, got: %@", view);
+    } else {
+      RMFCircle *circle = (RMFCircle *)view;
+      [circle setZIndex:zIndex];
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(setVisible:(nonnull NSNumber *)reactTag
+                  visible:(BOOL)visible)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFCircle class]]) {
+      RCTLogError(@"Invalid view returned from registry, expecting RMFCircle, got: %@", view);
+    } else {
+      RMFCircle *circle = (RMFCircle *)view;
+      [circle setVisible:visible];
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(setUserData:(nonnull NSNumber *)reactTag
+                  userData:(id)json)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFCircle class]]) {
+      RCTLogError(@"Invalid view returned from registry, expecting RMFCircle, got: %@", view);
+    } else {
+      RMFCircle *circle = (RMFCircle *)view;
+      [circle setUserData:[RCTConvert NSDictionary:json]];
     }
   }];
 }

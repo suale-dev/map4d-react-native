@@ -8,6 +8,7 @@
 
 #import "RMFCircle.h"
 #import <Foundation/Foundation.h>
+#import "MFEventResponse.h"
 
 @implementation RMFCircle
 
@@ -23,6 +24,7 @@
     _centerCoordinate = _map4dCircle.position;
     _zIndex = _map4dCircle.zIndex;
     _visible = true;//!_map4dCircle.isHidden;
+    _userData = nil;
   }
   return self;
 }
@@ -72,20 +74,15 @@
   _map4dCircle.isHidden = !visible;
 }
 
+ - (void)setUserData:(NSDictionary *)userData {
+   _userData = userData;
+//   _map4dCircle.userData = userData;
+ }
+
 /** Event */
 - (void)didTap {
   if(!self.onPress) return;
-  RMFCircleMap4d* circle = self.map4dCircle;
-  CLLocationCoordinate2D coordinate = circle.position;
-  self.onPress(
-    @{
-      @"id": @(circle.Id),
-      @"coordinate": @{
-        @"latitude": @(coordinate.latitude),
-        @"longitude": @(coordinate.longitude),
-      }
-    }
-  );
+  self.onPress([MFEventResponse eventFromCircle:self action:@"circle-press"]);
 }
 
 @end

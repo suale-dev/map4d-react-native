@@ -45,7 +45,7 @@ RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onMarkerPress, RCTDirectEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onRegionChange, RCTDirectEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onRegionChangeComplete, RCTDirectEventBlock)
-//RCT_EXPORT_VIEW_PROPERTY(onPoiClick, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onPoiPress, RCTDirectEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onIndoorLevelActivated, RCTDirectEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onIndoorBuildingFocused, RCTDirectEventBlock)
 
@@ -182,31 +182,31 @@ RCT_EXPORT_METHOD(setSwitchMode:(nonnull NSNumber *)reactTag
 {
   RCTLogInfo(@"didTapMarker: %d", (int) marker.Id);
   RMFMarkerMap4d * rMarker = (RMFMarkerMap4d *) marker;
-  [rMarker.reactMarker didTapMarker:marker];
+  [rMarker.reactMarker didTapMarker];
   return false;//TODO
 }
 
 - (void)mapview: (MFMapView*)  mapView didBeginDraggingMarker: (MFMarker*) marker
 {
   RMFMarkerMap4d * rMarker = (RMFMarkerMap4d *) marker;
-  [rMarker.reactMarker didBeginDraggingMarker:marker];
+  [rMarker.reactMarker didBeginDraggingMarker];
 }
 
 - (void)mapview: (MFMapView*)  mapView didEndDraggingMarker: (MFMarker*) marker
 {
   RMFMarkerMap4d * rMarker = (RMFMarkerMap4d *) marker;
-  [rMarker.reactMarker didEndDraggingMarker:marker];
+  [rMarker.reactMarker didEndDraggingMarker];
 }
 
 - (void)mapview: (MFMapView*)  mapView didDragMarker: (MFMarker*) marker
 {
   RMFMarkerMap4d * rMarker = (RMFMarkerMap4d *) marker;
-  [rMarker.reactMarker didDragMarker:marker];
+  [rMarker.reactMarker didDragMarker];
 }
 
 - (void)mapview: (MFMapView*)  mapView didTapInfoWindowOfMarker: (MFMarker*) marker {
   RMFMarkerMap4d * rMarker = (RMFMarkerMap4d *) marker;
-  [rMarker.reactMarker didTapInfoWindowOfMarker:marker];
+  [rMarker.reactMarker didTapInfoWindowOfMarker];
 }
 
 - (void)mapview: (MFMapView*)  mapView didTapPolyline: (MFPolyline*) polyline {
@@ -254,27 +254,33 @@ RCT_EXPORT_METHOD(setSwitchMode:(nonnull NSNumber *)reactTag
 }
 
 - (void)mapView: (MFMapView*)  mapView didTapPOI: (MFPOI*) poi {
+  
+  RMFMapView* reactMapView = (RMFMapView*) mapView;
+  
   //TODO find other case to detect annotation
   long annotationId = [poi.poiId longLongValue];
   if (annotationId != 0 || [poi.poiId isEqualToString:@"0"]) {
     //MFPOI call from delegate is new MFPOI. Consider to return User POI annotation instead of new MFPOI
     //RMFPOIMap4d* rPOI = (RMFPOIMap4d*)poi;
     //[rPOI.reactPOI didTap];
-    NSUInteger count = [mapView.reactSubviews count];
+    NSUInteger count = [reactMapView.reactSubviews count];
     for (NSUInteger i = 0; i < count; i++) {
-      UIView* uiView = [mapView.reactSubviews objectAtIndex:i];
+      UIView* uiView = [reactMapView.reactSubviews objectAtIndex:i];
       if ([uiView isKindOfClass:[RMFPOI class]]) {
         RMFPOI* reactPOI = (RMFPOI*) uiView;
         if (reactPOI.map4dPOI.Id == annotationId) {
-          [reactPOI didTap];
-          return;
+          if ([reactPOI didTap]) {
+            return;
+          }
+          else {
+            break;
+          }
         }
       }
     }
   }
-  else {
-    
-  }
+  
+  [reactMapView didTapPOI:poi];
 }
 
 - (void)mapView: (MFMapView*)  mapView didTapMyLocation: (CLLocationCoordinate2D) location {

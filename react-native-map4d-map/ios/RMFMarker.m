@@ -10,11 +10,11 @@
 #import <Foundation/Foundation.h>
 #import <React/RCTLog.h>
 #import <React/RCTImageLoaderProtocol.h>
-#import "Map4dMap/Map4dMap.h"
+#import <Map4dMap/Map4dMap.h>
+#import "MFEventResponse.h"
 
 @interface RMFMarker ()
 @property (nonatomic, copy, nullable) UIImage* iconImage;
-- (id)eventFromMarker:(MFMarker *)marker;
 @end
 
 @implementation RMFMarker {
@@ -37,6 +37,7 @@
     _iconSrc = nil;
     _zIndex = _map4dMarker.zIndex;
     _visible = true;//!_map4dMarker.isHidden;
+    _userData = nil;
   }
   return self;
 }
@@ -121,49 +122,35 @@
   _map4dMarker.userInteractionEnabled = enabled;
 }
 
-/** */
-- (id)eventFromMarker:(MFMarker *)marker {
-
-  CLLocationCoordinate2D coordinate = marker.position;
-  CGPoint position = [self.map4dMarker.map.projection pointForCoordinate:coordinate];
-
-  return @{
-         @"id": @(marker.Id),
-         @"position": @{
-             @"x": @(position.x),
-             @"y": @(position.y),
-             },
-         @"coordinate": @{
-             @"latitude": @(coordinate.latitude),
-             @"longitude": @(coordinate.longitude),
-             }
-         };
-}
+ - (void)setUserData:(NSDictionary *)userData {
+   _userData = userData;
+//   _map4dMarker.userData = userData;
+ }
 
 /** Event */
-- (void)didBeginDraggingMarker:(MFMarker *)marker {
+- (void)didBeginDraggingMarker {
   if (!self.onDragStart) return;
-  self.onDragStart([self eventFromMarker:marker]);
+  self.onDragStart([MFEventResponse eventFromMarker:self action:@"marker-drag-start"]);
 }
 
-- (void)didEndDraggingMarker:(MFMarker *)marker {
+- (void)didEndDraggingMarker {
   if (!self.onDragEnd) return;
-  self.onDragEnd([self eventFromMarker:marker]);
+  self.onDragEnd([MFEventResponse eventFromMarker:self action:@"marker-drag-end"]);
 }
 
-- (void)didDragMarker:(MFMarker *)marker {
+- (void)didDragMarker {
   if (!self.onDrag) return;
-  self.onDrag([self eventFromMarker:marker]);
+  self.onDrag([MFEventResponse eventFromMarker:self action:@"marker-drag"]);
 }
 
-- (void)didTapInfoWindowOfMarker:(MFMarker *)marker {
+- (void)didTapInfoWindowOfMarker {
   if (!self.onPressInfoWindow) return;
-  self.onPressInfoWindow([self eventFromMarker:marker]);
+  self.onPressInfoWindow([MFEventResponse eventFromMarker:self action:@"marker-info-window-press"]);
 }
 
-- (void)didTapMarker:(MFMarker *)marker {
+- (void)didTapMarker {
   if (!self.onPress) return;
-  self.onPress([self eventFromMarker:marker]);
+  self.onPress([MFEventResponse eventFromMarker:self action:@"marker-press"]);
 }
 
 @end

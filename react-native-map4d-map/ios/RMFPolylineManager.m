@@ -30,6 +30,7 @@ RCT_EXPORT_VIEW_PROPERTY(lineStyle, NSString)
 RCT_EXPORT_VIEW_PROPERTY(userInteractionEnabled, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(zIndex, float)
 RCT_EXPORT_VIEW_PROPERTY(visible, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(userData, NSDictionary)
 
 RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
 
@@ -88,6 +89,48 @@ RCT_EXPORT_METHOD(setLineStyle:(nonnull NSNumber *)reactTag
     } else {
       RMFPolyline *polyline = (RMFPolyline *)view;
       [polyline setLineStyle:style];
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(setZIndex:(nonnull NSNumber *)reactTag
+                  zIndex:(float)zIndex)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFPolyline class]]) {
+      RCTLogError(@"Invalid view returned from registry, expecting RMFCircle, got: %@", view);
+    } else {
+      RMFPolyline *polyline = (RMFPolyline *)view;
+      [polyline setZIndex:zIndex];
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(setVisible:(nonnull NSNumber *)reactTag
+                  visible:(BOOL)visible)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFPolyline class]]) {
+      RCTLogError(@"Invalid view returned from registry, expecting RMFCircle, got: %@", view);
+    } else {
+      RMFPolyline *polyline = (RMFPolyline *)view;
+      [polyline setVisible:visible];
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(setUserData:(nonnull NSNumber *)reactTag
+                  userData:(id)json)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFPolyline class]]) {
+      RCTLogError(@"Invalid view returned from registry, expecting RMFCircle, got: %@", view);
+    } else {
+      RMFPolyline *polyline = (RMFPolyline *)view;
+      [polyline setUserData:[RCTConvert NSDictionary:json]];
     }
   }];
 }
