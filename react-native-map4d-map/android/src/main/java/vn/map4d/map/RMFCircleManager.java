@@ -67,7 +67,7 @@ public class RMFCircleManager extends ViewGroupManager<RMFCircle> {
     @Override
     public Map getExportedCustomDirectEventTypeConstants() {
       Map<String, Map<String, String>> map = MapBuilder.of(        
-        "onDrag", MapBuilder.of("registrationName", "onDrag")      
+        "onPress", MapBuilder.of("registrationName", "onPress")      
       );      
       return map;
     }

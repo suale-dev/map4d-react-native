@@ -76,6 +76,7 @@ const propTypes = {
 class MFCircle extends React.Component {
   constructor(props) {
     super(props);
+    this._onPress = this._onPress.bind(this)
   }
 
   setCenter(center) {
@@ -144,16 +145,18 @@ class MFCircle extends React.Component {
     return NativeModules[`RMFCircle`][name];
   }
 
+  _onPress(event) {
+    event.stopPropagation();
+      if (this.props.onPress) {
+        this.props.onPress(event);
+    }
+  }
+
   render() {
     return <RMFCircle
       {...this.props}
       ref={ref => {this.circle = ref;}}
-      onPress={event => {
-        event.stopPropagation();
-        if (this.props.onPress) {
-          this.props.onPress(event);
-        }
-      }}
+      onPress={this._onPress}
     />;
   }
 }

@@ -132,7 +132,41 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
           manager.pushEvent(getContext(), rctPolyline, "onPress", event);
         }
     });
+
+    map.setOnCircleClickListener(new Map4D.OnCircleClickListener() {
+      @Override
+      public void onCircleClick(MFCircle circle) {
+        RMFCircle rctCircle = circleMap.get(circle);
+        if (rctCircle == null) {
+          return;
+        }        
+
+        WritableMap event = getCircleEventData(circle);
+        event.putString("action", "circle-press");
+        manager.pushEvent(getContext(), rctCircle, "onPress", event);
+      }
+    });
+
     }
+
+    private WritableMap getCircleEventData(MFCircle circle) {
+      WritableMap event = new WritableNativeMap();
+      WritableMap location = new WritableNativeMap();
+      location.putDouble("latitude", circle.getCenter().getLatitude());
+      location.putDouble("longitude", circle.getCenter().getLongitude());
+      event.putMap("coordinate", location);
+      Object userData = circle.getUserData();
+      String userDataByString = "null";
+      if (userData != null) {
+        userDataByString = userData.toString();
+        int begin = userDataByString.indexOf(":") + 2;
+        int end = userDataByString.length() - 2;
+        userDataByString = userDataByString.substring(begin, end);
+      }
+      event.putString("userData", userDataByString);
+      return event;
+  }
+
 
     private WritableMap getMarkerEventData(MFMarker marker) {
         WritableMap event = new WritableNativeMap();
