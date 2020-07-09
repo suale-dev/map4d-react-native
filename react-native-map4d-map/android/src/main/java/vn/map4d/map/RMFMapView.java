@@ -16,7 +16,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.bridge.ReadableMap;
 
-
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -192,6 +192,14 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
           manager.pushEvent(getContext(), view, "onCameraMoveStart", new WritableNativeMap());
         }
     });
+
+    map.setOnMyLocationButtonClickListener(new Map4D.OnMyLocationButtonClickListener() {
+      @Override
+      public boolean onMyLocationButtonClick() {
+        manager.pushEvent(getContext(), view, "onMyLocationButtonClick", new WritableNativeMap());
+        return false;
+      }
+    });
   }
 
     private WritableMap getCircleEventData(MFCircle circle) {
@@ -322,6 +330,16 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     public void setMyLocationEnabled(Boolean enable) {
       if (map == null) return;
       map.setMyLocationEnabled(enable);
+    }
+
+    public void setShowsMyLocationButton(boolean showMyLocationButton) {
+      if (map == null) return;
+      map.getUiSettings().setMyLocationButtonEnabled(showMyLocationButton);
+    }
+
+    public void setTime(double time) {
+      if (map == null) return;
+      map.setTime(new Date((long) time));
     }
 
     public void addFeature(View child, int index) {

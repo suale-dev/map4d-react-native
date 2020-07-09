@@ -24,6 +24,8 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     private static final int k_enable3DMode = 3;
     private static final int k_setSwitchMode = 4;
     private static final int k_setMyLocationEnabled = 5;
+    private static final int k_setShowsMyLocationButton = 6;
+    private static final int k_setTime = 7;
 
     private ThemedReactContext reactContext;
 
@@ -49,18 +51,23 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
         "onCameraMove", MapBuilder.of("registrationName", "onCameraMove"),
         "onCameraIdle", MapBuilder.of("registrationName", "onCameraIdle")
       );
+      map.putAll(MapBuilder.of(
+        "onMyLocationButtonClick", MapBuilder.of("registrationName", "onMyLocationButtonClick")
+      ));
       return map;
     }
 
     @Nullable
   @Override
   public Map<String, Integer> getCommandsMap() {
-    HashMap<String, Integer> map = new HashMap();    
+    HashMap<String, Integer> map = new HashMap();
     map.put("animateCamera", k_animateCamera);
     map.put("moveCamera", k_moveCamera);
     map.put("enable3DMode", k_enable3DMode);
     map.put("setSwitchMode", k_setSwitchMode);
     map.put("setMyLocationEnabled", k_setMyLocationEnabled);
+    map.put("showsMyLocationButton", k_setShowsMyLocationButton);
+    map.put("setTime", k_setTime);
     return map;
   }
 
@@ -84,6 +91,12 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
         break;
       case k_setMyLocationEnabled:
         view.setMyLocationEnabled(args.getBoolean(0));
+        break;
+      case k_setShowsMyLocationButton:
+        view.setShowsMyLocationButton(args.getBoolean(0));
+      break;
+      case k_setTime:
+        view.setTime(args.getDouble(0));
         break;
     }
   }
@@ -111,5 +124,10 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
   void pushEvent(Context context1, View view, String name, WritableMap data) {    
     reactContext.getJSModule(RCTEventEmitter.class)
         .receiveEvent(view.getId(), name, data);
+  }
+
+  @ReactProp(name = "showsMyLocationButton", defaultBoolean = true)
+  public void setShowsMyLocationButton(RMFMapView view, boolean showMyLocationButton) {
+    view.setShowsMyLocationButton(showMyLocationButton);
   }
 }

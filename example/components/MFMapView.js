@@ -77,6 +77,11 @@ const propTypes = {
    * Callback that is called when camera idle
    */
   onCameraIdle: PropTypes.func,
+
+  /**
+   * Callback that is called when user taps on location Button
+   */
+  onMyLocationButtonClick: PropTypes.func,
 };
 
 
@@ -150,6 +155,14 @@ class MFMapView extends React.Component {
 
     setMyLocationEnabled(enable) {
       this._runCommand('setMyLocationEnabled', [enable]);
+    }
+
+    showsMyLocationButton(enable) {
+      this._runCommand('showsMyLocationButton', [enable]);
+    }
+
+    setTime(time) {
+      this._runCommand('setTime', [time]);
     }
 
     _getHandle() {
