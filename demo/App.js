@@ -25,18 +25,22 @@ export default class App extends React.Component {
   handleClick() {
     
   }
+
+  getCamera() {
+
+  }
   
   render() {    
     return(
       <SafeAreaView style={this.styles.safeView}>        
         <MFMapView ref={ref => this.map = ref}
+          style={this.styles.container}
           onMapReady={
             data => {              
               this.getCamera();
             }
-          }          
-          style={this.styles.container}          
-          >          
+          }         
+          >        
         </MFMapView>
         <Button title={"Move Camera"} onPress={() => this.handleClick()}>
         </Button>
