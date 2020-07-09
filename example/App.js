@@ -95,7 +95,8 @@ export default class App extends React.Component {
   }
 
   render() {
-    let markerIcon = require('./assets/ic_marker_tracking.png')
+    // let markerIcon = require('./assets/ic_marker_tracking.png')
+    let markerIcon = 'https://b.thumbs.redditmedia.com/F82n9T2HtoYxNmxbe1CL0RKxBdeUEw-HVyd-F-Lb91o.png'
     return(
       <SafeAreaView style={this.styles.safeView}>        
         <MFMapView ref={ref => this.map = ref}

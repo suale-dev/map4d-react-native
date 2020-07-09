@@ -211,7 +211,7 @@ class MFMarker extends React.Component {
       render() {
         let icon = {};
         if (this.props.icon) {
-          icon = Image.resolveAssetSource(this.props.icon) || {};
+          icon = Image.resolveAssetSource(this.props.icon) || {uri: this.props.icon};
         }
         return <RMFMarker
           {...this.props}
