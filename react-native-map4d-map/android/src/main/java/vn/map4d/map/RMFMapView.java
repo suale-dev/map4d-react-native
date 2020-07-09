@@ -38,6 +38,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     private final Map<MFMarker, RMFMarker> markerMap = new HashMap<>();
     private final Map<MFCircle, RMFCircle> circleMap = new HashMap<>();
     private final Map<MFPolyline, RMFPolyline> polylineMap = new HashMap<>();
+    private final Map<Long, RMFPOI> poiMap = new HashMap<>();
 
     public RMFMapView(Context context, RMFMapViewManager manager) {
         super(context, null);
@@ -139,7 +140,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         RMFCircle rctCircle = circleMap.get(circle);
         if (rctCircle == null) {
           return;
-        }        
+        }
 
         WritableMap event = getCircleEventData(circle);
         event.putString("action", "circle-press");
@@ -147,37 +148,51 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       }
     });
 
-      map.setOnMapModeChange(new Map4D.OnMapModeChangeListener() {
-        @Override
-        public void onMapModeChange(boolean is3DMode) {
-          WritableMap event = new WritableNativeMap();
-          event.putString("mode", is3DMode ? "3d" : "2d");
-          event.putString("action", "mode-change");
-          manager.pushEvent(getContext(), view, "onModeChange", event);
+    map.setOnPOIClickListener(new Map4D.OnPOIClickListener() {
+      @Override
+      public void onPOIClick(MFPOI poi) {
+        RMFPOI rctPOI = poiMap.get(Long.parseLong(poi.getPOIId()));
+        if (rctPOI == null) {
+          return;
         }
-      });
 
-      map.setOnCameraMoveListener(new Map4D.OnCameraMoveListener() {
+        WritableMap event = getPOIEventData(poi);
+        event.putString("action", "poi-press");
+        manager.pushEvent(getContext(), rctPOI, "onPress", event);
+      }
+    });
+
+    map.setOnMapModeChange(new Map4D.OnMapModeChangeListener() {
+      @Override
+      public void onMapModeChange(boolean is3DMode) {
+        WritableMap event = new WritableNativeMap();
+        event.putString("mode", is3DMode ? "3d" : "2d");
+        event.putString("action", "mode-change");
+        manager.pushEvent(getContext(), view, "onModeChange", event);
+      }
+    });
+
+    map.setOnCameraMoveListener(new Map4D.OnCameraMoveListener() {
+      @Override
+      public void onCameraMove() {
+        manager.pushEvent(getContext(), view, "onCameraMove", new WritableNativeMap());
+      }
+    });
+
+    map.setOnCameraIdleListener(new Map4D.OnCameraIdleListener() {
         @Override
-        public void onCameraMove() {
-          manager.pushEvent(getContext(), view, "onCameraMove", new WritableNativeMap());
+        public void onCameraIdle() {
+          manager.pushEvent(getContext(), view, "onCameraIdle", new WritableNativeMap());
         }
-      });
+    });
 
-      map.setOnCameraIdleListener(new Map4D.OnCameraIdleListener() {
-          @Override
-          public void onCameraIdle() {
-            manager.pushEvent(getContext(), view, "onCameraIdle", new WritableNativeMap());
-          }
-      });
-
-      map.setOnCameraMoveStartedListener(new Map4D.OnCameraMoveStartedListener() {
-          @Override
-          public void onCameraMoveStarted(int reason) {
-            manager.pushEvent(getContext(), view, "onCameraMoveStart", new WritableNativeMap());
-          }
-      });
-    }
+    map.setOnCameraMoveStartedListener(new Map4D.OnCameraMoveStartedListener() {
+        @Override
+        public void onCameraMoveStarted(int reason) {
+          manager.pushEvent(getContext(), view, "onCameraMoveStart", new WritableNativeMap());
+        }
+    });
+  }
 
     private WritableMap getCircleEventData(MFCircle circle) {
       WritableMap event = new WritableNativeMap();
@@ -195,6 +210,15 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         event.putString("userData", userDataByString);
       }      
       return event;
+  }
+
+  private WritableMap getPOIEventData(MFPOI poi) {
+    WritableMap event = new WritableNativeMap();
+    WritableMap location = new WritableNativeMap();
+    location.putDouble("latitude", poi.getPosition().getLatitude());
+    location.putDouble("longitude", poi.getPosition().getLongitude());
+    event.putMap("coordinate", location);
+    return event;
   }
 
 
@@ -343,6 +367,20 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       
             MFPolyline polyline = (MFPolyline) annotation.getFeature();
             polylineMap.put(polyline, annotation);
+          } else if (child instanceof RMFPOI) {
+            RMFPOI annotation = (RMFPOI) child;
+            annotation.addToMap(map);
+            features.add(index, annotation);
+      
+            // Remove from a view group if already present, prevent "specified child
+            // already had a parent" error.
+            ViewGroup annotationParent = (ViewGroup) annotation.getParent();
+            if (annotationParent != null) {
+              annotationParent.removeView(annotation);
+            }                  
+      
+            MFPOI poi = (MFPOI) annotation.getFeature();
+            poiMap.put(poi.getId(), annotation);
           }
           //else if child instanceof Polyline, Polygon {}
           else if (child instanceof ViewGroup) {
@@ -372,6 +410,10 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         }
         else if (feature instanceof RMFPolyline) {
           polylineMap.remove(feature.getFeature());
+        }
+        else if (feature instanceof RMFPOI) {
+          MFPOI poi = (MFPOI) feature.getFeature();
+          poiMap.remove(poi.getId());
         }
         feature.removeFromMap(map);
       }
