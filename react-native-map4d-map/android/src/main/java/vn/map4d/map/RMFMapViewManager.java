@@ -52,7 +52,7 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
         "onCameraIdle", MapBuilder.of("registrationName", "onCameraIdle")
       );
       map.putAll(MapBuilder.of(
-        "onMyLocationButtonClick", MapBuilder.of("registrationName", "onMyLocationButtonClick")
+        "onMyLocationButtonPress", MapBuilder.of("registrationName", "onMyLocationButtonPress")
       ));
       return map;
     }

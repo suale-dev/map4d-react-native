@@ -81,7 +81,7 @@ const propTypes = {
   /**
    * Callback that is called when user taps on location Button
    */
-  onMyLocationButtonClick: PropTypes.func,
+  onMyLocationButtonPress: PropTypes.func,
 };
 
 

@@ -196,7 +196,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     map.setOnMyLocationButtonClickListener(new Map4D.OnMyLocationButtonClickListener() {
       @Override
       public boolean onMyLocationButtonClick() {
-        manager.pushEvent(getContext(), view, "onMyLocationButtonClick", new WritableNativeMap());
+        manager.pushEvent(getContext(), view, "onMyLocationButtonPress", new WritableNativeMap());
         return false;
       }
     });
