@@ -33,6 +33,7 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.facebook.imagepipeline.image.CloseableStaticBitmap;
 import com.facebook.imagepipeline.core.ImagePipeline;
+import com.facebook.imagepipeline.common.ResizeOptions;
 
 import vn.map4d.map.core.*;
 import vn.map4d.map.annotations.*;
@@ -59,7 +60,6 @@ public class RMFMarker extends RMFFeature {
   private double anchorU;
   private double anchorV;
   private double elevation;
-  private String imageUri;
   private MFBitmapDescriptor iconBitmapDescriptor;
   private String userData;
   private MFMarker marker;
@@ -127,18 +127,17 @@ public class RMFMarker extends RMFFeature {
       .build();
   }
 
-  public void setIcon(String uri) {
+  public void setIcon(String uri, int width, int height) {
     if (uri == null) {
-      this.imageUri = null;
       iconBitmapDescriptor = null;
     }
     else if (uri.startsWith("http://") || uri.startsWith("https://") ||
       uri.startsWith("file://") || uri.startsWith("asset://") || uri.startsWith("data:")) {
-      this.imageUri = uri;
-      ImageRequest imageRequest = ImageRequestBuilder
-        .newBuilderWithSource(Uri.parse(uri))
-        .build();
-
+      ImageRequestBuilder builder = ImageRequestBuilder.newBuilderWithSource(Uri.parse(uri));
+      if (width != 0 && height != 0) {
+        builder.setResizeOptions(ResizeOptions.forDimensions(width, height));
+      }
+      ImageRequest imageRequest = builder.build();
       ImagePipeline imagePipeline = Fresco.getImagePipeline();
       dataSource = imagePipeline.fetchDecodedImage(imageRequest, this);
       DraweeController controller = Fresco.newDraweeControllerBuilder()

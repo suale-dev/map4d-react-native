@@ -1,5 +1,10 @@
 package vn.map4d.map;
 
+import android.content.Context;
+import android.os.Build;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
+
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.bridge.*;
@@ -16,6 +21,8 @@ import vn.map4d.map.annotations.*;
 
 
 public class RMFMarkerManager extends ViewGroupManager<RMFMarker> {
+  private final DisplayMetrics metrics;
+
   private static final int k_setCoordinate = 1;
   private static final int k_setRotation = k_setCoordinate + 1;
   private static final int k_setTitle = k_setRotation + 1;
@@ -26,6 +33,18 @@ public class RMFMarkerManager extends ViewGroupManager<RMFMarker> {
   private static final int k_setInfoWindowAnchor = k_setVisible + 1;
   private static final int k_setElevation = k_setInfoWindowAnchor + 1;
   private static final int k_setUserData = k_setElevation + 1;
+
+  public RMFMarkerManager(ReactApplicationContext reactContext) {
+    super();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+      metrics = new DisplayMetrics();
+      ((WindowManager) reactContext.getSystemService(Context.WINDOW_SERVICE))
+          .getDefaultDisplay()
+          .getRealMetrics(metrics);
+    } else {
+      metrics = reactContext.getResources().getDisplayMetrics();
+    }
+  }
 
   @Override
   public String getName() {
@@ -151,8 +170,11 @@ public class RMFMarkerManager extends ViewGroupManager<RMFMarker> {
   }
 
   @ReactProp(name = "icon")
-  public void setIcon(RMFMarker view, @Nullable String icon) {
-    view.setIcon(icon);
+  public void setIcon(RMFMarker view, ReadableMap data) {
+    String uri = data != null && data.hasKey("uri") ? data.getString("uri") : null;
+    int width = data != null && data.hasKey("width") ? (int) (data.getInt("width") * metrics.density) : 0;
+    int height = data != null && data.hasKey("height") ? (int) (data.getInt("height") * metrics.density) : 0;
+    view.setIcon(uri, width, height);
   }
 
   @ReactProp(name = "elevation")

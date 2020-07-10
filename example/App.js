@@ -158,7 +158,7 @@ export default class App extends React.Component {
             }}
             zIndex={20}
           />
-          <MFMarker icon={markerIcon} coordinate={{latitude: 16.071364, longitude: 108.224487}} zIndex={3.0} visible={true}></MFMarker>
+          <MFMarker icon={{uri: markerIcon, width: 32, height: 32}} coordinate={{latitude: 16.071364, longitude: 108.224487}} zIndex={3.0} visible={true}></MFMarker>
           <MFCircle ref={ref => this.circle1 = ref}
             onPress={this.onPressCircle}
             userData={{name: "Circle 1", arr:[1, 5, 9], obj:{x:10, y:11}}}
