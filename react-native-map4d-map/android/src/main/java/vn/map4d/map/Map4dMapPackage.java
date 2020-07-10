@@ -23,7 +23,7 @@ public class Map4dMapPackage implements ReactPackage {
                               ReactApplicationContext reactContext) {
       return Arrays.<ViewManager>asList(
         new RMFMapViewManager(),
-        new RMFMarkerManager(),
+        new RMFMarkerManager(reactContext),
         new RMFCircleManager(),
         new RMFPolylineManager(reactContext),
         new RMFPOIManager()
