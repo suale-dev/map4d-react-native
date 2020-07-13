@@ -52,6 +52,7 @@ RCT_EXPORT_VIEW_PROPERTY(onModeChange, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onCameraIdle, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onCameraMove, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onCameraMoveStart, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onMyLocationButtonPress, RCTDirectEventBlock)
 
 RCT_REMAP_VIEW_PROPERTY(camera, cameraProp, MFCameraPosition)
 
@@ -296,7 +297,8 @@ RCT_EXPORT_METHOD(setSwitchMode:(nonnull NSNumber *)reactTag
 }
 
 - (BOOL)didTapMyLocationButtonForMapView: (MFMapView*) mapView {
-  return false;
+  RMFMapView* reactMapView = (RMFMapView*) mapView;
+  return [reactMapView didTapMyLocationButton];
 }
 
 - (UIView *) mapView: (MFMapView *) mapView markerInfoWindow: (MFMarker *) marker {

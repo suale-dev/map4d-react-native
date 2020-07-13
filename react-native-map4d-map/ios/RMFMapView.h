@@ -33,6 +33,7 @@
 @property (nonatomic, copy) RCTDirectEventBlock onCameraMove;
 @property (nonatomic, copy) RCTDirectEventBlock onCameraMoveStart;
 @property (nonatomic, copy) RCTDirectEventBlock onCameraIdle;
+@property (nonatomic, copy) RCTDirectEventBlock onMyLocationButtonPress;
 
 //@property (nonatomic, assign) MKCoordinateRegion initialRegion;
 //@property (nonatomic, assign) MKCoordinateRegion region;
@@ -64,6 +65,7 @@
 
 - (void)didTapAtCoordinate:(CLLocationCoordinate2D)coordinate;
 - (void)didTapPOI:(MFPOI*)poi;
+- (BOOL)didTapMyLocationButton;
 
 @end
 

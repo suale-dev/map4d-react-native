@@ -110,6 +110,13 @@
   self.onPoiPress([MFEventResponse eventFromMap4dPOI:poi action:@"poi-press"]);
 }
 
+- (BOOL)didTapMyLocationButton {
+  if (self.onMyLocationButtonPress) {
+    self.onMyLocationButtonPress(@{});
+  }
+  return false;
+}
+
 - (void)willMove: (BOOL) gesture {
   if (!self.onCameraMoveStart) return;
   self.onCameraMoveStart(@{@"gesture": gesture ? @"true" : @"false"});
