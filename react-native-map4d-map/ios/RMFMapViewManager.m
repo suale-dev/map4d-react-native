@@ -34,7 +34,7 @@ RCT_EXPORT_MODULE(RMFMapView)
   return rMap;
 }
 
-//RCT_EXPORT_VIEW_PROPERTY(onMapReady, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onMapReady, RCTBubblingEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onMapLoaded, RCTBubblingEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onKmlReady, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)

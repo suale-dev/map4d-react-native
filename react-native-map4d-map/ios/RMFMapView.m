@@ -18,7 +18,29 @@
 #import <RMFPOI.h>
 #import "MFEventResponse.h"
 
-@implementation RMFMapView
+@class GLKView;
+
+@interface MFMapView()
+- (void)glkView:(nonnull GLKView *)view drawInRect:(CGRect)rect;
+@end
+
+@implementation RMFMapView {
+  bool _didCallOnMapReady;
+}
+
+- (instancetype _Nonnull)init {
+  if ((self = [super init])) {
+    _didCallOnMapReady = false;
+  }
+  return self;
+}
+
+- (instancetype _Nonnull )initWithFrame: (CGRect)frame {
+  if ((self = [super initWithFrame:frame])) {
+    _didCallOnMapReady = false;
+  }
+  return self;
+}
 
 - (void)insertReactSubview:(id<RCTComponent>)subview atIndex:(NSInteger)atIndex {
   if ([subview isKindOfClass:[RMFMarker class]]) {
@@ -115,6 +137,15 @@
   else {
     self.onModeChange(@{@"mode": @"2d"});
   }
+}
+
+/** Overwrite */
+- (void)glkView:(nonnull GLKView *)view drawInRect:(CGRect)rect {
+  [super glkView:view drawInRect:rect];
+  
+  if (_didCallOnMapReady) return;
+  _didCallOnMapReady = true;
+  if (self.onMapReady) self.onMapReady(@{});
 }
 
 @end

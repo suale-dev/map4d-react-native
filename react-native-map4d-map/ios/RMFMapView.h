@@ -15,7 +15,7 @@
 
 @interface  RMFMapView : MFMapView
 
-//@property (nonatomic, copy) RCTBubblingEventBlock onMapReady;
+@property (nonatomic, copy) RCTBubblingEventBlock onMapReady;
 //@property (nonatomic, copy) RCTBubblingEventBlock onMapLoaded;
 //@property (nonatomic, copy) RCTBubblingEventBlock onKmlReady;
 @property (nonatomic, copy) RCTBubblingEventBlock onPress;
