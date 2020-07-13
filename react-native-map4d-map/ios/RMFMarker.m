@@ -12,10 +12,6 @@
 #import <Map4dMap/Map4dMap.h>
 #import "MFEventResponse.h"
 
-@interface RMFMarker ()
-@property (nonatomic, copy, nullable) UIImage* iconImage;
-@end
-
 @implementation RMFMarker {
 //  RCTImageLoaderCancellationBlock _reloadImageCancellationBlock;
 }
@@ -33,7 +29,7 @@
     _infoWindowAnchor = _map4dMarker.infoWindowAnchor;
     _title = nil;//_map4dMarker.title;
     _snippet = nil;//_map4dMarker.snippet;
-    _iconSrc = nil;
+    _icon = nil;
     _zIndex = _map4dMarker.zIndex;
     _visible = true;//!_map4dMarker.isHidden;
     _userData = nil;
@@ -42,8 +38,12 @@
 }
 
 - (void)setMapView:(RMFMapView *)mapView {
-  if (mapView != nil && self.iconImage != nil) {
-    _map4dMarker.icon = [UIImage imageWithCGImage:self.iconImage.CGImage scale:[mapView contentScaleFactor] orientation:self.iconImage.imageOrientation];
+  if (mapView != nil) {
+    if (self.icon == nil) {
+      _map4dMarker.icon = nil;
+    } else {
+      _map4dMarker.icon = [UIImage imageWithCGImage:self.icon.image.CGImage scale:[mapView contentScaleFactor] orientation:self.icon.image.imageOrientation];
+    }
   }
   _map4dMarker.map = mapView;
 }
@@ -90,16 +90,20 @@
   _map4dMarker.snippet = snippet;
 }
 
-- (void)setIconSrc:(NSString *)iconSrc {
-  _iconSrc = iconSrc;
+- (void)setIcon:(RMFIcon *)icon {
+  _icon = icon;
+  if (icon == nil) {
+    _map4dMarker.icon = nil;
+    return;
+  }
   dispatch_async(dispatch_get_global_queue(0,0), ^{
-    NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: iconSrc]];
+    NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: icon.uri]];
     if (imageData != nil) {
       dispatch_async(dispatch_get_main_queue(), ^{
-        UIImage* icon = [UIImage imageWithData:imageData];
-        self->_iconImage = icon;
+        self->_icon.image = [UIImage imageWithData:imageData];
         if (self->_map4dMarker.map != nil) {
-          self->_map4dMarker.icon = [UIImage imageWithCGImage:[icon CGImage] scale:[self->_map4dMarker.map contentScaleFactor] orientation:icon.imageOrientation];
+          CGFloat scale = [self->_map4dMarker.map contentScaleFactor];
+          self->_map4dMarker.icon = [UIImage imageWithCGImage:[self->_icon.image CGImage] scale:scale orientation:self->_icon.image.imageOrientation];
         }
       });
     }

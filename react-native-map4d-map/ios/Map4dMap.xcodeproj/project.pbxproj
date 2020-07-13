@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		445DDF0A2457CD8F00E8F9D1 /* RMFMarkerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 445DDF092457CD8F00E8F9D1 /* RMFMarkerManager.m */; };
 		445DDF0D2457CDE300E8F9D1 /* RMFMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 445DDF0C2457CDE300E8F9D1 /* RMFMarker.m */; };
+		445E2A9A24BBF983006F6D8F /* RMFIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 445E2A9924BBF983006F6D8F /* RMFIcon.m */; };
 		446637A624B5763000407A5C /* MFEventResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 446637A524B5763000407A5C /* MFEventResponse.m */; };
 		447AFDD3245691000088C383 /* RMFMapViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 447AFDD2245691000088C383 /* RMFMapViewManager.m */; };
 		447AFDD72456BEDA0088C383 /* RMFMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 447AFDD62456BEDA0088C383 /* RMFMapView.m */; };
@@ -44,6 +45,8 @@
 		445DDF092457CD8F00E8F9D1 /* RMFMarkerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMFMarkerManager.m; sourceTree = "<group>"; };
 		445DDF0B2457CDCC00E8F9D1 /* RMFMarker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMFMarker.h; sourceTree = "<group>"; };
 		445DDF0C2457CDE300E8F9D1 /* RMFMarker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMFMarker.m; sourceTree = "<group>"; };
+		445E2A9824BBF959006F6D8F /* RMFIcon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMFIcon.h; sourceTree = "<group>"; };
+		445E2A9924BBF983006F6D8F /* RMFIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMFIcon.m; sourceTree = "<group>"; };
 		446637A424B5761500407A5C /* MFEventResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MFEventResponse.h; sourceTree = "<group>"; };
 		446637A524B5763000407A5C /* MFEventResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MFEventResponse.m; sourceTree = "<group>"; };
 		447AFDD2245691000088C383 /* RMFMapViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMFMapViewManager.m; sourceTree = "<group>"; };
@@ -101,6 +104,8 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				445E2A9924BBF983006F6D8F /* RMFIcon.m */,
+				445E2A9824BBF959006F6D8F /* RMFIcon.h */,
 				446637A524B5763000407A5C /* MFEventResponse.m */,
 				446637A424B5761500407A5C /* MFEventResponse.h */,
 				E5AD357A24B17F5D00270CD6 /* RMFPOIManager.m */,
@@ -213,6 +218,7 @@
 				44BD9A70245FCF0E00C078BA /* RMFMarkerMap4d.m in Sources */,
 				E5AD357824B17F1700270CD6 /* RMFPOIMap4d.m in Sources */,
 				445DDF0A2457CD8F00E8F9D1 /* RMFMarkerManager.m in Sources */,
+				445E2A9A24BBF983006F6D8F /* RMFIcon.m in Sources */,
 				445DDF0D2457CDE300E8F9D1 /* RMFMarker.m in Sources */,
 				E5E1A24124B070C6009EA9E6 /* RMFPolylineMap4d.m in Sources */,
 				E5AD357524B17EE000270CD6 /* RMFPOI.m in Sources */,

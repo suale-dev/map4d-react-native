@@ -8,8 +8,9 @@
 
 #import "RCTConvert+Map4dMap.h"
 #import <React/RCTConvert+CoreLocation.h>
-#import <MFCoordinate.h>
 #import <Map4dMap/Map4dMap.h>
+#import <MFCoordinate.h>
+#import <RMFIcon.h>
 
 @implementation RCTConvert(Map4dMap)
 
@@ -52,6 +53,22 @@ RCT_ARRAY_CONVERTER(MFCoordinate)
   }
   
   return [[MFCameraPosition alloc] initWithTarget:target zoom:zoom tilt:tilt bearing:bearing];
+}
+
++ (RMFIcon *)RMFIcon:(id)json {
+  json = [self NSDictionary:json];
+  if (json[@"uri"]) {
+    RMFIcon * icon = [[RMFIcon alloc] init];
+    icon.uri = [self NSString:json[@"uri"]];
+    if (json[@"width"]) {
+      icon.width = [self NSNumber:json[@"width"]];
+    }
+    if (json[@"height"]) {
+      icon.height = [self NSNumber:json[@"height"]];
+    }
+    return icon;
+  }
+  return nil;
 }
 
 @end

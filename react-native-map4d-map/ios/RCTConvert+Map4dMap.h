@@ -13,6 +13,7 @@
 
 @class MFCoordinate;
 @class MFCameraPosition;
+@class RMFIcon;
 
 @interface RCTConvert(Map4dMap)
 
@@ -20,6 +21,7 @@
 + (NSArray<MFCoordinate *> *)MFCoordinateArray:(id)json;
 + (NSArray<NSArray<MFCoordinate *> *> *)MFCoordinateArrayArray:(id)json;
 + (MFCameraPosition *)MFCameraPosition:(id)json;
++ (RMFIcon *)RMFIcon:(id)json;
 
 @end
 

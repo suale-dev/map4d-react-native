@@ -13,6 +13,7 @@
 #import <React/RCTBridge.h>
 #import <RMFMarkerMap4d.h>
 #import "RMFMapView.h"
+#import "RMFIcon.h"
 
 @interface RMFMarker : UIView
 
@@ -33,7 +34,7 @@
 @property (nonatomic, assign) CGPoint infoWindowAnchor;
 @property (nonatomic, copy, nullable) NSString *title;
 @property (nonatomic, copy, nullable) NSString *snippet;
-@property (nonatomic, copy, nullable) NSString *iconSrc;
+@property (nonatomic, copy, nullable) RMFIcon *icon;
 @property (nonatomic, assign) float zIndex;
 @property (nonatomic, assign) BOOL visible;
 @property (nonatomic, copy, nullable) NSDictionary * userData;
