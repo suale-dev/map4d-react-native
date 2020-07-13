@@ -9,7 +9,6 @@
 #import "RMFMarker.h"
 #import <Foundation/Foundation.h>
 #import <React/RCTLog.h>
-#import <React/RCTImageLoaderProtocol.h>
 #import <Map4dMap/Map4dMap.h>
 #import "MFEventResponse.h"
 
