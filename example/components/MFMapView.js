@@ -162,7 +162,13 @@ class MFMapView extends React.Component {
     }
 
     setTime(time) {
-      this._runCommand('setTime', [time]);
+      let t = Date.parse(time)
+      if (isNaN(t)) {
+        console.log('time invalid')
+      }
+      else {
+        this._runCommand('setTime', [t]);
+      }
     }
 
     _getHandle() {

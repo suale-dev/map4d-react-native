@@ -181,6 +181,22 @@ RCT_EXPORT_METHOD(setSwitchMode:(nonnull NSNumber *)reactTag
   }];
 }
 
+RCT_EXPORT_METHOD(setTime:(nonnull NSNumber *)reactTag
+                  withTime:(id)json) {
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFMapView class]]) {
+      
+    } else {
+      RMFMapView *mapView = (RMFMapView *)view;
+      NSDate * date = [RCTConvert NSDate:json];
+      if (date) {
+        [mapView setTime:date];
+      }
+    }
+  }];
+}
+
 
 // Delegate
 - (BOOL)mapview: (MFMapView*)  mapView didTapMarker: (MFMarker*) marker
