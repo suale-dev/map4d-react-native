@@ -279,33 +279,14 @@ RCT_EXPORT_METHOD(setTime:(nonnull NSNumber *)reactTag
 }
 
 - (void)mapView: (MFMapView*)  mapView didTapPOI: (MFPOI*) poi {
-  
-  RMFMapView* reactMapView = (RMFMapView*) mapView;
-  
-  //TODO find other case to detect annotation
-  long annotationId = [poi.poiId longLongValue];
-  if (annotationId != 0 || [poi.poiId isEqualToString:@"0"]) {
-    //MFPOI call from delegate is new MFPOI. Consider to return User POI annotation instead of new MFPOI
-    //RMFPOIMap4d* rPOI = (RMFPOIMap4d*)poi;
-    //[rPOI.reactPOI didTap];
-    NSUInteger count = [reactMapView.reactSubviews count];
-    for (NSUInteger i = 0; i < count; i++) {
-      UIView* uiView = [reactMapView.reactSubviews objectAtIndex:i];
-      if ([uiView isKindOfClass:[RMFPOI class]]) {
-        RMFPOI* reactPOI = (RMFPOI*) uiView;
-        if (reactPOI.map4dPOI.Id == annotationId) {
-          if ([reactPOI didTap]) {
-            return;
-          }
-          else {
-            break;
-          }
-        }
-      }
-    }
+  if (poi.Id != -1) {
+    RMFPOIMap4d* rPOI = (RMFPOIMap4d*) poi;
+    [rPOI.reactPOI didTap];
   }
-  
-  [reactMapView didTapPOI:poi];
+  else {
+    RMFMapView* reactMapView = (RMFMapView*) mapView;
+    [reactMapView didTapPOI:poi];
+  }
 }
 
 - (void)mapView: (MFMapView*)  mapView didTapMyLocation: (CLLocationCoordinate2D) location {
