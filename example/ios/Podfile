@@ -80,6 +80,8 @@ target 'example' do
   pod 'Map4dMap'
   pod 'react-native-map4d-map', :path => '../node_modules/react-native-map4d-map'
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
   target 'exampleTests' do
     inherit! :complete
     # Pods for testing
