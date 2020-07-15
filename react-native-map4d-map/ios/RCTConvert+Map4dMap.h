@@ -21,6 +21,7 @@
 + (NSArray<MFCoordinate *> *)MFCoordinateArray:(id)json;
 + (NSArray<NSArray<MFCoordinate *> *> *)MFCoordinateArrayArray:(id)json;
 + (MFCameraPosition *)MFCameraPosition:(id)json;
++ (MFCameraPosition *)MFCameraPosition:(id)json withDefaultCamera:(MFCameraPosition*)camera;
 + (RMFIcon *)RMFIcon:(id)json;
 
 @end

@@ -92,7 +92,7 @@ RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber *)reactTag
       RCTLogError(@"Invalid view returned from registry, expecting RMFMapView, got: %@", view);
     } else {
       RMFMapView *mapView = (RMFMapView *)view;
-      [mapView animateCamera:[MFCameraUpdate setCamera:[RCTConvert MFCameraPosition:json]]];
+      [mapView animateCamera:[MFCameraUpdate setCamera:[RCTConvert MFCameraPosition:json withDefaultCamera:mapView.camera]]];
     }
   }];
 }
@@ -105,7 +105,7 @@ RCT_EXPORT_METHOD(moveCamera:(nonnull NSNumber *)reactTag
       RCTLogError(@"Invalid view returned from registry, expecting RMFMapView, got: %@", view);
     } else {
       RMFMapView *mapView = (RMFMapView *)view;
-      [mapView moveCamera:[MFCameraUpdate setCamera:[RCTConvert MFCameraPosition:json]]];
+      [mapView moveCamera:[MFCameraUpdate setCamera:[RCTConvert MFCameraPosition:json withDefaultCamera:mapView.camera]]];
     }
   }];
 }

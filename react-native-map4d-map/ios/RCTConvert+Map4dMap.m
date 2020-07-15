@@ -14,8 +14,7 @@
 
 @implementation RCTConvert(Map4dMap)
 
-+ (MFCoordinate *)MFCoordinate:(id)json
-{
++ (MFCoordinate *)MFCoordinate:(id)json {
     MFCoordinate *coord = [MFCoordinate new];
     coord.coordinate = [self CLLocationCoordinate2D:json];
     return coord;
@@ -23,19 +22,23 @@
 
 RCT_ARRAY_CONVERTER(MFCoordinate)
 
-+ (NSArray<NSArray<MFCoordinate *> *> *)MFCoordinateArrayArray:(id)json
-{
++ (NSArray<NSArray<MFCoordinate *> *> *)MFCoordinateArrayArray:(id)json {
     return RCTConvertArrayValue(@selector(MFCoordinateArray:), json);
 }
 
-+ (MFCameraPosition *)MFCameraPosition:(id)json
-{
-  json = [self NSDictionary:json];
++ (MFCameraPosition *)MFCameraPosition:(id)json withDefaultCamera:(MFCameraPosition*)camera {
   double zoom = 0;
   double tilt = 0;
   double bearing = 0;
   CLLocationCoordinate2D target = CLLocationCoordinate2DMake(0, 0);
+  if (camera != nil) {
+    target = camera.target;
+    zoom = camera.zoom;
+    tilt = camera.tilt;
+    bearing = camera.bearing;
+  }
   
+  json = [self NSDictionary:json];
   if (json[@"target"]) {
     target = [self CLLocationCoordinate2D:json[@"target"]];
   }
@@ -53,6 +56,10 @@ RCT_ARRAY_CONVERTER(MFCoordinate)
   }
   
   return [[MFCameraPosition alloc] initWithTarget:target zoom:zoom tilt:tilt bearing:bearing];
+}
+
++ (MFCameraPosition *)MFCameraPosition:(id)json {
+  return [self MFCameraPosition:json withDefaultCamera:nil];
 }
 
 + (RMFIcon *)RMFIcon:(id)json {
