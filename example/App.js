@@ -26,8 +26,10 @@ import {MFPOI} from './components/MFPOI'
 import MapScreen from './MapScreen'
 
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createStackNavigator } from '@react-navigation/stack';
+const { Navigation } = require('react-native-navigation');
+
 
 function HomeScreen() {
   return (
@@ -36,24 +38,55 @@ function HomeScreen() {
     </View>
   );
 }
+Navigation.registerComponent('Home', () => HomeScreen);
+Navigation.registerComponent('Map', () => MapScreen);
 
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
 
 //From NPM
 /*
 import {MFMapView, MFMarker, MFCircle, MFPolyline} from 'react-native-map4d-map'
 */
 
-function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Map">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Map" component={MapScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
+// function App() {
+//   return (
+//     <NavigationContainer>
+//       <Stack.Navigator initialRouteName="Map">
+//         <Stack.Screen name="Home" component={HomeScreen} />
+//         <Stack.Screen name="Map" component={MapScreen} />
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   );
+// }
 
-export default App;
+// export default App;
+
+export default class App {
+  constructor() {
+    const stack = {
+      id:'AppStack',
+      children:[
+          {
+              component: {
+                  name: 'Map'
+              },
+              passProps: null,
+          }
+      ],
+      options: {
+          topBar: {
+              visible: false,
+              drawBehind: true,
+              animate: true,
+          }
+      }
+  }
+  // NavigationManager.addComponentId(stack.children[0].component.name)
+  Navigation.setRoot({
+      root: {
+          stack
+      }
+  });
+}
+}
 

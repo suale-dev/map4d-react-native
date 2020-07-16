@@ -22,6 +22,7 @@ import {MFMarker} from './components/MFMarker'
 import {MFCircle} from './components/MFCircle'
 import {MFPolyline} from './components/MFPolyline'
 import {MFPOI} from './components/MFPOI'
+import { Navigation } from 'react-native-navigation';
 
 //From NPM
 /*
@@ -29,6 +30,12 @@ import {MFMapView, MFMarker, MFCircle, MFPolyline} from 'react-native-map4d-map'
 */
 
 export default class MapScreen extends React.Component {
+
+  constructor(props){
+    super(props)
+    console.log("MapScreen iiiiiiiiiii!!!");
+  }
+
   handleClick() {
     this.animateCamera();
     // this.enable3DMode();
@@ -94,6 +101,15 @@ export default class MapScreen extends React.Component {
     console.log('on press coordinate:', event.nativeEvent)
   }
 
+  moveCamera() {    
+    this.map.moveCamera({
+      tilt: 0,
+      bearing: 0,
+      zoom: 17,
+      target: {latitude: 10.7881732, longitude: 106.7000933}
+    })
+  }
+
   render() {
     // let markerIcon = require('./assets/ic_marker_tracking.png')
     let markerIcon = 'https://b.thumbs.redditmedia.com/F82n9T2HtoYxNmxbe1CL0RKxBdeUEw-HVyd-F-Lb91o.png'
@@ -103,7 +119,9 @@ export default class MapScreen extends React.Component {
           onMapReady={
             data => {
               this.map.setSwitchMode("Manual")                
+              this.map.setMyLocationEnabled(true)
               this.getCamera();
+              this.moveCamera()
             }
           }
           onPoiPress={(event)=>{console.log('place:', event.nativeEvent)}}
@@ -116,13 +134,19 @@ export default class MapScreen extends React.Component {
           showsMyLocationButton={true}
           showsBuildings={true}
           camera={{
-            target: {latitude: 16.07026929087801, longitude: 108.22406530380249},
+            target: {latitude: 10.7881732, longitude: 106.7000933},
             zoom: 16,
             bearing: 0,
             tilt: 0,
           }}
           >
-          <MFMarker
+            <MFCircle
+            onPress={this.onPressCircle}
+            center={{latitude: 10.7881732, longitude: 106.7000933}}
+            radius={50}
+            strokeColor="#0000FFFF" strokeWidth={2}
+            zIndex ={3.0} />
+          {/* <MFMarker
             draggable={true}
             ref={ref => this.marker = ref}
             onDragStart={
@@ -199,13 +223,29 @@ export default class MapScreen extends React.Component {
             poiType="cafe"
             onPress={this.onPressPOI}
             zIndex={10}
-          />
+          /> */}
         </MFMapView>
         <Button title={"Move Camera"} onPress={() => this.handleClick()}>
         </Button>
         <Button
         title="Go to Details"
-        onPress={() => this.props.navigation.navigate('Home')}
+        onPress={() => {
+          Navigation.push(this.props.componentId, {
+            component: {
+              name: 'Home',
+              options: {
+                topBar: {
+                  title: {
+                    text: 'Home'
+                  }
+                }
+              }
+            }
+
+        })
+          
+      }
+    }
       />
       </SafeAreaView>
     )
