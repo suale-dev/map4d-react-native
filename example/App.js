@@ -82,10 +82,12 @@ export default class App {
       }
   }
   // NavigationManager.addComponentId(stack.children[0].component.name)
-  Navigation.setRoot({
+  Navigation.events().registerAppLaunchedListener(async () => {
+    Navigation.setRoot({
       root: {
-          stack
+        stack
       }
+    });
   });
 }
 }
