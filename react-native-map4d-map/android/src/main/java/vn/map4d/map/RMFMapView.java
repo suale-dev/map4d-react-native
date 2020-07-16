@@ -151,7 +151,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     map.setOnPOIClickListener(new Map4D.OnPOIClickListener() {
       @Override
       public void onPOIClick(MFPOI poi) {
-        RMFPOI rctPOI = poiMap.get(Long.parseLong(poi.getPOIId()));
+        RMFPOI rctPOI = poiMap.get(Long.parseLong(poi.getPlaceId()));
         if (rctPOI == null) {
           return;
         }
