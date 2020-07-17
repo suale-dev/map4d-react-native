@@ -9,8 +9,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sua8051/react-native-map4d-map.git",
-    "baseUrl": "https://github.com/sua8051/react-native-map4d-map"
+    "url": "git+https://github.com/sua8051/map4d-react-native.git",
+    "baseUrl": "https://github.com/sua8051/map4d-react-native"
   },
   "keywords": [
     "react-native"

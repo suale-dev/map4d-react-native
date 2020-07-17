@@ -1,4 +1,4 @@
-package vn.map4d.map;
+package vn.map4d.react.map;
 
 import android.content.Context;
 import android.graphics.Color;

@@ -67,7 +67,11 @@ const propTypes = {
   /**
    * Marker icon to render.
    */
-  icon: PropTypes.any,
+  icon: PropTypes.shape({
+    uri: PropTypes.any.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+  }),
 
 
   /**
@@ -211,11 +215,12 @@ class MFMarker extends React.Component {
       render() {
         let icon = {};
         if (this.props.icon) {
-          icon = Image.resolveAssetSource(this.props.icon) || {uri: this.props.icon};
+          let uri = Image.resolveAssetSource(this.props.icon.uri) || {uri: this.props.icon.uri};
+          icon = {uri: uri.uri, width: this.props.icon.width, height: this.props.icon.height}
         }
         return <RMFMarker
           {...this.props}
-          icon={icon.uri}
+          icon={icon}
           ref={ref => { this.marker = ref; }}
           onPress={this._onPress}
         />;

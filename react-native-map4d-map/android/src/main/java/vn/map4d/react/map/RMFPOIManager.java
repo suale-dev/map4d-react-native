@@ -1,4 +1,4 @@
-package vn.map4d.map;
+package vn.map4d.react.map;
 
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.ThemedReactContext;

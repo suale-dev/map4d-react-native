@@ -192,7 +192,7 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
-    implementation "vn.map4d.map:react-native-map4d-map"  // From node_modules
+    implementation "vn.map4d:react-native-map4d-map"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation 'vn.map4d:Map4dTypes:1.0.5'

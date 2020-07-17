@@ -11,7 +11,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import vn.map4d.map.Map4dMapPackage;
+import vn.map4d.react.map.Map4dMapPackage;
 
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;

@@ -1,4 +1,4 @@
-package vn.map4d.map;
+package vn.map4d.react.map;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;

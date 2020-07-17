@@ -1,4 +1,4 @@
-package vn.map4d.map;
+package vn.map4d.react.map;
 
 import java.util.Arrays;
 import java.util.Collections;
