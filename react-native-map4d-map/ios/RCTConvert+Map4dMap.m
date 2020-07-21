@@ -9,8 +9,8 @@
 #import "RCTConvert+Map4dMap.h"
 #import <React/RCTConvert+CoreLocation.h>
 #import <Map4dMap/Map4dMap.h>
-#import <MFCoordinate.h>
-#import <RMFIcon.h>
+#import "MFCoordinate.h"
+#import "RMFIcon.h"
 
 @implementation RCTConvert(Map4dMap)
 

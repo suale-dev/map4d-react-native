@@ -10,7 +10,7 @@
 #define RMFCircle_h
 
 #import <React/UIView+React.h>
-#import <RMFCircleMap4d.h>
+#import "RMFCircleMap4d.h"
 #import "RMFMapView.h"
 
 @interface RMFCircle : UIView

@@ -7,7 +7,7 @@
 //
 
 #import "RMFCircleManager.h"
-#import <RMFCircle.h>
+#import "RMFCircle.h"
 #import <Foundation/Foundation.h>
 #import <React/RCTConvert+CoreLocation.h>
 #import <React/RCTBridge.h>

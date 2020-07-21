@@ -7,7 +7,7 @@
 //
 
 #import "RMFPOIManager.h"
-#import <RMFPOI.h>
+#import "RMFPOI.h"
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
 #import <React/RCTConvert+CoreLocation.h>

@@ -10,8 +10,8 @@
 #define RMFPOI_h
 
 #import <React/UIView+React.h>
-#import <RMFPOIMap4d.h>
-#import <RMFMapView.h>
+#import "RMFPOIMap4d.h"
+#import "RMFMapView.h"
 
 @interface RMFPOI : UIView
 

@@ -7,9 +7,9 @@
 //
 
 #import "RMFPolylineManager.h"
-#import <RMFPolyline.h>
+#import "RMFPolyline.h"
 #import <Foundation/Foundation.h>
-#import <RCTConvert+Map4dMap.h>
+#import "RCTConvert+Map4dMap.h"
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
 
