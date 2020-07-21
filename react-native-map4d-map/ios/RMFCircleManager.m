@@ -3,11 +3,11 @@
 //  Map4dMap
 //
 //  Created by Huy Dang on 7/3/20.
-//  Copyright © 2020 Facebook. All rights reserved.
+//  Copyright © 2020 IOTLink. All rights reserved.
 //
 
 #import "RMFCircleManager.h"
-#import <RMFCircle.h>
+#import "RMFCircle.h"
 #import <Foundation/Foundation.h>
 #import <React/RCTConvert+CoreLocation.h>
 #import <React/RCTBridge.h>

@@ -3,14 +3,14 @@
 //  Map4dMap
 //
 //  Created by Huy Dang on 7/3/20.
-//  Copyright © 2020 Facebook. All rights reserved.
+//  Copyright © 2020 IOTLink. All rights reserved.
 //
 
 #import "RCTConvert+Map4dMap.h"
 #import <React/RCTConvert+CoreLocation.h>
 #import <Map4dMap/Map4dMap.h>
-#import <MFCoordinate.h>
-#import <RMFIcon.h>
+#import "MFCoordinate.h"
+#import "RMFIcon.h"
 
 @implementation RCTConvert(Map4dMap)
 

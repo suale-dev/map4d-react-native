@@ -3,15 +3,15 @@
 //  Map4dMap
 //
 //  Created by Huy Dang on 7/5/20.
-//  Copyright © 2020 Facebook. All rights reserved.
+//  Copyright © 2020 IOTLink. All rights reserved.
 //
 
 #ifndef RMFPOI_h
 #define RMFPOI_h
 
 #import <React/UIView+React.h>
-#import <RMFPOIMap4d.h>
-#import <RMFMapView.h>
+#import "RMFPOIMap4d.h"
+#import "RMFMapView.h"
 
 @interface RMFPOI : UIView
 

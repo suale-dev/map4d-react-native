@@ -3,11 +3,11 @@
 //  Map4dMap
 //
 //  Created by Huy Dang on 7/5/20.
-//  Copyright © 2020 Facebook. All rights reserved.
+//  Copyright © 2020 IOTLink. All rights reserved.
 //
 
 #import "RMFPOIManager.h"
-#import <RMFPOI.h>
+#import "RMFPOI.h"
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
 #import <React/RCTConvert+CoreLocation.h>

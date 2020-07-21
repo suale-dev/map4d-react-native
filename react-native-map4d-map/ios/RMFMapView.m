@@ -12,10 +12,10 @@
 #import <React/RCTComponent.h>
 #import <React/RCTBridge.h>
 #import <React/RCTLog.h>
-#import <RMFMarker.h>
-#import <RMFCircle.h>
-#import <RMFPolyline.h>
-#import <RMFPOI.h>
+#import "RMFMarker.h"
+#import "RMFCircle.h"
+#import "RMFPolyline.h"
+#import "RMFPOI.h"
 #import "MFEventResponse.h"
 
 @class GLKView;

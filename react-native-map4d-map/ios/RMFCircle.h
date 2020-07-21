@@ -3,14 +3,14 @@
 //  Map4dMap
 //
 //  Created by Huy Dang on 7/3/20.
-//  Copyright © 2020 Facebook. All rights reserved.
+//  Copyright © 2020 IOTLink. All rights reserved.
 //
 
 #ifndef RMFCircle_h
 #define RMFCircle_h
 
 #import <React/UIView+React.h>
-#import <RMFCircleMap4d.h>
+#import "RMFCircleMap4d.h"
 #import "RMFMapView.h"
 
 @interface RMFCircle : UIView

@@ -7,16 +7,16 @@
 //
 
 #import "RMFMapViewManager.h"
-#import <RMFMapView.h>
-#import <RMFMarker.h>
-#import <RMFCircle.h>
-#import <RMFPolyline.h>
-#import <RMFPOI.h>
+#import "RMFMapView.h"
+#import "RMFMarker.h"
+#import "RMFCircle.h"
+#import "RMFPolyline.h"
+#import "RMFPOI.h"
 #import <Foundation/Foundation.h>
 #import <React/RCTLog.h>
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
-#import <RCTConvert+Map4dMap.h>
+#import "RCTConvert+Map4dMap.h"
 
 @interface RMFMapViewManager () <MFMapViewDelegate>
 

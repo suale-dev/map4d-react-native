@@ -3,7 +3,7 @@
 //  Map4dMap
 //
 //  Created by Huy Dang on 7/3/20.
-//  Copyright © 2020 Facebook. All rights reserved.
+//  Copyright © 2020 IOTLink. All rights reserved.
 //
 
 #ifndef RMFPolyline_h
@@ -11,9 +11,9 @@
 
 #import <React/UIView+React.h>
 #import <Map4dMap/Map4dMap.h>
-#import <RMFPolylineMap4d.h>
-#import <RMFMapView.h>
-#import <MFCoordinate.h>
+#import "RMFPolylineMap4d.h"
+#import "RMFMapView.h"
+#import "MFCoordinate.h"
 
 @interface RMFPolyline : UIView
 

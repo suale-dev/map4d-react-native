@@ -3,7 +3,7 @@
 //  Map4dMap
 //
 //  Created by Huy Dang on 7/4/20.
-//  Copyright © 2020 Facebook. All rights reserved.
+//  Copyright © 2020 IOTLink. All rights reserved.
 //
 
 #ifndef MFCoordinate_h
