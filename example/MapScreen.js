@@ -28,12 +28,14 @@ import { Navigation } from 'react-native-navigation';
 /*
 import {MFMapView, MFMarker, MFCircle, MFPolyline} from 'react-native-map4d-map'
 */
-
 export default class MapScreen extends React.Component {
 
   constructor(props){
     super(props)
     console.log("MapScreen iiiiiiiiiii!!!");
+    this.state = {
+      rotate: 0
+    }
   }
 
   handleClick() {
@@ -41,6 +43,12 @@ export default class MapScreen extends React.Component {
     // this.enable3DMode();
     // this.updateCircle1();
     // this.updatePolyline();
+  }
+
+  rotateImage() {
+    this.setState({
+      rotate: this.state.rotate + 10
+    })
   }
 
   updateCircle1() {
@@ -225,6 +233,8 @@ export default class MapScreen extends React.Component {
             zIndex={10}
           /> */}
         </MFMapView>
+        <Button title={"Rotate image"} onPress={() => this.rotateImage()}>
+        </Button>
         <Button title={"Move Camera"} onPress={() => this.handleClick()}>
         </Button>
         <Button
@@ -247,6 +257,9 @@ export default class MapScreen extends React.Component {
       }
     }
       />
+
+      <Image source={require('./assets/compass.png')}
+      style={[this.styles.image, {transform: [{ rotate: `${this.state.rotate}deg` }]}]}/>
       </SafeAreaView>
     )
   }
@@ -259,7 +272,15 @@ styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  }
+  },
+  image: {
+    width: 50,
+    height:50,
+    position:'absolute',
+    right:20,
+    top:30,
+    
+}
 });
 
 }
