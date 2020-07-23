@@ -36,6 +36,10 @@ export default class MapScreen extends React.Component {
     this.state = {
       rotate: 0
     }
+
+    this.onCameraMove = this.onCameraMove.bind(this);
+    this.onCameraIdle = this.onCameraIdle.bind(this);
+    this.onCameraMoveStart = this.onCameraMoveStart.bind(this);
   }
 
   handleClick() {
@@ -118,6 +122,26 @@ export default class MapScreen extends React.Component {
     })
   }
 
+  onCameraMove(e) {
+    console.log(e.nativeEvent);
+    //rotate during camera move
+    this.setState({
+      rotate: -e.nativeEvent.bearing || 0
+    })
+  }
+
+  onCameraIdle(e) {
+    //rotate at the end of camera move
+    this.setState({
+      rotate: -e.nativeEvent.bearing || 0
+    })
+  }
+
+  onCameraMoveStart(e) {
+
+  }
+
+
   render() {
     // let markerIcon = require('./assets/ic_marker_tracking.png')
     let markerIcon = 'https://b.thumbs.redditmedia.com/F82n9T2HtoYxNmxbe1CL0RKxBdeUEw-HVyd-F-Lb91o.png'
@@ -133,9 +157,9 @@ export default class MapScreen extends React.Component {
             }
           }
           onPoiPress={(event)=>{console.log('place:', event.nativeEvent)}}
-          onCameraMove={(event)=>{console.log('camera move:', event.nativeEvent)}}
-          onCameraMoveStart={(event)=>{console.log('camera move start:', event.nativeEvent)}}
-          onCameraIdle={(event)=>{console.log('camera idle:', event.nativeEvent)}}
+          onCameraMove={this.onCameraMove}
+          onCameraMoveStart={this.onCameraMoveStart}
+          onCameraIdle={this.onCameraIdle}
           onModeChange={(event)=>{console.log('mode change:', event.nativeEvent)}}
           style={this.styles.container}
           onPress={this.onPressMapView}

@@ -175,21 +175,28 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     map.setOnCameraMoveListener(new Map4D.OnCameraMoveListener() {
       @Override
       public void onCameraMove() {
-        manager.pushEvent(getContext(), view, "onCameraMove", new WritableNativeMap());
+        WritableMap event = getCameraMap();
+          event.putString("action", "camera-move");
+        manager.pushEvent(getContext(), view, "onCameraMove", event);
       }
     });
 
     map.setOnCameraIdleListener(new Map4D.OnCameraIdleListener() {
         @Override
         public void onCameraIdle() {
-          manager.pushEvent(getContext(), view, "onCameraIdle", new WritableNativeMap());
+          WritableMap event = getCameraMap();
+          event.putString("action", "camera-idle");
+          manager.pushEvent(getContext(), view, "onCameraIdle", event);
         }
     });
 
     map.setOnCameraMoveStartedListener(new Map4D.OnCameraMoveStartedListener() {
         @Override
         public void onCameraMoveStarted(int reason) {
-          manager.pushEvent(getContext(), view, "onCameraMoveStart", new WritableNativeMap());
+          WritableMap event = getCameraMap();
+          event.putString("action", "camera-move-started");
+          event.putInt("reason", reason);
+          manager.pushEvent(getContext(), view, "onCameraMoveStart", event);
         }
     });
 
@@ -267,6 +274,19 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         event.putString("userData", userDataByString);
       }      
       return event;
+    }
+
+    private WritableMap getCameraMap() {
+      WritableMap event = new WritableNativeMap();
+      MFCameraPosition pos = map.getCameraPosition();
+      event.putDouble("zoom", pos.getZoom());
+      event.putDouble("bearing", pos.getBearing());
+      event.putDouble("tilt", pos.getTilt());
+      WritableMap target = new WritableNativeMap();
+      target.putDouble("latitude", pos.getTarget().getLatitude());
+      target.putDouble("longitude", pos.getTarget().getLongitude());      
+      event.putMap("target", target);
+      return event;      
     }
 
     private MFCameraPosition parseCamera(ReadableMap camera) {
