@@ -171,13 +171,13 @@ export default class MapScreen extends React.Component {
             tilt: 0,
           }}
           >
-            <MFCircle
+          <MFCircle
             onPress={this.onPressCircle}
             center={{latitude: 10.7881732, longitude: 106.7000933}}
             radius={50}
             strokeColor="#0000FFFF" strokeWidth={2}
             zIndex ={3.0} />
-          {/* <MFMarker
+          <MFMarker
             draggable={true}
             ref={ref => this.marker = ref}
             onDragStart={
@@ -192,9 +192,22 @@ export default class MapScreen extends React.Component {
               (event) => {
                 console.log("dragEnd: ", event.nativeEvent)
             }}
-            coordinate={{latitude: 10.772002, longitude: 106.704294}}
-          />
-          <MFMarker
+            coordinate={{latitude: 10.7881732, longitude: 106.7000933}}>
+              <View style={{
+              width: 80,
+              height: 80,
+              backgroundColor: 'transparent',
+              flexDirection: 'row'
+              }}>
+              <Image source={{uri: markerIcon}}
+                  style={{ height: 20, width: 20 }} />
+
+              <Text style={{ fontWeight: 'bold', color: 'black' }}>
+                  {"12:09"}
+              </Text>
+            </View>
+          </MFMarker>
+          {/*<MFMarker
             coordinate={{latitude: 16.073034, longitude: 108.224315}}
             draggable={true}
             userData={{name: "Marker 1", arr:[1, 5, 9], obj:{x:10, y:11}}}
