@@ -195,7 +195,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         public void onCameraMoveStarted(int reason) {
           WritableMap event = getCameraMap();
           event.putString("action", "camera-move-started");
-          event.putInt("reason", reason);
+          event.putBoolean("gesture", reason == 1);
           manager.pushEvent(getContext(), view, "onCameraMoveStart", event);
         }
     });
