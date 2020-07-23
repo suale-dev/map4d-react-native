@@ -72,7 +72,7 @@ RCT_EXPORT_METHOD(getCamera:(nonnull NSNumber *)reactTag
       RMFMapView *mapView = (RMFMapView *)view;
       MFCameraPosition *camera = [mapView camera];
       resolve(@{
-        @"target": @{
+        @"center": @{
           @"latitude": @(camera.target.latitude),
           @"longitude": @(camera.target.longitude),
         },

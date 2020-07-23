@@ -285,7 +285,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       WritableMap target = new WritableNativeMap();
       target.putDouble("latitude", pos.getTarget().getLatitude());
       target.putDouble("longitude", pos.getTarget().getLongitude());      
-      event.putMap("target", target);
+      event.putMap("center", target);
       return event;      
     }
 
@@ -300,8 +300,8 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         if (camera.hasKey("tilt")) {
           builder.tilt(camera.getDouble("tilt"));
         }
-        if (camera.hasKey("target")) {
-          ReadableMap center = camera.getMap("target");
+        if (camera.hasKey("center")) {
+          ReadableMap center = camera.getMap("center");
           builder.target(new MFLocationCoordinate(center.getDouble("latitude"), center.getDouble("longitude")));
         }
         return builder.build();

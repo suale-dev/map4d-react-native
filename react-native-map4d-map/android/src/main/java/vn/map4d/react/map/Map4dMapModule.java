@@ -71,7 +71,7 @@ public class Map4dMapModule extends ReactContextBaseJavaModule {
         centerJson.putDouble("longitude", position.getTarget().getLongitude());
 
         WritableMap cameraJson = new WritableNativeMap();
-        cameraJson.putMap("target", centerJson);
+        cameraJson.putMap("center", centerJson);
         cameraJson.putDouble("bearing", (double)position.getBearing());
         cameraJson.putDouble("zoom", (double)position.getZoom());
         cameraJson.putDouble("tilt", (double)position.getTilt());

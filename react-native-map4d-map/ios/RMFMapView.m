@@ -119,7 +119,9 @@
 
 - (void)willMove: (BOOL) gesture {
   if (!self.onCameraMoveStart) return;
-  self.onCameraMoveStart(@{@"gesture": gesture ? @"true" : @"false"});
+    NSMutableDictionary* data = [[NSMutableDictionary alloc] initWithDictionary:[MFEventResponse eventFromCameraPosition: self.camera]];
+    data[@"gesture"] = [NSNumber numberWithBool:gesture];
+    self.onCameraMoveStart(data);
 }
 
 - (void)movingCameraPosition: (MFCameraPosition*) position {

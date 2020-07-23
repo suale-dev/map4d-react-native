@@ -104,7 +104,7 @@
 
 + (NSDictionary*)eventFromCameraPosition:(MFCameraPosition*) position {
   return (@{
-    @"target": @{
+    @"center": @{
         @"latitude": @(position.target.latitude),
         @"longitude": @(position.target.longitude)
     },

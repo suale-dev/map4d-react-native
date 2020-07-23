@@ -39,8 +39,8 @@ RCT_ARRAY_CONVERTER(MFCoordinate)
   }
   
   json = [self NSDictionary:json];
-  if (json[@"target"]) {
-    target = [self CLLocationCoordinate2D:json[@"target"]];
+  if (json[@"center"]) {
+    target = [self CLLocationCoordinate2D:json[@"center"]];
   }
   
   if (json[@"zoom"]) {

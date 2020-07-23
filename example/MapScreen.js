@@ -87,7 +87,7 @@ export default class MapScreen extends React.Component {
       tilt: 0,
       bearing: 0,
       zoom: 17,
-      target: {latitude: 10.772002, longitude: 106.704294}
+      center: {latitude: 10.772002, longitude: 106.704294}
     })
   }
 
@@ -118,12 +118,11 @@ export default class MapScreen extends React.Component {
       tilt: 0,
       bearing: 0,
       zoom: 17,
-      target: {latitude: 10.7881732, longitude: 106.7000933}
+      center: {latitude: 10.7881732, longitude: 106.7000933}
     })
   }
 
   onCameraMove(e) {
-    console.log(e.nativeEvent);
     //rotate during camera move
     this.setState({
       rotate: -e.nativeEvent.bearing || 0
@@ -138,7 +137,7 @@ export default class MapScreen extends React.Component {
   }
 
   onCameraMoveStart(e) {
-
+    console.log(e.nativeEvent);
   }
 
 
@@ -166,7 +165,7 @@ export default class MapScreen extends React.Component {
           showsMyLocationButton={true}
           showsBuildings={true}
           camera={{
-            target: {latitude: 10.7881732, longitude: 106.7000933},
+            center: {latitude: 10.7881732, longitude: 106.7000933},
             zoom: 16,
             bearing: 0,
             tilt: 0,
