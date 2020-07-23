@@ -2,6 +2,7 @@ package vn.map4d.react.map;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
@@ -61,8 +62,16 @@ public class RMFMarker extends RMFFeature {
   private double anchorV;
   private double elevation;
   private MFBitmapDescriptor iconBitmapDescriptor;
+  private Bitmap iconBitmap;
+  private Bitmap mLastBitmapCreated = null;
   private String userData;
   private MFMarker marker;
+
+  private boolean hasCustomMarkerView = false;
+  private boolean tracksViewChangesActive = false;
+
+  private int width;
+  private int height;
 
   private final DraweeHolder<?> logoHolder;
   private DataSource<CloseableReference<CloseableImage>> dataSource;
@@ -83,6 +92,7 @@ public class RMFMarker extends RMFFeature {
               Bitmap bitmap = closeableStaticBitmap.getUnderlyingBitmap();
               if (bitmap != null) {
                 bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+                iconBitmap = bitmap;
                 iconBitmapDescriptor = MFBitmapDescriptorFactory.fromBitmap(bitmap);
               }
             }
@@ -229,8 +239,8 @@ public class RMFMarker extends RMFFeature {
   }
 
   public void addToMap(Map4D map) {
-    this.marker = map.addMarker(getMarkerOptions());      
-    //updateTracksViewChanges() --> not implemented
+    this.marker = map.addMarker(getMarkerOptions());
+    updateTracksViewChanges();
   }
 
   public void removeFromMap(Map4D map) {
@@ -239,7 +249,7 @@ public class RMFMarker extends RMFFeature {
     }
     marker.remove();
     marker = null;
-    //updateTracksViewChanges();
+    updateTracksViewChanges();
    }
 
   public MFMarkerOptions getMarkerOptions() {
@@ -261,9 +271,102 @@ public class RMFMarker extends RMFFeature {
     options.draggable(draggable);
     options.elevation(elevation);
     options.zIndex(zIndex);
-    options.icon(iconBitmapDescriptor);
+    options.icon(getIcon());
     options.userData(userData);
     return options;
+  }
+
+  private MFBitmapDescriptor getIcon() {
+    if (hasCustomMarkerView) {
+      // creating a bitmap from an arbitrary view
+      if (iconBitmapDescriptor != null) {
+        Bitmap viewBitmap = createDrawable();
+        int width = Math.max(iconBitmap.getWidth(), viewBitmap.getWidth());
+        int height = Math.max(iconBitmap.getHeight(), viewBitmap.getHeight());
+        Bitmap combinedBitmap = Bitmap.createBitmap(width, height, iconBitmap.getConfig());
+        Canvas canvas = new Canvas(combinedBitmap);
+        canvas.drawBitmap(iconBitmap, 0, 0, null);
+        canvas.drawBitmap(viewBitmap, 0, 0, null);
+        return MFBitmapDescriptorFactory.fromBitmap(combinedBitmap);
+      } else {
+        return MFBitmapDescriptorFactory.fromBitmap(createDrawable());
+      }
+    } else if (iconBitmapDescriptor != null) {
+      // use local image as a marker
+      return iconBitmapDescriptor;
+    } else {
+      // render the default marker
+      return MFBitmapDescriptorFactory.defaultMarker();
+    }
+  }
+
+  public void update(int width, int height) {
+    this.width = width;
+    this.height = height;
+  }
+
+  private Bitmap createDrawable() {
+    int width = this.width <= 0 ? 100 : this.width;
+    int height = this.height <= 0 ? 100 : this.height;
+    this.buildDrawingCache();
+
+    // Do not create the doublebuffer-bitmap each time. reuse it to save memory.
+    Bitmap bitmap = mLastBitmapCreated;
+
+    if (bitmap == null ||
+            bitmap.isRecycled() ||
+            bitmap.getWidth() != width ||
+            bitmap.getHeight() != height) {
+      bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+      mLastBitmapCreated = bitmap;
+    } else {
+      bitmap.eraseColor(Color.TRANSPARENT);
+    }
+
+    Canvas canvas = new Canvas(bitmap);
+    this.draw(canvas);
+
+    return bitmap;
+  }
+
+  @Override
+  public void addView(View child, int index) {
+    super.addView(child, index);
+    // if children are added, it means we are rendering a custom marker
+    hasCustomMarkerView = true;
+    updateTracksViewChanges();
+  }
+
+  private void updateTracksViewChanges() {
+    boolean shouldTrack = hasCustomMarkerView && marker != null;
+    if (shouldTrack == tracksViewChangesActive) return;
+    tracksViewChangesActive = shouldTrack;
+
+    if (shouldTrack) {
+      ViewChangesTracker.getInstance().addMarker(this);
+    } else {
+      ViewChangesTracker.getInstance().removeMarker(this);
+
+      // Let it render one more time to avoid race conditions.
+      // i.e. Image onLoad ->
+      //      ViewChangesTracker may not get a chance to render ->
+      //      setState({ tracksViewChanges: false }) ->
+      //      image loaded but not rendered.
+      updateMarkerIcon();
+    }
+  }
+
+  public void updateMarkerIcon() {
+    if (marker != null) {
+      marker.setIcon(getIcon());
+    }
+  }
+
+  public boolean updateCustomForTracking() {
+    if (!tracksViewChangesActive)
+      return false;
+    updateMarkerIcon();
+    return true;
   }
 
   public Object getFeature() {

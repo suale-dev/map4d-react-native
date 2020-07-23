@@ -4,9 +4,12 @@ import android.content.Context;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+import android.view.View;
+import android.util.Log;
 
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.uimanager.LayoutShadowNode;
 import com.facebook.react.bridge.*;
 import com.facebook.react.uimanager.annotations.*;
 import com.facebook.react.common.MapBuilder;
@@ -122,6 +125,29 @@ public class RMFMarkerManager extends ViewGroupManager<RMFMarker> {
     map.put("setElevation", k_setElevation);
     map.put("setUserData", k_setUserData);
     return map;
+  }
+
+  @Override
+  public void addView(RMFMarker parent, View child, int index) {
+    super.addView(parent, child, index);
+  }
+
+  @Override
+  public LayoutShadowNode createShadowNodeInstance() {
+    // we use a custom shadow node that emits the width/height of the view
+    // after layout with the updateExtraData method. Without this, we can't generate
+    // a bitmap of the appropriate width/height of the rendered view.
+    return new SizeReportingShadowNode();
+  }
+
+  @Override
+  public void updateExtraData(RMFMarker view, Object extraData) {
+    // This method is called from the shadow node with the width/height of the rendered
+    // marker view.
+    HashMap<String, Float> data = (HashMap<String, Float>) extraData;
+    float width = data.get("width");
+    float height = data.get("height");
+    view.update((int) width, (int) height);
   }
 
   @ReactProp(name = "coordinate")
