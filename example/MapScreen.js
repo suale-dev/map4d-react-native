@@ -194,13 +194,13 @@ export default class MapScreen extends React.Component {
             }}
             coordinate={{latitude: 10.7881732, longitude: 106.7000933}}>
               <View style={{
-              width: 80,
-              height: 80,
-              backgroundColor: 'transparent',
+              width: 60,
+              height: 20,
+              backgroundColor: 'blue',
               flexDirection: 'row'
               }}>
               <Image source={{uri: markerIcon}}
-                  style={{ height: 20, width: 20 }} />
+                  style={{ borderColor: "red", borderWidth: 5, height: 20, width: 20 }} />
 
               <Text style={{ fontWeight: 'bold', color: 'black' }}>
                   {"12:09"}
