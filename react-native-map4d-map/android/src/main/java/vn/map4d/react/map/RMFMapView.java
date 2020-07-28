@@ -40,10 +40,23 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     private final Map<MFPolyline, RMFPolyline> polylineMap = new HashMap<>();
     private final Map<Long, RMFPOI> poiMap = new HashMap<>();
 
+    private ViewAttacherGroup attacherGroup;
+
     public RMFMapView(Context context, RMFMapViewManager manager) {
         super(context, null);
         this.manager = manager;
         this.getMapAsync(this);
+
+        // Set up a parent view for triggering visibility in subviews that depend on it.
+        // Mainly ReactImageView depends on Fresco which depends on onVisibilityChanged() event
+        attacherGroup = new ViewAttacherGroup(context);
+        LayoutParams attacherLayoutParams = new LayoutParams(0, 0);
+        attacherLayoutParams.width = 0;
+        attacherLayoutParams.height = 0;
+        attacherLayoutParams.leftMargin = 99999999;
+        attacherLayoutParams.topMargin = 99999999;
+        attacherGroup.setLayoutParams(attacherLayoutParams);
+        addView(attacherGroup);
     } 
 
     @Override
@@ -374,6 +387,9 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
             if (annotationParent != null) {
               annotationParent.removeView(annotation);
             }
+
+            // Add to the parent group
+            attacherGroup.addView(annotation);
       
             MFMarker marker = (MFMarker) annotation.getFeature();
             markerMap.put(marker, annotation);

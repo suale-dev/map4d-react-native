@@ -335,6 +335,7 @@ public class RMFMarker extends RMFFeature {
     // if children are added, it means we are rendering a custom marker
     hasCustomMarkerView = true;
     updateTracksViewChanges();
+    updateMarkerIcon();
   }
 
   private void updateTracksViewChanges() {
@@ -367,6 +368,23 @@ public class RMFMarker extends RMFFeature {
       return false;
     updateMarkerIcon();
     return true;
+  }
+
+  private void clearDrawableCache() {
+    mLastBitmapCreated = null;
+  }
+
+  @Override
+  public void requestLayout() {
+    super.requestLayout();
+    if (getChildCount() == 0) {
+      if (hasCustomMarkerView) {
+        hasCustomMarkerView = false;
+        clearDrawableCache();
+        updateTracksViewChanges();
+        updateMarkerIcon();
+      }
+    }
   }
 
   public Object getFeature() {
