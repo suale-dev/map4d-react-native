@@ -21,7 +21,7 @@ target 'demo' do
   post_install do |installer|
     flipper_post_install(installer)
   end
-  pod 'Map4dMap', '1.3.1'
+  pod 'Map4dMap', '1.4.3'
 end
 
 target 'demo-tvOS' do
