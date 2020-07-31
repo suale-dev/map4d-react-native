@@ -9,11 +9,15 @@
 #import "RMFMarker.h"
 #import <Foundation/Foundation.h>
 #import <React/RCTLog.h>
+#import <React/RCTImageView.h>
 #import <Map4dMap/Map4dMap.h>
 #import "MFEventResponse.h"
+#import "RMFDummyView.h"
 
 @implementation RMFMarker {
 //  RCTImageLoaderCancellationBlock _reloadImageCancellationBlock;
+    UIView *_iconView;
+    NSMutableArray* observables;
 }
 
 - (instancetype)init {
@@ -33,6 +37,8 @@
     _zIndex = _map4dMarker.zIndex;
     _visible = true;//!_map4dMarker.isHidden;
     _userData = nil;
+      _iconView = nil;
+      observables = [[NSMutableArray alloc] init];
   }
   return self;
 }
@@ -154,6 +160,84 @@
 - (void)didTapMarker {
   if (!self.onPress) return;
   self.onPress([MFEventResponse eventFromMarker:self action:@"marker-press"]);
+}
+
+- (void)layoutSubviews {
+  float width = 0;
+  float height = 0;
+
+  for (UIView *v in [_iconView subviews]) {
+    float fw = v.frame.origin.x + v.frame.size.width;
+    float fh = v.frame.origin.y + v.frame.size.height;
+
+    width = MAX(fw, width);
+    height = MAX(fh, height);
+  }
+
+  [_iconView setFrame:CGRectMake(0, 0, width, height)];
+    [self->_map4dMarker setIconView:_iconView];
+}
+
+- (void)iconViewInsertSubview:(UIView*)subview atIndex:(NSInteger)atIndex {
+  if (!_map4dMarker.iconView) {
+    _iconView = [[UIView alloc] init];
+    _map4dMarker.iconView = _iconView;
+  }
+  [_iconView insertSubview:subview atIndex:atIndex];
+}
+
+- (void) removeAllObserver {
+    for (UIView* v in observables) {
+        [v removeObserver:self forKeyPath:@"image"];
+        [v removeObserver:self forKeyPath:@"bounds"];
+    }
+    [observables removeAllObjects];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (context == (__bridge void * _Nullable)(_iconView)) {
+        if (self.map4dMarker != NULL) {
+            [self.map4dMarker setIconView:_iconView];
+        }
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+- (void)addObserver:(UIView*)view {
+  if ([view isKindOfClass:[RCTImageView class]]) {
+    [view addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:(__bridge void * _Nullable)(_iconView)];
+    [view addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:(__bridge void * _Nullable)(_iconView)];
+      [observables addObject:view];
+  }
+  
+  NSArray<UIView *> *reactSubviews = [view reactSubviews];
+  for (int i = 0; i < reactSubviews.count; i++) {
+    UIView* view = [reactSubviews objectAtIndex:i];
+    [self addObserver:view];
+  }
+}
+
+
+- (void)insertReactSubview:(id<RCTComponent>)subview atIndex:(NSInteger)atIndex {
+  [self iconViewInsertSubview:(UIView*)subview atIndex:atIndex+1];
+    [self removeAllObserver];
+    [self addObserver:(UIView *) subview];
+  RMFDummyView *dummySubview = [[RMFDummyView alloc] initWithView:(UIView *)subview];
+  [super insertReactSubview:(UIView*)dummySubview atIndex:atIndex];
+}
+
+- (void)removeReactSubview:(id<RCTComponent>)dummySubview {
+    [self removeAllObserver];
+  UIView* subview = ((RMFDummyView*)dummySubview).view;
+  [(UIView*)subview removeFromSuperview];
+  [super removeReactSubview:(UIView*)dummySubview];
+}
+
+- (void)dealloc
+{
+    [self removeAllObserver];
 }
 
 @end
