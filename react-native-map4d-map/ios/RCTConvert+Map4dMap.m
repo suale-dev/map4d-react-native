@@ -78,4 +78,11 @@ RCT_ARRAY_CONVERTER(MFCoordinate)
   return nil;
 }
 
++ (MFCoordinateBounds *)MFCoordinateBounds:(id)json {
+  json = [self NSDictionary:json];
+  CLLocationCoordinate2D northEast = [self CLLocationCoordinate2D:json[@"northEast"]];
+  CLLocationCoordinate2D southWest = [self CLLocationCoordinate2D:json[@"southWest"]];
+  return [[MFCoordinateBounds alloc] initWithCoordinate:northEast coordinate1:southWest];
+}
+
 @end

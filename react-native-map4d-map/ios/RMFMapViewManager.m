@@ -17,6 +17,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
 #import "RCTConvert+Map4dMap.h"
+#import "MFEventResponse.h"
 
 @interface RMFMapViewManager () <MFMapViewDelegate>
 
@@ -71,15 +72,33 @@ RCT_EXPORT_METHOD(getCamera:(nonnull NSNumber *)reactTag
     } else {
       RMFMapView *mapView = (RMFMapView *)view;
       MFCameraPosition *camera = [mapView camera];
-      resolve(@{
-        @"center": @{
-          @"latitude": @(camera.target.latitude),
-          @"longitude": @(camera.target.longitude),
-        },
-        @"bearing": @(camera.bearing),
-        @"zoom": @(camera.zoom),
-        @"tilt": @(camera.tilt),
-      });
+      resolve([MFEventResponse eventFromCameraPosition:camera]);
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(fitBounds:(nonnull NSNumber *)reactTag
+                  withData:(id)json)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFMapView class]]) {
+      RCTLogError(@"Invalid view returned from registry, expecting RMFMapView, got: %@", view);
+    } else {
+      RMFMapView *mapView = (RMFMapView *)view;
+      MFCameraPosition* camera = nil;
+      id data = [RCTConvert NSDictionary:json];
+      MFCoordinateBounds* bounds = [RCTConvert MFCoordinateBounds:data[@"bounds"]];
+      if (bounds != nil) {
+        if (data[@"padding"]) {
+          UIEdgeInsets insets = [RCTConvert UIEdgeInsets:data[@"padding"]];
+          camera = [mapView cameraForBounds:bounds insets:insets];
+        }
+        else {
+          camera = [mapView cameraForBounds:bounds];
+        }
+        [mapView moveCamera:[MFCameraUpdate setCamera:camera]];
+      }
     }
   }];
 }

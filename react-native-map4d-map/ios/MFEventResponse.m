@@ -103,6 +103,9 @@
 }
 
 + (NSDictionary*)eventFromCameraPosition:(MFCameraPosition*) position {
+  if (position == nil) {
+    return (@{});
+  }
   return (@{
     @"center": @{
         @"latitude": @(position.target.latitude),
