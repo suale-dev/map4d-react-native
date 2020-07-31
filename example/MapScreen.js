@@ -170,13 +170,7 @@ export default class MapScreen extends React.Component {
             bearing: 0,
             tilt: 0,
           }}
-          >
-          <MFCircle
-            onPress={this.onPressCircle}
-            center={{latitude: 10.7881732, longitude: 106.7000933}}
-            radius={50}
-            strokeColor="#0000FFFF" strokeWidth={2}
-            zIndex ={3.0} />
+          >         
           <MFMarker
             draggable={true}
             ref={ref => this.marker = ref}
@@ -194,13 +188,13 @@ export default class MapScreen extends React.Component {
             }}
             coordinate={{latitude: 10.7881732, longitude: 106.7000933}}>
               <View style={{
-              width: 60,
-              height: 20,
+              width: 120,
+              height: 60,
               backgroundColor: 'blue',
               flexDirection: 'row'
               }}>
               <Image source={{uri: markerIcon}}
-                  style={{ borderColor: "red", borderWidth: 5, height: 20, width: 20 }} />
+                  style={{ borderColor: "red", borderWidth: 5, height: 60, width: 60 }} />
 
               <Text style={{ fontWeight: 'bold', color: 'black' }}>
                   {"12:09"}

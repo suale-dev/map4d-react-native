@@ -274,12 +274,8 @@ RCT_EXPORT_METHOD(setTime:(nonnull NSNumber *)reactTag
   [reactMapView on3dModeChange:is3DMode];
 }
 
-- (void)mapView: (MFMapView*)  mapView didTapObject: (MFObject*) object {
-  
-}
-
 - (void)mapView: (MFMapView*)  mapView didTapPOI: (MFPOI*) poi {
-  if (poi.Id != -1) {
+  if (poi.Id != 0) {
     RMFPOIMap4d* rPOI = (RMFPOIMap4d*) poi;
     [rPOI.reactPOI didTap];
   }

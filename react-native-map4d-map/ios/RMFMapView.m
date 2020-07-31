@@ -26,11 +26,13 @@
 
 @implementation RMFMapView {
   bool _didCallOnMapReady;
+    NSMutableArray<UIView *> *_reactSubviews;
 }
 
 - (instancetype _Nonnull)init {
   if ((self = [super init])) {
     _didCallOnMapReady = false;
+      _reactSubviews = [NSMutableArray new];
   }
   return self;
 }
@@ -38,33 +40,46 @@
 - (instancetype _Nonnull )initWithFrame: (CGRect)frame {
   if ((self = [super initWithFrame:frame])) {
     _didCallOnMapReady = false;
+      _reactSubviews = [NSMutableArray new];
   }
   return self;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
 - (void)insertReactSubview:(id<RCTComponent>)subview atIndex:(NSInteger)atIndex {
   if ([subview isKindOfClass:[RMFMarker class]]) {
     RMFMarker *marker = (RMFMarker*)subview;
     [marker setMapView:self];
-    [super insertReactSubview:marker atIndex:atIndex];
+    //[super insertReactSubview:marker atIndex:atIndex];
   }
   else if ([subview isKindOfClass:[RMFCircle class]]) {
     RMFCircle *circle = (RMFCircle*)subview;
     [circle setMapView:self];
-    [super insertReactSubview:circle atIndex:atIndex];
+    //[super insertReactSubview:circle atIndex:atIndex];
   }
   else if ([subview isKindOfClass:[RMFPolyline class]]) {
     RMFPolyline* polyline = (RMFPolyline*)subview;
     [polyline setMapView:self];
-    [super insertReactSubview:polyline atIndex:atIndex];
+    //[super insertReactSubview:polyline atIndex:atIndex];
   }
   else if ([subview isKindOfClass:[RMFPOI class]]) {
     RMFPOI* poi = (RMFPOI*)subview;
     [poi setMapView:self];
-    [super insertReactSubview:poi atIndex:atIndex];
+//    [super insertReactSubview:poi atIndex:atIndex];
+  } else {
+    NSArray<id<RCTComponent>> *childSubviews = [subview reactSubviews];
+    for (int i = 0; i < childSubviews.count; i++) {
+      [self insertReactSubview:(UIView *)childSubviews[i] atIndex:atIndex];
+    }
   }
-}
 
+    [_reactSubviews insertObject:(UIView *)subview atIndex:(NSUInteger) atIndex];
+}
+#pragma clang diagnostic pop
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
 - (void)removeReactSubview:(UIView *)subview {
   if ([subview isKindOfClass:[RMFMarker class]]) {
     RMFMarker* marker = (RMFMarker*)subview;
@@ -82,8 +97,15 @@
     RMFPOI* poi = (RMFPOI*)subview;
     poi.map4dPOI.map = nil;
   }
-  [super removeReactSubview:subview];
+  else {
+    NSArray<id<RCTComponent>> *childSubviews = [subview reactSubviews];
+    for (int i = 0; i < childSubviews.count; i++) {
+      [self removeReactSubview:(UIView *)childSubviews[i]];
+    }
+  }
+  [_reactSubviews removeObject:(UIView *)subview];
 }
+#pragma clang diagnostic pop
 
 - (void)setCameraProp:(MFCameraPosition *)cameraProp {
   _cameraProp = cameraProp;
@@ -92,7 +114,7 @@
 
 - (void)setShowsBuildings:(BOOL)showsBuildings {
   _showsBuildings = showsBuildings;
-  [self setObjectsEnabled:showsBuildings];
+    [self setBuildingsEnabled:showsBuildings];
 }
 
 - (void)setShowsMyLocationButton:(BOOL)showsMyLocationButton {
@@ -156,5 +178,14 @@
   _didCallOnMapReady = true;
   if (self.onMapReady) self.onMapReady(@{});
 }
+
+#pragma clang diagnostic pop
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
+- (NSArray<id<RCTComponent>> *)reactSubviews {
+  return _reactSubviews;
+}
+#pragma clang diagnostic pop
 
 @end
