@@ -12,11 +12,7 @@ import java.util.HashMap;
 
 import androidx.annotation.Nullable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.content.Context;
-import android.util.Log;
-
-import vn.map4d.types.MFLocationCoordinate;
 
 public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     private static final int k_animateCamera = 1;
@@ -26,6 +22,7 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     private static final int k_setMyLocationEnabled = 5;
     private static final int k_setShowsMyLocationButton = 6;
     private static final int k_setTime = 7;
+    private static final int k_fitBounds = 8;
 
     private ThemedReactContext reactContext;
 
@@ -52,7 +49,8 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
         "onCameraIdle", MapBuilder.of("registrationName", "onCameraIdle")
       );
       map.putAll(MapBuilder.of(
-        "onMyLocationButtonPress", MapBuilder.of("registrationName", "onMyLocationButtonPress")
+        "onMyLocationButtonPress", MapBuilder.of("registrationName", "onMyLocationButtonPress"),
+        "onPress", MapBuilder.of("registrationName", "onPress")
       ));
       return map;
     }
@@ -68,6 +66,7 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     map.put("setMyLocationEnabled", k_setMyLocationEnabled);
     map.put("showsMyLocationButton", k_setShowsMyLocationButton);
     map.put("setTime", k_setTime);
+    map.put("fitBounds", k_fitBounds);
     return map;
   }
 
@@ -97,6 +96,9 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
       break;
       case k_setTime:
         view.setTime(args.getDouble(0));
+        break;
+      case k_fitBounds:
+        view.fitBounds(args.getMap(0));
         break;
     }
   }
