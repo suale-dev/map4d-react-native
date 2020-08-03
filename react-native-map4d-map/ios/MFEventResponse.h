@@ -22,6 +22,7 @@
 
 @interface MFEventResponse : NSObject
 
++ (NSDictionary*)eventFromCoordinate:(CLLocationCoordinate2D)coordinate;
 + (NSMutableDictionary*)eventFromCoordinate:(CLLocationCoordinate2D)coordinate
                                      action:(NSString*)action
                                  projection:(MFProjection*)projection
@@ -35,6 +36,7 @@
 + (NSDictionary*)eventFromUserPOI:(RMFPOI*) poi action:(NSString*)action;
 
 + (NSDictionary*)eventFromCameraPosition:(MFCameraPosition*) position;
++ (NSDictionary*)eventFromCGPoint:(CGPoint) point;
 
 @end
 

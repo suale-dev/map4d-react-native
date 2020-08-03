@@ -23,6 +23,13 @@
   return @"";
 }
 
++ (NSDictionary*)eventFromCoordinate:(CLLocationCoordinate2D)coordinate {
+  return (@{
+    @"latitude": @(coordinate.latitude),
+    @"longitude": @(coordinate.longitude),
+  });
+}
+
 + (NSMutableDictionary*)eventFromCoordinate:(CLLocationCoordinate2D)coordinate
                                      action:(NSString*)action
                                  projection:(MFProjection*)projection
@@ -103,6 +110,9 @@
 }
 
 + (NSDictionary*)eventFromCameraPosition:(MFCameraPosition*) position {
+  if (position == nil) {
+    return (@{});
+  }
   return (@{
     @"center": @{
         @"latitude": @(position.target.latitude),
@@ -112,6 +122,10 @@
     @"bearing": @(position.bearing),
     @"tilt": @(position.tilt)
   });
+}
+
++ (NSDictionary*)eventFromCGPoint:(CGPoint) point {
+  return (@{ @"x": @(point.x), @"y": @(point.y) });
 }
 
 @end
