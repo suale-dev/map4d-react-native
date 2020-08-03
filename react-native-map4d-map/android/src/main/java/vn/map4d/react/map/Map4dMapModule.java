@@ -16,8 +16,10 @@ import com.facebook.react.bridge.Callback;
 
 import android.view.View;
 import android.util.Log;
+import android.graphics.Point;
 
 import vn.map4d.map.camera.MFCameraPosition;
+import vn.map4d.types.MFLocationCoordinate;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -28,7 +30,7 @@ interface ResolveViewCallback {
 
 public class Map4dMapModule extends ReactContextBaseJavaModule {
 
-    private final ReactApplicationContext reactContext;    
+    private final ReactApplicationContext reactContext;
     
     public Map4dMapModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -98,6 +100,80 @@ public class Map4dMapModule extends ReactContextBaseJavaModule {
       public void found(View view) {
         RMFMapView mapView = (RMFMapView) view;
         promise.resolve(mapView.map.getUiSettings().isMyLocationButtonEnabled());
+      }
+    });
+  }
+
+  @ReactMethod
+  public void pointForCoordinate(final int tag, ReadableMap coordinate, final Promise promise) {
+    final ReactApplicationContext context = getReactApplicationContext();
+
+    final MFLocationCoordinate coord = new MFLocationCoordinate(
+            coordinate.hasKey("latitude") ? coordinate.getDouble("latitude") : 0.0,
+            coordinate.hasKey("longitude") ? coordinate.getDouble("longitude") : 0.0
+    );
+
+    UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
+    uiManager.addUIBlock(new UIBlock()
+    {
+      @Override
+      public void execute(NativeViewHierarchyManager nvhm)
+      {
+        RMFMapView mapView = (RMFMapView) nvhm.resolveView(tag);
+        if (mapView == null) {
+          promise.reject("RMFMapView not found");
+          return;
+        }
+        if (mapView.map == null) {
+          promise.reject("RMFMapView.map is not valid");
+          return;
+        }
+
+        Point pt = mapView.map.getProjection().pointForCoordinate(coord);
+
+        WritableMap ptJson = new WritableNativeMap();
+        ptJson.putInt("x", pt.x);
+        ptJson.putInt("y", pt.y);
+
+        promise.resolve(ptJson);
+      }
+    });
+  }
+
+  @ReactMethod
+  public void coordinateForPoint(final int tag, ReadableMap point, final Promise promise) {
+    final ReactApplicationContext context = getReactApplicationContext();
+
+    final Point pt = new Point(
+            point.hasKey("x") ? (int)(point.getDouble("x")) : 0,
+            point.hasKey("y") ? (int)(point.getDouble("y")) : 0
+    );
+
+    UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
+    uiManager.addUIBlock(new UIBlock()
+    {
+      @Override
+      public void execute(NativeViewHierarchyManager nvhm)
+      {
+        RMFMapView mapView = (RMFMapView) nvhm.resolveView(tag);
+        if (mapView == null)
+        {
+          promise.reject("RMFMapView not found");
+          return;
+        }
+        if (mapView.map == null)
+        {
+          promise.reject("RMFMapView.map is not valid");
+          return;
+        }
+
+        MFLocationCoordinate coord = mapView.map.getProjection().coordinateForPoint(pt);
+
+        WritableMap coordJson = new WritableNativeMap();
+        coordJson.putDouble("latitude", coord.getLatitude());
+        coordJson.putDouble("longitude", coord.getLongitude());
+
+        promise.resolve(coordJson);
       }
     });
   }

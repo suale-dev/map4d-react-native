@@ -185,6 +185,19 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       }
     });
 
+    map.setOnMapClickListener(new Map4D.OnMapClickListener() {
+      @Override
+      public void onMapClick(MFLocationCoordinate mfLocationCoordinate) {
+        WritableMap event = new WritableNativeMap();
+        WritableMap location = new WritableNativeMap();
+        location.putDouble("latitude", mfLocationCoordinate.getLatitude());
+        location.putDouble("longitude", mfLocationCoordinate.getLongitude());
+        event.putMap("coordinate", location);
+        event.putString("action", "map-press");
+        manager.pushEvent(getContext(), view, "onPress", event);
+      }
+    });
+
     map.setOnCameraMoveListener(new Map4D.OnCameraMoveListener() {
       @Override
       public void onCameraMove() {
@@ -373,6 +386,46 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     public void setTime(double time) {
       if (map == null) return;
       map.setTime(new Date((long) time));
+    }
+
+    public void fitBounds(ReadableMap boundData) {
+      if (map == null) return;
+      ReadableMap bounds = boundData.getMap("bounds");
+      ReadableMap southWest = bounds.getMap("southWest");
+      ReadableMap northEast = bounds.getMap("northEast");
+
+      MFCoordinateBounds.Builder builder = new MFCoordinateBounds.Builder();
+      double southWestLat = southWest.getDouble("latitude");
+      double southWestLng = southWest.getDouble("longitude");
+      builder.include(new MFLocationCoordinate(southWestLat, southWestLng));
+
+      double northEastLat = northEast.getDouble("latitude");
+      double northEastLng = northEast.getDouble("longitude");
+      builder.include(new MFLocationCoordinate(northEastLat, northEastLng));
+
+      int paddingDefault = 10;
+      int paddingLeft = paddingDefault;
+      int paddingRight = paddingDefault;
+      int paddingTop = paddingDefault;
+      int paddingBottom = paddingDefault;
+      if (boundData.hasKey("padding")) {
+        ReadableMap padding = boundData.getMap("padding");
+        if (padding.hasKey("left")) {
+          paddingLeft = padding.getInt("left");
+        }
+        if (padding.hasKey("right")) {
+          paddingRight = padding.getInt("right");
+        }
+        if (padding.hasKey("top")) {
+          paddingTop = padding.getInt("top");
+        }
+        if (padding.hasKey("bottom")) {
+          paddingBottom = padding.getInt("bottom");
+        }
+      }
+      MFCameraPosition cameraPosition = map.getCameraPositionForBounds(
+        builder.build(), paddingLeft, paddingTop, paddingRight, paddingBottom);
+      map.moveCamera(MFCameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     public void addFeature(View child, int index) {

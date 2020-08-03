@@ -43,10 +43,20 @@ export default class MapScreen extends React.Component {
   }
 
   handleClick() {
-    this.animateCamera();
+    this.fitBounds();
     // this.enable3DMode();
     // this.updateCircle1();
     // this.updatePolyline();
+  }
+
+  async pointForCoordinate() {
+    const pt = await this.map.pointForCoordinate({latitude: 10.7881732, longitude: 106.7000933})
+    console.log("point: " + pt.x + "  " + pt.y)
+  }
+
+  async coordinateForPoint() {
+    const coordinate = await this.map.coordinateForPoint({x: 0, y: 0})
+    console.log("coordinate: " + coordinate.latitude + "  " + coordinate.longitude)
   }
 
   rotateImage() {
@@ -88,6 +98,16 @@ export default class MapScreen extends React.Component {
       bearing: 0,
       zoom: 17,
       center: {latitude: 10.772002, longitude: 106.704294}
+    })
+  }
+
+  fitBounds() {
+    this.map.fitBounds({
+      bounds: {
+        northEast: { latitude: 16.07102188912311, longitude: 108.22186589241028 },
+        southWest: { latitude: 16.07302188912311, longitude: 108.25186589241028 }
+      },
+      padding: { top: 1, right: 2, bottom: 3, left: 4 }
     })
   }
 

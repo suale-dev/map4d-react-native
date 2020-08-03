@@ -171,6 +171,52 @@ class MFMapView extends React.Component {
       }
     }
 
+    fitBounds(boundsData) {
+      this._runCommand("fitBounds", [boundsData])
+    }
+
+    /**
+   * Convert a map coordinate to screen point
+   *
+   * @param coordinate Coordinate
+   * @param [coordinate.latitude] Latitude
+   * @param [coordinate.longitude] Longitude
+   *
+   * @return Promise Promise with the point ({ x: Number, y: Number })
+   */
+    pointForCoordinate(coordinate) {
+      if (Platform.OS === 'android') {
+        return NativeModules.Map4dMap.pointForCoordinate(
+          this._getHandle(),
+          coordinate
+        );
+      } else if (Platform.OS === 'ios') {
+        return this._runCommand('pointForCoordinate', [coordinate]);
+      }
+      return Promise.reject('pointForCoordinate not supported on this platform');
+    }
+
+  /**
+   * Convert a screen point to a map coordinate
+   *
+   * @param point Point
+   * @param [point.x] X
+   * @param [point.x] Y
+   *
+   * @return Promise Promise with the coordinate ({ latitude: Number, longitude: Number })
+   */
+    coordinateForPoint(point) {
+      if (Platform.OS === 'android') {
+        return NativeModules.Map4dMap.coordinateForPoint(
+          this._getHandle(),
+          point
+        );
+      } else if (Platform.OS === 'ios') {
+        return this._runCommand('coordinateForPoint', [point]);
+      }
+      return Promise.reject('coordinateForPoint not supported on this platform');
+    }
+
     _getHandle() {
       return findNodeHandle(this.map);
     }
