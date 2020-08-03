@@ -16,6 +16,7 @@
 #import <React/RCTLog.h>
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
+#import <React/RCTConvert+CoreLocation.h>
 #import "RCTConvert+Map4dMap.h"
 #import "MFEventResponse.h"
 
@@ -99,6 +100,40 @@ RCT_EXPORT_METHOD(fitBounds:(nonnull NSNumber *)reactTag
         }
         [mapView moveCamera:[MFCameraUpdate setCamera:camera]];
       }
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(pointForCoordinate:(nonnull NSNumber *)reactTag
+                  withCoordinate:(id)json
+                  resolver: (RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFMapView class]]) {
+      reject(@"Invalid argument", [NSString stringWithFormat:@"Invalid view returned from registry, expecting RMFMapView, got: %@", view], NULL);
+    } else {
+      RMFMapView *mapView = (RMFMapView *)view;
+      CGPoint point = [mapView.projection pointForCoordinate:[RCTConvert CLLocationCoordinate2D:json]];
+      resolve([MFEventResponse eventFromCGPoint:point]);
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(coordinateForPoint:(nonnull NSNumber *)reactTag
+                  withPoint:(id)json
+                  resolver: (RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFMapView class]]) {
+      reject(@"Invalid argument", [NSString stringWithFormat:@"Invalid view returned from registry, expecting RMFMapView, got: %@", view], NULL);
+    } else {
+      RMFMapView *mapView = (RMFMapView *)view;
+      CLLocationCoordinate2D coordinate = [mapView.projection coordinateForPoint:[RCTConvert CGPoint:json]];
+      resolve([MFEventResponse eventFromCoordinate:coordinate]);
     }
   }];
 }

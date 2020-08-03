@@ -23,6 +23,13 @@
   return @"";
 }
 
++ (NSDictionary*)eventFromCoordinate:(CLLocationCoordinate2D)coordinate {
+  return (@{
+    @"latitude": @(coordinate.latitude),
+    @"longitude": @(coordinate.longitude),
+  });
+}
+
 + (NSMutableDictionary*)eventFromCoordinate:(CLLocationCoordinate2D)coordinate
                                      action:(NSString*)action
                                  projection:(MFProjection*)projection
@@ -115,6 +122,10 @@
     @"bearing": @(position.bearing),
     @"tilt": @(position.tilt)
   });
+}
+
++ (NSDictionary*)eventFromCGPoint:(CGPoint) point {
+  return (@{ @"x": @(point.x), @"y": @(point.y) });
 }
 
 @end
