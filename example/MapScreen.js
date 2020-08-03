@@ -186,21 +186,35 @@ export default class MapScreen extends React.Component {
               (event) => {
                 console.log("dragEnd: ", event.nativeEvent)
             }}
+            anchor={{x: 0.0, y: 0.0}}
             coordinate={{latitude: 10.7881732, longitude: 106.7000933}}>
               <View style={{
-              width: 120,
-              height: 60,
-              backgroundColor: 'blue',
-              flexDirection: 'row'
-              }}>
-              <Image source={{uri: markerIcon}}
-                  style={{ borderColor: "red", borderWidth: 5, height: 60, width: 60 }} />
-
-              <Text style={{ fontWeight: 'bold', color: 'black' }}>
-                  {"12:09"}
-              </Text>
+              width:30,
+              height:35,
+              borderWidth:1,
+              borderColor:'yellow'
+            }}>
+              <Image source={{ uri: 'https://b.thumbs.redditmedia.com/F82n9T2HtoYxNmxbe1CL0RKxBdeUEw-HVyd-F-Lb91o.png' }}
+            style={{width:25, height:31}} resizeMode={'contain'} />
             </View>
           </MFMarker>
+          <MFCircle
+            onPress={this.onPressCircle}
+            center={{latitude: 10.7881732, longitude: 106.7000933}}
+            radius={50}
+            visible={true}
+            fillColor="#F00FF07F"
+            strokeColor="#0000FF08" strokeWidth={2}
+            zIndex ={3.0} />
+
+          <MFMarker
+            coordinate={{latitude: 10.7881732, longitude: 106.7000933}}
+            draggable={true}
+            anchor={{x: 0.5, y: 1.0}}
+            userData={{name: "Marker 1", arr:[1, 5, 9], obj:{x:10, y:11}}}
+            onPress={(event) => {console.log('on press marker:', event.nativeEvent)}}
+            zIndex={20}
+          />
           {/*<MFMarker
             coordinate={{latitude: 16.073034, longitude: 108.224315}}
             draggable={true}
