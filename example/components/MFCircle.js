@@ -77,6 +77,7 @@ class MFCircle extends React.Component {
   constructor(props) {
     super(props);
     this._onPress = this._onPress.bind(this)
+    this._ref = this._ref.bind(this)
   }
 
   setCenter(center) {
@@ -152,10 +153,14 @@ class MFCircle extends React.Component {
     }
   }
 
+  _ref(ref) {
+    this.circle = ref;
+  }
+
   render() {
     return <RMFCircle
       {...this.props}
-      ref={ref => {this.circle = ref;}}
+      ref={this._ref}
       onPress={this._onPress}
     />;
   }

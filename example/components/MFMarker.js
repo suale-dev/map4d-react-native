@@ -121,6 +121,7 @@ class MFMarker extends React.Component {
     constructor(props) {
       super(props);      
       this._onPress = this._onPress.bind(this)
+      this._ref = this._ref.bind(this)
     }
 
     setCoordinate(location) {
@@ -212,6 +213,10 @@ class MFMarker extends React.Component {
         }
       }
 
+      _ref(ref) {
+        this.marker = ref;
+      }
+
       render() {
         let icon = {};
         if (this.props.icon) {
@@ -221,7 +226,7 @@ class MFMarker extends React.Component {
         return <RMFMarker
           {...this.props}
           icon={icon}
-          ref={ref => { this.marker = ref; }}
+          ref={this._ref}
           onPress={this._onPress}
         />;
       }
