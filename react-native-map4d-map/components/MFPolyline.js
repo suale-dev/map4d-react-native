@@ -69,6 +69,19 @@ const propTypes = {
 class MFPolyline extends React.Component {
   constructor(props) {
     super(props);
+    this._onPress = this._onPress.bind(this)
+    this._ref = this._ref.bind(this)
+  }
+
+  _onPress(event) {
+    event.stopPropagation();
+      if (this.props.onPress) {
+        this.props.onPress(event);
+    }
+  }
+
+  _ref(ref) {
+    this.circle = ref;
   }
 
   // TODO - bug
@@ -147,13 +160,8 @@ class MFPolyline extends React.Component {
   render() {
     return <RMFPolyline
       {...this.props}
-      ref={ref => { this.marker = ref; }}
-      onPress={event => {
-        event.stopPropagation();
-        if (this.props.onPress) {
-          this.props.onPress(event);
-        }
-      }}
+      ref={this._ref}
+      onPress={this._onPress}
     />;
   }
 }
