@@ -81,7 +81,7 @@ class MFPolyline extends React.Component {
   }
 
   _ref(ref) {
-    this.circle = ref;
+    this.polyline = ref;
   }
 
   // TODO - bug
@@ -118,7 +118,7 @@ class MFPolyline extends React.Component {
   }
 
   _getHandle() {
-    return findNodeHandle(this.marker);
+    return findNodeHandle(this.polyline);
   }
 
   _runCommand(name, args) {
