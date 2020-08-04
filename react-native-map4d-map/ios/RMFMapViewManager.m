@@ -78,6 +78,34 @@ RCT_EXPORT_METHOD(getCamera:(nonnull NSNumber *)reactTag
   }];
 }
 
+RCT_EXPORT_METHOD(cameraForBounds:(nonnull NSNumber *)reactTag
+                  withData:(id)json
+                  resolver: (RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFMapView class]]) {
+      reject(@"Invalid argument", [NSString stringWithFormat:@"Invalid view returned from registry, expecting RMFMapView, got: %@", view], NULL);
+    } else {
+      RMFMapView *mapView = (RMFMapView *)view;
+      MFCameraPosition *camera = nil;
+      id data = [RCTConvert NSDictionary:json];
+      if (data[@"bounds"]) {
+        MFCoordinateBounds* bounds = [RCTConvert MFCoordinateBounds:data[@"bounds"]];
+        if (data[@"padding"]) {
+          UIEdgeInsets insets = [RCTConvert UIEdgeInsets:data[@"padding"]];
+          camera = [mapView cameraForBounds:bounds insets:insets];
+        }
+        else {
+          camera = [mapView cameraForBounds:bounds];
+        }
+      }
+      resolve([MFEventResponse eventFromCameraPosition:camera]);
+    }
+  }];
+}
+
 RCT_EXPORT_METHOD(fitBounds:(nonnull NSNumber *)reactTag
                   withData:(id)json)
 {
@@ -89,8 +117,8 @@ RCT_EXPORT_METHOD(fitBounds:(nonnull NSNumber *)reactTag
       RMFMapView *mapView = (RMFMapView *)view;
       MFCameraPosition* camera = nil;
       id data = [RCTConvert NSDictionary:json];
-      MFCoordinateBounds* bounds = [RCTConvert MFCoordinateBounds:data[@"bounds"]];
-      if (bounds != nil) {
+      if (data[@"bounds"]) {
+        MFCoordinateBounds* bounds = [RCTConvert MFCoordinateBounds:data[@"bounds"]];
         if (data[@"padding"]) {
           UIEdgeInsets insets = [RCTConvert UIEdgeInsets:data[@"padding"]];
           camera = [mapView cameraForBounds:bounds insets:insets];

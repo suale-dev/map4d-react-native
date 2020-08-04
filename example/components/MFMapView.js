@@ -180,6 +180,19 @@ class MFMapView extends React.Component {
     this._runCommand("fitBounds", [boundsData])
   }
 
+  cameraForBounds(boundsData) {
+    if (Platform.OS === 'android') {
+      return NativeModules.Map4dMap.cameraForBounds(
+        this._getHandle(),
+        boundsData
+      );
+    } else if (Platform.OS === 'ios') {
+      return this._runCommand('cameraForBounds', [boundsData]);
+    }
+    return Promise.reject('cameraForBounds not supported on this platform');
+  }
+
+
   /**
  * Convert a map coordinate to screen point
  *

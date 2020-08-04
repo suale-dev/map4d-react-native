@@ -87,7 +87,7 @@ class MFPOI extends React.Component {
   }
 
   _ref(ref) {
-    this.circle = ref;
+    this.poi = ref;
   }
 
   setCoordinate(coordinate) {

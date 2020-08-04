@@ -111,6 +111,18 @@ export default class MapScreen extends React.Component {
     })
   }
 
+  async cameraForBounds() {
+    const camera = await this.map.cameraForBounds({
+      bounds: {
+        northEast: { latitude: 16.09723733448094, longitude: 108.22108268737793 },
+        southWest: { latitude: 16.09410362136537, longitude: 108.22616815567017 }
+      },
+      padding: { top: 1, right: 2, bottom: 3, left: 4 }
+    })
+    console.log('Camera:', camera)
+    this.map.moveCamera(camera)
+  }
+
   async getCamera() {
     const camera = await this.map.getCamera();
     console.log(camera)
