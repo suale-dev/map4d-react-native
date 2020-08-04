@@ -86,115 +86,120 @@ const propTypes = {
 
 
 class MFMapView extends React.Component {
-    constructor(props) {
-      super(props);      
-      this.state = {
-        isReady: Platform.OS === 'ios',
-      };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isReady: Platform.OS === 'ios',
+    };
 
-      this._onMapReady = this._onMapReady.bind(this);
-    }
+    this._onMapReady = this._onMapReady.bind(this);
+    this._ref = this._ref.bind(this);
+  }
 
-    _onMapReady() {        
-        const { onMapReady } = this.props;
-        this.setState({ isReady: true }, () => {
-          if (onMapReady) {
-            onMapReady();
-          }
-        });
-      }   
-
-    getCamera() {
-        if (Platform.OS === 'android') {
-            return NativeModules.Map4dMap.getCamera(this._getHandle());
-        } else if (Platform.OS === 'ios') {
-            return this._runCommand('getCamera', []);
-        }
-        return Promise.reject('Function not supported on this platform');
-    }
-
-    animateCamera(camera) {
-        this._runCommand('animateCamera', [camera]);
-    }
-
-    moveCamera(camera) {
-      this._runCommand('moveCamera', [camera]);
-    }
-
-    enable3DMode(enbale) {
-      this._runCommand('enable3DMode', [enbale]);
-    }
-
-    is3DMode() {
-      if (Platform.OS === 'android') {
-        return NativeModules.Map4dMap.is3DMode(this._getHandle());
-      } else if (Platform.OS === 'ios') {
-        return this._runCommand('is3DMode', []);
+  _onMapReady() {
+    const { onMapReady } = this.props;
+    this.setState({ isReady: true }, () => {
+      if (onMapReady) {
+        onMapReady();
       }
-      return Promise.reject('Function not supported on this platform');
-    }
+    });
+  }
 
-    setSwitchMode(mode) {
-      let modeInt = 4;
-      switch (mode) {
-        case "Auto2DTo3D":
-          modeInt = 1;
-          break;
-        case "Auto3DTo2D":
-          modeInt = 2;
-          break;
-        case "Auto":
-          modeInt = 3;
-          break;
-        case "Manual":
-          modeInt = 4;
-          break;        
-      }
-      this._runCommand('setSwitchMode', [modeInt]);
-    }
+  _ref(ref) {
+    this.map = ref;
+  }
 
-    setMyLocationEnabled(enable) {
-      this._runCommand('setMyLocationEnabled', [enable]);
+  getCamera() {
+    if (Platform.OS === 'android') {
+      return NativeModules.Map4dMap.getCamera(this._getHandle());
+    } else if (Platform.OS === 'ios') {
+      return this._runCommand('getCamera', []);
     }
+    return Promise.reject('Function not supported on this platform');
+  }
 
-    showsMyLocationButton(enable) {
-      this._runCommand('showsMyLocationButton', [enable]);
-    }
+  animateCamera(camera) {
+    this._runCommand('animateCamera', [camera]);
+  }
 
-    setTime(time) {
-      let t = Date.parse(time)
-      if (isNaN(t)) {
-        console.log('time invalid')
-      }
-      else {
-        this._runCommand('setTime', [t]);
-      }
-    }
+  moveCamera(camera) {
+    this._runCommand('moveCamera', [camera]);
+  }
 
-    fitBounds(boundsData) {
-      this._runCommand("fitBounds", [boundsData])
-    }
+  enable3DMode(enbale) {
+    this._runCommand('enable3DMode', [enbale]);
+  }
 
-    /**
-   * Convert a map coordinate to screen point
-   *
-   * @param coordinate Coordinate
-   * @param [coordinate.latitude] Latitude
-   * @param [coordinate.longitude] Longitude
-   *
-   * @return Promise Promise with the point ({ x: Number, y: Number })
-   */
-    pointForCoordinate(coordinate) {
-      if (Platform.OS === 'android') {
-        return NativeModules.Map4dMap.pointForCoordinate(
-          this._getHandle(),
-          coordinate
-        );
-      } else if (Platform.OS === 'ios') {
-        return this._runCommand('pointForCoordinate', [coordinate]);
-      }
-      return Promise.reject('pointForCoordinate not supported on this platform');
+  is3DMode() {
+    if (Platform.OS === 'android') {
+      return NativeModules.Map4dMap.is3DMode(this._getHandle());
+    } else if (Platform.OS === 'ios') {
+      return this._runCommand('is3DMode', []);
     }
+    return Promise.reject('Function not supported on this platform');
+  }
+
+  setSwitchMode(mode) {
+    let modeInt = 4;
+    switch (mode) {
+      case "Auto2DTo3D":
+        modeInt = 1;
+        break;
+      case "Auto3DTo2D":
+        modeInt = 2;
+        break;
+      case "Auto":
+        modeInt = 3;
+        break;
+      case "Manual":
+        modeInt = 4;
+        break;
+    }
+    this._runCommand('setSwitchMode', [modeInt]);
+  }
+
+  setMyLocationEnabled(enable) {
+    this._runCommand('setMyLocationEnabled', [enable]);
+  }
+
+  showsMyLocationButton(enable) {
+    this._runCommand('showsMyLocationButton', [enable]);
+  }
+
+  setTime(time) {
+    let t = Date.parse(time)
+    if (isNaN(t)) {
+      console.log('time invalid')
+    }
+    else {
+      this._runCommand('setTime', [t]);
+    }
+  }
+
+  fitBounds(boundsData) {
+    this._runCommand("fitBounds", [boundsData])
+  }
+
+  /**
+ * Convert a map coordinate to screen point
+ *
+ * @param coordinate Coordinate
+ * @param [coordinate.latitude] Latitude
+ * @param [coordinate.longitude] Longitude
+ *
+ * @return Promise Promise with the point ({ x: Number, y: Number })
+ */
+  pointForCoordinate(coordinate) {
+    if (Platform.OS === 'android') {
+      return NativeModules.Map4dMap.pointForCoordinate(
+        this._getHandle(),
+        coordinate
+      );
+    } else if (Platform.OS === 'ios') {
+      return this._runCommand('pointForCoordinate', [coordinate]);
+    }
+    return Promise.reject('pointForCoordinate not supported on this platform');
+  }
 
   /**
    * Convert a screen point to a map coordinate
@@ -205,81 +210,82 @@ class MFMapView extends React.Component {
    *
    * @return Promise Promise with the coordinate ({ latitude: Number, longitude: Number })
    */
-    coordinateForPoint(point) {
-      if (Platform.OS === 'android') {
-        return NativeModules.Map4dMap.coordinateForPoint(
+  coordinateForPoint(point) {
+    if (Platform.OS === 'android') {
+      return NativeModules.Map4dMap.coordinateForPoint(
+        this._getHandle(),
+        point
+      );
+    } else if (Platform.OS === 'ios') {
+      return this._runCommand('coordinateForPoint', [point]);
+    }
+    return Promise.reject('coordinateForPoint not supported on this platform');
+  }
+
+  _getHandle() {
+    return findNodeHandle(this.map);
+  }
+
+  _runCommand(name, args) {
+    switch (Platform.OS) {
+      case 'android':
+        return NativeModules.UIManager.dispatchViewManagerCommand(
           this._getHandle(),
-          point
+          this._uiManagerCommand(name),
+          args
         );
-      } else if (Platform.OS === 'ios') {
-        return this._runCommand('coordinateForPoint', [point]);
-      }
-      return Promise.reject('coordinateForPoint not supported on this platform');
+
+      case 'ios':
+        return this._mapManagerCommand(name)(this._getHandle(), ...args);
+
+      default:
+        return Promise.reject(`Invalid platform was passed: ${Platform.OS}`);
+    }
+  }
+
+  _uiManagerCommand(name) {
+    const UIManager = NativeModules.UIManager;
+    const componentName = "RMFMapView";
+
+    if (!UIManager.getViewManagerConfig) {
+      // RN < 0.58
+      return UIManager[componentName].Commands[name];
     }
 
-    _getHandle() {
-      return findNodeHandle(this.map);
+    // RN >= 0.58        
+    return UIManager.getViewManagerConfig(componentName).Commands[name];
+  }
+
+  _mapManagerCommand(name) {
+    return NativeModules[`RMFMapView`][name];
+  }
+
+
+  render() {
+    let props;
+
+    if (this.state.isReady) {
+      props = {
+        style: this.props.style,
+        onMapReady: this._onMapReady,
+        ...this.props,
+      };
+    } else {
+      props = {
+        style: this.props.style,
+        onMapReady: this._onMapReady
+      };
     }
 
-    _runCommand(name, args) {
-        switch (Platform.OS) {
-          case 'android':
-            return NativeModules.UIManager.dispatchViewManagerCommand(
-              this._getHandle(),
-              this._uiManagerCommand(name),
-              args
-            );
-    
-          case 'ios':
-            return this._mapManagerCommand(name)(this._getHandle(), ...args);
-    
-          default:
-            return Promise.reject(`Invalid platform was passed: ${Platform.OS}`);
-        }
-      }
-
-      _uiManagerCommand(name) {
-        const UIManager = NativeModules.UIManager;
-        const componentName = "RMFMapView";
-    
-        if (!UIManager.getViewManagerConfig) {
-          // RN < 0.58
-          return UIManager[componentName].Commands[name];
-        }
-    
-        // RN >= 0.58        
-        return UIManager.getViewManagerConfig(componentName).Commands[name];
-      }   
-
-      _mapManagerCommand(name) {
-        return NativeModules[`RMFMapView`][name];
-      }
-    
-    
-    render() {
-        let props;
-
-        if (this.state.isReady) {
-            props = {        
-                style: this.props.style,    
-                onMapReady: this._onMapReady,
-                ...this.props,
-            };        
-        } else {
-            props = {                
-                style: this.props.style,
-                onMapReady: this._onMapReady
-            };
-        }
-
-      return <RMFMapView {...props} ref={ref => {
-        this.map = ref;
-      }}/>;
-    }
-  }  
+    return <RMFMapView
+      {...props}
+      ref={this._ref}
+    />;
+  }
+}
 
 MFMapView.propTypes = propTypes;
 var RMFMapView = requireNativeComponent(`RMFMapView`, MFMapView);
 
 
-export {MFMapView}
+export { MFMapView }
