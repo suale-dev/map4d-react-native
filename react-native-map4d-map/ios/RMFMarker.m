@@ -175,7 +175,6 @@
   }
 
   [_iconView setFrame:CGRectMake(0, 0, width, height)];
-    [self->_map4dMarker setIconView:_iconView];
 }
 
 - (void)iconViewInsertSubview:(UIView*)subview atIndex:(NSInteger)atIndex {
@@ -189,15 +188,24 @@
 - (void) removeAllObserver {
     for (UIView* v in observables) {
         [v removeObserver:self forKeyPath:@"image"];
-        [v removeObserver:self forKeyPath:@"bounds"];
+        //[v removeObserver:self forKeyPath:@"bounds"];
     }
     [observables removeAllObjects];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+    UIApplicationState appState = [[UIApplication sharedApplication] applicationState];
     if (context == (__bridge void * _Nullable)(_iconView)) {
-        if (self.map4dMarker != NULL) {
+        if (_map4dMarker != NULL) {
+            //TODO: remove me
+            //RCTImageView will clear image when window == nil or app go to background mode --> causes a bug, marker is updated without image.
+            //TODO: how to fix if we stop cheating?
+            if (context == (__bridge void * _Nullable) self.map4dMarker.iconView
+                && (!self.window || appState == UIApplicationStateBackground)
+                ) {
+                return;
+            }
             [self.map4dMarker setIconView:_iconView];
         }
     } else {
@@ -208,7 +216,7 @@
 - (void)addObserver:(UIView*)view {
   if ([view isKindOfClass:[RCTImageView class]]) {
     [view addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:(__bridge void * _Nullable)(_iconView)];
-    [view addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:(__bridge void * _Nullable)(_iconView)];
+    //[view addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:(__bridge void * _Nullable)(_iconView)];
       [observables addObject:view];
   }
   
