@@ -19,6 +19,7 @@ import android.util.Log;
 import android.graphics.Point;
 
 import vn.map4d.map.camera.MFCameraPosition;
+import vn.map4d.map.core.*;
 import vn.map4d.types.MFLocationCoordinate;
 
 import java.util.Map;
@@ -174,6 +175,66 @@ public class Map4dMapModule extends ReactContextBaseJavaModule {
         coordJson.putDouble("longitude", coord.getLongitude());
 
         promise.resolve(coordJson);
+      }
+    });
+  }
+
+  @ReactMethod
+  public void cameraForBounds(final int tag, ReadableMap boundData, final Promise promise) {
+    final ReactApplicationContext context = getReactApplicationContext();
+    UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
+
+    final ReadableMap bounds = boundData.getMap("bounds");
+    final ReadableMap padding = boundData.getMap("padding");
+
+    uiManager.addUIBlock(new UIBlock()
+    {
+      @Override
+      public void execute(NativeViewHierarchyManager nvhm)
+      {
+        RMFMapView mapView = (RMFMapView) nvhm.resolveView(tag);
+        if (mapView == null)
+        {
+          promise.reject("RMFMapView not found");
+          return;
+        }
+        if (mapView.map == null)
+        {
+          promise.reject("RMFMapView.map is not valid");
+          return;
+        }
+
+        ReadableMap southWest = bounds.getMap("southWest");
+        ReadableMap northEast = bounds.getMap("northEast");
+
+        MFCoordinateBounds.Builder builder = new MFCoordinateBounds.Builder();
+        double southWestLat = southWest.getDouble("latitude");
+        double southWestLng = southWest.getDouble("longitude");
+        builder.include(new MFLocationCoordinate(southWestLat, southWestLng));
+
+        double northEastLat = northEast.getDouble("latitude");
+        double northEastLng = northEast.getDouble("longitude");
+        builder.include(new MFLocationCoordinate(northEastLat, northEastLng));
+
+        int paddingDefault = 10;
+        int paddingLeft = padding.hasKey("left") ? padding.getInt("left") : paddingDefault;
+        int paddingRight = padding.hasKey("right") ? padding.getInt("right") : paddingDefault;
+        int paddingTop = padding.hasKey("top") ? padding.getInt("top") : paddingDefault;
+        int paddingBottom = padding.hasKey("bottom") ? padding.getInt("bottom") : paddingDefault;
+
+        MFCameraPosition cameraPosition = mapView.map.getCameraPositionForBounds(
+          builder.build(), paddingLeft, paddingTop, paddingRight, paddingBottom);
+
+        WritableMap data = new WritableNativeMap();
+        data.putDouble("zoom", cameraPosition.getZoom());
+        data.putDouble("bearing", cameraPosition.getBearing());
+        data.putDouble("tilt", cameraPosition.getTilt());
+        WritableMap target = new WritableNativeMap();
+        target.putDouble("latitude", cameraPosition.getTarget().getLatitude());
+        target.putDouble("longitude", cameraPosition.getTarget().getLongitude());
+        data.putMap("center", target);
+
+        promise.resolve(data);
       }
     });
   }
