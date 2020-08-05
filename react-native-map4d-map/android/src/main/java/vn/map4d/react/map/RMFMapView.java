@@ -27,7 +27,6 @@ import vn.map4d.map.core.*;
 import vn.map4d.map.camera.*;
 import vn.map4d.map.annotations.*;
 import vn.map4d.types.MFLocationCoordinate;
-import vn.map4d.map.camera.MFCameraPosition;
 
 public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
 
