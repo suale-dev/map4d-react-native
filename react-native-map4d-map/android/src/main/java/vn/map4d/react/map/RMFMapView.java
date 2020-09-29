@@ -37,7 +37,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     private final Map<MFMarker, RMFMarker> markerMap = new HashMap<>();
     private final Map<MFCircle, RMFCircle> circleMap = new HashMap<>();
     private final Map<MFPolyline, RMFPolyline> polylineMap = new HashMap<>();
-    private final Map<Long, RMFPOI> poiMap = new HashMap<>();
+    private final Map<String, RMFPOI> poiMap = new HashMap<>();
 
     private ViewAttacherGroup attacherGroup;
 
@@ -162,13 +162,13 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
 
     map.setOnPOIClickListener(new Map4D.OnPOIClickListener() {
       @Override
-      public void onPOIClick(MFPOI poi) {
-        RMFPOI rctPOI = poiMap.get(Long.parseLong(poi.getPlaceId()));
+      public void onPOIClick(String placeId, String title, MFLocationCoordinate location) {
+        RMFPOI rctPOI = poiMap.get(placeId);
         if (rctPOI == null) {
           return;
         }
 
-        WritableMap event = getPOIEventData(poi);
+        WritableMap event = getPOIEventData(location);
         event.putString("action", "poi-press");
         manager.pushEvent(getContext(), rctPOI, "onPress", event);
       }
@@ -252,11 +252,11 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       return event;
   }
 
-  private WritableMap getPOIEventData(MFPOI poi) {
+  private WritableMap getPOIEventData(MFLocationCoordinate locationCoordinate) {
     WritableMap event = new WritableNativeMap();
     WritableMap location = new WritableNativeMap();
-    location.putDouble("latitude", poi.getPosition().getLatitude());
-    location.putDouble("longitude", poi.getPosition().getLongitude());
+    location.putDouble("latitude", locationCoordinate.getLatitude());
+    location.putDouble("longitude", locationCoordinate.getLongitude());
     event.putMap("coordinate", location);
     return event;
   }
@@ -486,7 +486,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
             }                  
       
             MFPOI poi = (MFPOI) annotation.getFeature();
-            poiMap.put(poi.getId(), annotation);
+            poiMap.put(poi.getPlaceId(), annotation);
           }
           //else if child instanceof Polyline, Polygon {}
           else if (child instanceof ViewGroup) {
@@ -507,20 +507,20 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       return features.get(index);
     }
     
-      public void removeFeatureAt(int index) {
-        RMFFeature feature = features.remove(index);
-        if (feature instanceof RMFMarker) {
-           markerMap.remove(feature.getFeature());
-        } else if (feature instanceof RMFCircle) {
-          circleMap.remove(feature.getFeature());
-        }
-        else if (feature instanceof RMFPolyline) {
-          polylineMap.remove(feature.getFeature());
-        }
-        else if (feature instanceof RMFPOI) {
-          MFPOI poi = (MFPOI) feature.getFeature();
-          poiMap.remove(poi.getId());
-        }
-        feature.removeFromMap(map);
+    public void removeFeatureAt(int index) {
+      RMFFeature feature = features.remove(index);
+      if (feature instanceof RMFMarker) {
+          markerMap.remove(feature.getFeature());
+      } else if (feature instanceof RMFCircle) {
+        circleMap.remove(feature.getFeature());
       }
+      else if (feature instanceof RMFPolyline) {
+        polylineMap.remove(feature.getFeature());
+      }
+      else if (feature instanceof RMFPOI) {
+        MFPOI poi = (MFPOI) feature.getFeature();
+        poiMap.remove(poi.getPlaceId());
+      }
+      feature.removeFromMap(map);
+    }
 }
