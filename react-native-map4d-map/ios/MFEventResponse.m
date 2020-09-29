@@ -88,7 +88,6 @@
   if (action != nil) {
     dict[@"action"] = action;
   }
-  dict[@"placeId"] = poi.placeId ? poi.placeId : @"";
   dict[@"title"] = poi.title ? poi.title : @"";
   dict[@"titleColor"] = [self hexStringFromColor:poi.titleColor];
   dict[@"subtitle"] = poi.subtitle ? poi.subtitle : @"";
