@@ -10,3 +10,10 @@ $ pod install
 $ cd ..
 $ npm run ios
 ```
+
+Android:
+```sh
+$ cd example
+$ npm install
+$ npm run android
+```
