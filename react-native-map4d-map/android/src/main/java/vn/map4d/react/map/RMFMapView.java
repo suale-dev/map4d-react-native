@@ -160,10 +160,10 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       }
     });
 
-    map.setOnPOIClickListener(new Map4D.OnPOIClickListener() {
+    map.setOnUserPOIClickListener(new Map4D.OnUserPOIClickListener() {
       @Override
-      public void onPOIClick(MFPOI poi) {
-        RMFPOI rctPOI = poiMap.get(Long.parseLong(poi.getPlaceId()));
+      public void onUserPOIClick(MFPOI poi) {
+        RMFPOI rctPOI = poiMap.get(poi.getId());
         if (rctPOI == null) {
           return;
         }
@@ -507,20 +507,20 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       return features.get(index);
     }
     
-      public void removeFeatureAt(int index) {
-        RMFFeature feature = features.remove(index);
-        if (feature instanceof RMFMarker) {
-           markerMap.remove(feature.getFeature());
-        } else if (feature instanceof RMFCircle) {
-          circleMap.remove(feature.getFeature());
-        }
-        else if (feature instanceof RMFPolyline) {
-          polylineMap.remove(feature.getFeature());
-        }
-        else if (feature instanceof RMFPOI) {
-          MFPOI poi = (MFPOI) feature.getFeature();
-          poiMap.remove(poi.getId());
-        }
-        feature.removeFromMap(map);
+    public void removeFeatureAt(int index) {
+      RMFFeature feature = features.remove(index);
+      if (feature instanceof RMFMarker) {
+          markerMap.remove(feature.getFeature());
+      } else if (feature instanceof RMFCircle) {
+        circleMap.remove(feature.getFeature());
       }
+      else if (feature instanceof RMFPolyline) {
+        polylineMap.remove(feature.getFeature());
+      }
+      else if (feature instanceof RMFPOI) {
+        MFPOI poi = (MFPOI) feature.getFeature();
+        poiMap.remove(poi.getId());
+      }
+      feature.removeFromMap(map);
+    }
 }
