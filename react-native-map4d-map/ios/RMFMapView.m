@@ -31,7 +31,6 @@
 
 - (instancetype _Nonnull)init {
   if ((self = [super init])) {
-    _shouldChangeMapMode = false;
     _didCallOnMapReady = false;
     _reactSubviews = [NSMutableArray new];
   }
@@ -40,7 +39,6 @@
 
 - (instancetype _Nonnull )initWithFrame: (CGRect)frame {
   if ((self = [super initWithFrame:frame])) {
-    _shouldChangeMapMode = false;
     _didCallOnMapReady = false;
     _reactSubviews = [NSMutableArray new];
   }
@@ -147,6 +145,12 @@
     self.onMyLocationButtonPress(@{});
   }
   return false;
+}
+
+- (void)didShouldChangeMapMode {
+  if (self.onShouldChangeMapMode) {
+    self.onShouldChangeMapMode(@{});
+  }
 }
 
 - (void)willMove: (BOOL) gesture {

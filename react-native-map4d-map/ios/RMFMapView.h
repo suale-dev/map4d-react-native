@@ -34,6 +34,7 @@
 @property (nonatomic, copy) RCTDirectEventBlock onCameraMoveStart;
 @property (nonatomic, copy) RCTDirectEventBlock onCameraIdle;
 @property (nonatomic, copy) RCTDirectEventBlock onMyLocationButtonPress;
+@property (nonatomic, copy) RCTDirectEventBlock onShouldChangeMapMode;
 
 //@property (nonatomic, assign) MKCoordinateRegion initialRegion;
 //@property (nonatomic, assign) MKCoordinateRegion region;
@@ -56,7 +57,6 @@
 //@property (nonatomic, assign) BOOL showsIndoors;
 //@property (nonatomic, assign) BOOL showsIndoorLevelPicker;
 //@property (nonatomic, assign) NSString *kmlSrc;
-@property (nonatomic, assign) BOOL shouldChangeMapMode;
 
 - (void)willMove: (BOOL) gesture;
 - (void)movingCameraPosition: (MFCameraPosition*) position;
@@ -67,6 +67,7 @@
 - (void)didTapAtCoordinate:(CLLocationCoordinate2D)coordinate;
 - (void)didTapPOIWithPlaceID:(NSString *)placeID name:(NSString *)name location:(CLLocationCoordinate2D)location;
 - (BOOL)didTapMyLocationButton;
+- (void)didShouldChangeMapMode;
 
 @end
 

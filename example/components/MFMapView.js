@@ -38,11 +38,6 @@ const propTypes = {
   showsBuildings: PropTypes.bool,
 
   /**
-   * Default value is `false`.
-   */
-  shouldChangeMapMode: PropTypes.bool,
-
-  /**
    * The camera view position.
    */
   camera: CameraShape,

@@ -40,6 +40,7 @@ export default class MapScreen extends React.Component {
     this.onCameraMove = this.onCameraMove.bind(this);
     this.onCameraIdle = this.onCameraIdle.bind(this);
     this.onCameraMoveStart = this.onCameraMoveStart.bind(this);
+    this.onShouldChangeMapMode = this.onShouldChangeMapMode.bind(this);
   }
 
   handleClick() {
@@ -172,6 +173,10 @@ export default class MapScreen extends React.Component {
     console.log(e.nativeEvent);
   }
 
+  onShouldChangeMapMode(e) {
+    this.enable3DMode()
+  }
+
 
   render() {
     // let markerIcon = require('./assets/ic_marker_tracking.png')
@@ -186,7 +191,7 @@ export default class MapScreen extends React.Component {
               this.moveCamera()
             }
           }
-          shouldChangeMapMode={true}
+          onShouldChangeMapMode={this.onShouldChangeMapMode}
           onPoiPress={(event)=>{console.log('place:', event.nativeEvent)}}
           onCameraMove={this.onCameraMove}
           onCameraMoveStart={this.onCameraMoveStart}
