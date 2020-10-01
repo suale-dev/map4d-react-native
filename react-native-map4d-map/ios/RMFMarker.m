@@ -163,6 +163,7 @@
 }
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
   float width = 0;
   float height = 0;
 
@@ -173,8 +174,8 @@
     width = MAX(fw, width);
     height = MAX(fh, height);
   }
-
   [_iconView setFrame:CGRectMake(0, 0, width, height)];
+  [self->_map4dMarker setIconView:_iconView];
 }
 
 - (void)iconViewInsertSubview:(UIView*)subview atIndex:(NSInteger)atIndex {
@@ -188,7 +189,7 @@
 - (void) removeAllObserver {
     for (UIView* v in observables) {
         [v removeObserver:self forKeyPath:@"image"];
-        //[v removeObserver:self forKeyPath:@"bounds"];
+        [v removeObserver:self forKeyPath:@"bounds"];
     }
     [observables removeAllObjects];
 }
@@ -216,7 +217,7 @@
 - (void)addObserver:(UIView*)view {
   if ([view isKindOfClass:[RCTImageView class]]) {
     [view addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:(__bridge void * _Nullable)(_iconView)];
-    //[view addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:(__bridge void * _Nullable)(_iconView)];
+    [view addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:(__bridge void * _Nullable)(_iconView)];
       [observables addObject:view];
   }
   
