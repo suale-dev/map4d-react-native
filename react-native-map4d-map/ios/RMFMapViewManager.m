@@ -60,6 +60,7 @@ RCT_REMAP_VIEW_PROPERTY(camera, cameraProp, MFCameraPosition)
 
 RCT_EXPORT_VIEW_PROPERTY(showsBuildings, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(showsMyLocationButton, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(shouldChangeMapMode, BOOL)
 
 
 RCT_EXPORT_METHOD(getCamera:(nonnull NSNumber *)reactTag
@@ -357,14 +358,13 @@ RCT_EXPORT_METHOD(setTime:(nonnull NSNumber *)reactTag
 }
 
 - (void)mapView: (MFMapView*)  mapView didTapPOI: (MFPOI*) poi {
-  if (poi.Id != 0) {
-    RMFPOIMap4d* rPOI = (RMFPOIMap4d*) poi;
-    [rPOI.reactPOI didTap];
-  }
-  else {
-    RMFMapView* reactMapView = (RMFMapView*) mapView;
-    [reactMapView didTapPOI:poi];
-  }
+  RMFPOIMap4d* rPOI = (RMFPOIMap4d*) poi;
+  [rPOI.reactPOI didTap];
+}
+
+- (void)mapView:(MFMapView *)mapView didTapPOIWithPlaceID:(NSString *)placeID name:(NSString *)name location:(CLLocationCoordinate2D)location {
+  RMFMapView* reactMapView = (RMFMapView*) mapView;
+  [reactMapView didTapPOIWithPlaceID:placeID name:name location:location];
 }
 
 - (void)mapView: (MFMapView*)  mapView didTapMyLocation: (CLLocationCoordinate2D) location {
@@ -374,6 +374,11 @@ RCT_EXPORT_METHOD(setTime:(nonnull NSNumber *)reactTag
 - (BOOL)didTapMyLocationButtonForMapView: (MFMapView*) mapView {
   RMFMapView* reactMapView = (RMFMapView*) mapView;
   return [reactMapView didTapMyLocationButton];
+}
+
+- (BOOL)shouldChangeMapModeForMapView: (MFMapView*) mapView {
+  RMFMapView* reactMapView = (RMFMapView*) mapView;
+  return reactMapView.shouldChangeMapMode;
 }
 
 - (UIView *) mapView: (MFMapView *) mapView markerInfoWindow: (MFMarker *) marker {

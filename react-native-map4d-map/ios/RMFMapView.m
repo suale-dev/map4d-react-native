@@ -31,16 +31,18 @@
 
 - (instancetype _Nonnull)init {
   if ((self = [super init])) {
+    _shouldChangeMapMode = false;
     _didCallOnMapReady = false;
-      _reactSubviews = [NSMutableArray new];
+    _reactSubviews = [NSMutableArray new];
   }
   return self;
 }
 
 - (instancetype _Nonnull )initWithFrame: (CGRect)frame {
   if ((self = [super initWithFrame:frame])) {
+    _shouldChangeMapMode = false;
     _didCallOnMapReady = false;
-      _reactSubviews = [NSMutableArray new];
+    _reactSubviews = [NSMutableArray new];
   }
   return self;
 }
@@ -127,9 +129,17 @@
   self.onPress([MFEventResponse eventFromCoordinate:coordinate action:@"coordinate-press" projection:nil userData:nil]);
 }
 
-- (void)didTapPOI:(MFPOI *)poi {
+- (void)didTapPOIWithPlaceID:(NSString *)placeID name:(NSString *)name location:(CLLocationCoordinate2D)location {
   if (!self.onPoiPress) return;
-  self.onPoiPress([MFEventResponse eventFromMap4dPOI:poi action:@"poi-press"]);
+  self.onPoiPress(@{
+    @"action":@"poi-press",
+    @"placeID": placeID,
+    @"name": name,
+    @"location": @{
+      @"latitude": @(location.latitude),
+      @"longitude": @(location.longitude)
+    }
+  });
 }
 
 - (BOOL)didTapMyLocationButton {

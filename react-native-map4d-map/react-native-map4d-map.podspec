@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.dependency "React"
-  s.dependency "Map4dMap", "~> 1.4.3"
+  s.dependency "Map4dMap", "~> 1.4.5"
   # ...
   # s.dependency "..."
 end

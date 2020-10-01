@@ -149,7 +149,7 @@ export default class MapScreen extends React.Component {
     this.map.moveCamera({
       tilt: 0,
       bearing: 0,
-      zoom: 17,
+      zoom: 16,
       center: {latitude: 10.7881732, longitude: 106.7000933}
     })
   }
@@ -187,6 +187,7 @@ export default class MapScreen extends React.Component {
               this.moveCamera()
             }
           }
+          shouldChangeMapMode={true}
           onPoiPress={(event)=>{console.log('place:', event.nativeEvent)}}
           onCameraMove={this.onCameraMove}
           onCameraMoveStart={this.onCameraMoveStart}

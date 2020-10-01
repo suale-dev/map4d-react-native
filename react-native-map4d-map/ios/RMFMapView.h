@@ -56,6 +56,7 @@
 //@property (nonatomic, assign) BOOL showsIndoors;
 //@property (nonatomic, assign) BOOL showsIndoorLevelPicker;
 //@property (nonatomic, assign) NSString *kmlSrc;
+@property (nonatomic, assign) BOOL shouldChangeMapMode;
 
 - (void)willMove: (BOOL) gesture;
 - (void)movingCameraPosition: (MFCameraPosition*) position;
@@ -64,7 +65,7 @@
 - (void)on3dModeChange: (bool) is3DMode;
 
 - (void)didTapAtCoordinate:(CLLocationCoordinate2D)coordinate;
-- (void)didTapPOI:(MFPOI*)poi;
+- (void)didTapPOIWithPlaceID:(NSString *)placeID name:(NSString *)name location:(CLLocationCoordinate2D)location;
 - (BOOL)didTapMyLocationButton;
 
 @end
