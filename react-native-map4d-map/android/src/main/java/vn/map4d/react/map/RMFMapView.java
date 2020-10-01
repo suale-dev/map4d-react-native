@@ -170,7 +170,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
 
         WritableMap event = getPOIEventData(poi);
         event.putString("action", "poi-press");
-        manager.pushEvent(getContext(), rctPOI, "onPoiPress", event);
+        manager.pushEvent(getContext(), rctPOI, "onPress", event);
       }
     });
 
@@ -282,6 +282,8 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     WritableMap location = new WritableNativeMap();
     location.putDouble("latitude", poi.getPosition().getLatitude());
     location.putDouble("longitude", poi.getPosition().getLongitude());
+    event.putDouble("poiId", poi.getId());
+    event.putString("title", poi.getTitle());
     event.putMap("coordinate", location);
     return event;
   }
