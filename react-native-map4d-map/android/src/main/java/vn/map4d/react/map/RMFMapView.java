@@ -170,7 +170,22 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
 
         WritableMap event = getPOIEventData(poi);
         event.putString("action", "poi-press");
-        manager.pushEvent(getContext(), rctPOI, "onPress", event);
+        manager.pushEvent(getContext(), rctPOI, "onPoiPress", event);
+      }
+    });
+
+    map.setOnPOIClickListener(new Map4D.OnPOIClickListener() {
+      @Override
+      public void onPOIClick(String placeId, String title, MFLocationCoordinate location) {
+        WritableMap event = new WritableNativeMap();
+        WritableMap locationMap = new WritableNativeMap();
+        locationMap.putDouble("latitude", location.getLatitude());
+        locationMap.putDouble("longitude", location.getLongitude());
+        event.putMap("coordinate", locationMap);
+        event.putString("placeId", placeId);
+        event.putString("title", title);
+        event.putString("action", "map-poi-press");
+        manager.pushEvent(getContext(), view, "onPoiPress", event);
       }
     });
 
@@ -201,28 +216,38 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       @Override
       public void onCameraMove() {
         WritableMap event = getCameraMap();
-          event.putString("action", "camera-move");
+        event.putString("action", "camera-move");
         manager.pushEvent(getContext(), view, "onCameraMove", event);
       }
     });
 
     map.setOnCameraIdleListener(new Map4D.OnCameraIdleListener() {
-        @Override
-        public void onCameraIdle() {
-          WritableMap event = getCameraMap();
-          event.putString("action", "camera-idle");
-          manager.pushEvent(getContext(), view, "onCameraIdle", event);
-        }
+      @Override
+      public void onCameraIdle() {
+        WritableMap event = getCameraMap();
+        event.putString("action", "camera-idle");
+        manager.pushEvent(getContext(), view, "onCameraIdle", event);
+      }
     });
 
     map.setOnCameraMoveStartedListener(new Map4D.OnCameraMoveStartedListener() {
-        @Override
-        public void onCameraMoveStarted(int reason) {
-          WritableMap event = getCameraMap();
-          event.putString("action", "camera-move-started");
-          event.putBoolean("gesture", reason == 1);
-          manager.pushEvent(getContext(), view, "onCameraMoveStart", event);
-        }
+      @Override
+      public void onCameraMoveStarted(int reason) {
+        WritableMap event = getCameraMap();
+        event.putString("action", "camera-move-started");
+        event.putBoolean("gesture", reason == 1);
+        manager.pushEvent(getContext(), view, "onCameraMoveStart", event);
+      }
+    });
+
+    map.setOnMapModeHandler(new Map4D.OnMapModeHandler() {
+      @Override
+      public boolean shouldChangeMapMode() {
+        WritableMap event = getCameraMap();
+        event.putString("action", "camera-move-started");
+        manager.pushEvent(getContext(), view, "onShouldChangeMapMode", event);
+        return false;
+      }
     });
 
     map.setOnMyLocationButtonClickListener(new Map4D.OnMyLocationButtonClickListener() {
@@ -234,22 +259,22 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     });
   }
 
-    private WritableMap getCircleEventData(MFCircle circle) {
-      WritableMap event = new WritableNativeMap();
-      WritableMap location = new WritableNativeMap();
-      location.putDouble("latitude", circle.getCenter().getLatitude());
-      location.putDouble("longitude", circle.getCenter().getLongitude());
-      event.putMap("coordinate", location);
-      Object userData = circle.getUserData();      
-      if (userData != null) {
-        String userDataByString = "";
-        userDataByString = userData.toString();
-        int begin = userDataByString.indexOf(":") + 2;
-        int end = userDataByString.length() - 2;
-        userDataByString = userDataByString.substring(begin, end);
-        event.putString("userData", userDataByString);
-      }      
-      return event;
+  private WritableMap getCircleEventData(MFCircle circle) {
+    WritableMap event = new WritableNativeMap();
+    WritableMap location = new WritableNativeMap();
+    location.putDouble("latitude", circle.getCenter().getLatitude());
+    location.putDouble("longitude", circle.getCenter().getLongitude());
+    event.putMap("coordinate", location);
+    Object userData = circle.getUserData();      
+    if (userData != null) {
+      String userDataByString = "";
+      userDataByString = userData.toString();
+      int begin = userDataByString.indexOf(":") + 2;
+      int end = userDataByString.length() - 2;
+      userDataByString = userDataByString.substring(begin, end);
+      event.putString("userData", userDataByString);
+    }      
+    return event;
   }
 
   private WritableMap getPOIEventData(MFPOI poi) {
@@ -262,34 +287,14 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
   }
 
 
-    private WritableMap getMarkerEventData(MFMarker marker) {
-        WritableMap event = new WritableNativeMap();
-        WritableMap location = new WritableNativeMap();
-        location.putDouble("latitude", marker.getPosition().getLatitude());
-        location.putDouble("longitude", marker.getPosition().getLongitude());
-        event.putMap("coordinate", location);
-        Object userData = marker.getUserData();
-
-        if (userData != null) {
-          String userDataByString = "";
-          userDataByString = userData.toString();
-          int begin = userDataByString.indexOf(":") + 2;
-          int end = userDataByString.length() - 2;
-          userDataByString = userDataByString.substring(begin, end);
-          event.putString("userData", userDataByString);
-        }        
-        return event;
-    }
-
-    private WritableMap getPolylineEventData(MFPolyline polyline) {
+  private WritableMap getMarkerEventData(MFMarker marker) {
       WritableMap event = new WritableNativeMap();
       WritableMap location = new WritableNativeMap();
-      MFLocationCoordinate coordinate = polyline.getPoints().get(0);
-      location.putDouble("latitude", coordinate.getLatitude());
-      location.putDouble("longitude", coordinate.getLongitude());
+      location.putDouble("latitude", marker.getPosition().getLatitude());
+      location.putDouble("longitude", marker.getPosition().getLongitude());
       event.putMap("coordinate", location);
-      Object userData = polyline.getUserData();
-      
+      Object userData = marker.getUserData();
+
       if (userData != null) {
         String userDataByString = "";
         userDataByString = userData.toString();
@@ -297,230 +302,234 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         int end = userDataByString.length() - 2;
         userDataByString = userDataByString.substring(begin, end);
         event.putString("userData", userDataByString);
-      }      
+      }        
       return event;
-    }
+  }
 
-    private WritableMap getCameraMap() {
-      WritableMap event = new WritableNativeMap();
-      MFCameraPosition pos = map.getCameraPosition();
-      event.putDouble("zoom", pos.getZoom());
-      event.putDouble("bearing", pos.getBearing());
-      event.putDouble("tilt", pos.getTilt());
-      WritableMap target = new WritableNativeMap();
-      target.putDouble("latitude", pos.getTarget().getLatitude());
-      target.putDouble("longitude", pos.getTarget().getLongitude());      
-      event.putMap("center", target);
-      return event;      
-    }
+  private WritableMap getPolylineEventData(MFPolyline polyline) {
+    WritableMap event = new WritableNativeMap();
+    WritableMap location = new WritableNativeMap();
+    MFLocationCoordinate coordinate = polyline.getPoints().get(0);
+    location.putDouble("latitude", coordinate.getLatitude());
+    location.putDouble("longitude", coordinate.getLongitude());
+    event.putMap("coordinate", location);
+    Object userData = polyline.getUserData();
+    
+    if (userData != null) {
+      String userDataByString = "";
+      userDataByString = userData.toString();
+      int begin = userDataByString.indexOf(":") + 2;
+      int end = userDataByString.length() - 2;
+      userDataByString = userDataByString.substring(begin, end);
+      event.putString("userData", userDataByString);
+    }      
+    return event;
+  }
 
-    private MFCameraPosition parseCamera(ReadableMap camera) {
-        MFCameraPosition.Builder builder = new MFCameraPosition.Builder(map.getCameraPosition());
-        if (camera.hasKey("zoom")) {
-          builder.zoom(camera.getDouble("zoom"));
-        }
-        if (camera.hasKey("bearing")) {
-          builder.bearing(camera.getDouble("bearing"));
-        }
-        if (camera.hasKey("tilt")) {
-          builder.tilt(camera.getDouble("tilt"));
-        }
-        if (camera.hasKey("center")) {
-          ReadableMap center = camera.getMap("center");
-          builder.target(new MFLocationCoordinate(center.getDouble("latitude"), center.getDouble("longitude")));
-        }
-        return builder.build();
-    }
+  private WritableMap getCameraMap() {
+    WritableMap event = new WritableNativeMap();
+    MFCameraPosition pos = map.getCameraPosition();
+    event.putDouble("zoom", pos.getZoom());
+    event.putDouble("bearing", pos.getBearing());
+    event.putDouble("tilt", pos.getTilt());
+    WritableMap target = new WritableNativeMap();
+    target.putDouble("latitude", pos.getTarget().getLatitude());
+    target.putDouble("longitude", pos.getTarget().getLongitude());      
+    event.putMap("center", target);
+    return event;      
+  }
 
-    public void setSwitchMode(int mode){
-      if (map == null) return;
-      switch (mode) {
-        case 0:
-          map.setSwitchMode(MFSwitchMode.Default);
-        break;
-        case 1:
-          map.setSwitchMode(MFSwitchMode.Auto2DTo3D);
-        break;
-        case 2:
-          map.setSwitchMode(MFSwitchMode.Auto3DTo2D);
-        break;
-        case 3:
-          map.setSwitchMode(MFSwitchMode.Auto);
-        break;
-        case 4:
-          map.setSwitchMode(MFSwitchMode.Manual);
-        break;
+  private MFCameraPosition parseCamera(ReadableMap camera) {
+      MFCameraPosition.Builder builder = new MFCameraPosition.Builder(map.getCameraPosition());
+      if (camera.hasKey("zoom")) {
+        builder.zoom(camera.getDouble("zoom"));
       }
-    }
+      if (camera.hasKey("bearing")) {
+        builder.bearing(camera.getDouble("bearing"));
+      }
+      if (camera.hasKey("tilt")) {
+        builder.tilt(camera.getDouble("tilt"));
+      }
+      if (camera.hasKey("center")) {
+        ReadableMap center = camera.getMap("center");
+        builder.target(new MFLocationCoordinate(center.getDouble("latitude"), center.getDouble("longitude")));
+      }
+      return builder.build();
+  }
 
-    public void moveCamera(ReadableMap camera) {
+  public void moveCamera(ReadableMap camera) {
+    if (map == null) return;
+    MFCameraPosition cameraPosition = parseCamera(camera);
+    MFCameraUpdate cameraUpdate = MFCameraUpdateFactory.newCameraPosition(cameraPosition);
+    map.moveCamera(cameraUpdate);
+  }
+
+  public void animateCamera(ReadableMap camera) {
       if (map == null) return;
       MFCameraPosition cameraPosition = parseCamera(camera);
       MFCameraUpdate cameraUpdate = MFCameraUpdateFactory.newCameraPosition(cameraPosition);
-      map.moveCamera(cameraUpdate);
-    }
+      map.animateCamera(cameraUpdate);
+  }
 
-    public void animateCamera(ReadableMap camera) {
-        if (map == null) return;
-        MFCameraPosition cameraPosition = parseCamera(camera);
-        MFCameraUpdate cameraUpdate = MFCameraUpdateFactory.newCameraPosition(cameraPosition);
-        map.animateCamera(cameraUpdate);
-    }
+  public void enable3DMode(Boolean enable) {
+    if (map == null) return;
+    map.enable3DMode(enable);
+  }
 
-    public void enable3DMode(Boolean enable) {
-      if (map == null) return;
-      map.enable3DMode(enable);
-    }
+  public void setMyLocationEnabled(Boolean enable) {
+    if (map == null) return;
+    map.setMyLocationEnabled(enable);
+  }
 
-    public void setMyLocationEnabled(Boolean enable) {
-      if (map == null) return;
-      map.setMyLocationEnabled(enable);
-    }
+  public void setShowsMyLocationButton(boolean showMyLocationButton) {
+    if (map == null) return;
+    map.getUiSettings().setMyLocationButtonEnabled(showMyLocationButton);
+  }
 
-    public void setShowsMyLocationButton(boolean showMyLocationButton) {
-      if (map == null) return;
-      map.getUiSettings().setMyLocationButtonEnabled(showMyLocationButton);
-    }
+  public void setBuildingsEnabled(boolean buildingsEnable) {
+    if (map == null) return;
+    map.setBuildingsEnabled(buildingsEnable);
+  }
 
-    public void setTime(double time) {
-      if (map == null) return;
-      map.setTime(new Date((long) time));
-    }
+  public void setTime(double time) {
+    if (map == null) return;
+    map.setTime(new Date((long) time));
+  }
 
-    public void fitBounds(ReadableMap boundData) {
-      if (map == null) return;
-      ReadableMap bounds = boundData.getMap("bounds");
-      ReadableMap southWest = bounds.getMap("southWest");
-      ReadableMap northEast = bounds.getMap("northEast");
+  public void fitBounds(ReadableMap boundData) {
+    if (map == null) return;
+    ReadableMap bounds = boundData.getMap("bounds");
+    ReadableMap southWest = bounds.getMap("southWest");
+    ReadableMap northEast = bounds.getMap("northEast");
 
-      MFCoordinateBounds.Builder builder = new MFCoordinateBounds.Builder();
-      double southWestLat = southWest.getDouble("latitude");
-      double southWestLng = southWest.getDouble("longitude");
-      builder.include(new MFLocationCoordinate(southWestLat, southWestLng));
+    MFCoordinateBounds.Builder builder = new MFCoordinateBounds.Builder();
+    double southWestLat = southWest.getDouble("latitude");
+    double southWestLng = southWest.getDouble("longitude");
+    builder.include(new MFLocationCoordinate(southWestLat, southWestLng));
 
-      double northEastLat = northEast.getDouble("latitude");
-      double northEastLng = northEast.getDouble("longitude");
-      builder.include(new MFLocationCoordinate(northEastLat, northEastLng));
+    double northEastLat = northEast.getDouble("latitude");
+    double northEastLng = northEast.getDouble("longitude");
+    builder.include(new MFLocationCoordinate(northEastLat, northEastLng));
 
-      int paddingDefault = 10;
-      int paddingLeft = paddingDefault;
-      int paddingRight = paddingDefault;
-      int paddingTop = paddingDefault;
-      int paddingBottom = paddingDefault;
-      if (boundData.hasKey("padding")) {
-        ReadableMap padding = boundData.getMap("padding");
-        if (padding.hasKey("left")) {
-          paddingLeft = padding.getInt("left");
-        }
-        if (padding.hasKey("right")) {
-          paddingRight = padding.getInt("right");
-        }
-        if (padding.hasKey("top")) {
-          paddingTop = padding.getInt("top");
-        }
-        if (padding.hasKey("bottom")) {
-          paddingBottom = padding.getInt("bottom");
-        }
+    int paddingDefault = 10;
+    int paddingLeft = paddingDefault;
+    int paddingRight = paddingDefault;
+    int paddingTop = paddingDefault;
+    int paddingBottom = paddingDefault;
+    if (boundData.hasKey("padding")) {
+      ReadableMap padding = boundData.getMap("padding");
+      if (padding.hasKey("left")) {
+        paddingLeft = padding.getInt("left");
       }
-      MFCameraPosition cameraPosition = map.getCameraPositionForBounds(
-        builder.build(), paddingLeft, paddingTop, paddingRight, paddingBottom);
-      map.moveCamera(MFCameraUpdateFactory.newCameraPosition(cameraPosition));
+      if (padding.hasKey("right")) {
+        paddingRight = padding.getInt("right");
+      }
+      if (padding.hasKey("top")) {
+        paddingTop = padding.getInt("top");
+      }
+      if (padding.hasKey("bottom")) {
+        paddingBottom = padding.getInt("bottom");
+      }
     }
+    MFCameraPosition cameraPosition = map.getCameraPositionForBounds(
+      builder.build(), paddingLeft, paddingTop, paddingRight, paddingBottom);
+    map.moveCamera(MFCameraUpdateFactory.newCameraPosition(cameraPosition));
+  }
 
-    public void addFeature(View child, int index) {
-        if (child instanceof RMFMarker) {
-            RMFMarker annotation = (RMFMarker) child;
-            annotation.addToMap(map);
-            features.add(index, annotation);
-      
-            // Remove from a view group if already present, prevent "specified child
-            // already had a parent" error.
-            ViewGroup annotationParent = (ViewGroup)annotation.getParent();
-            if (annotationParent != null) {
-              annotationParent.removeView(annotation);
-            }
-
-            // Add to the parent group
-            attacherGroup.addView(annotation);
-      
-            MFMarker marker = (MFMarker) annotation.getFeature();
-            markerMap.put(marker, annotation);
-          } else if (child instanceof RMFCircle) {
-            RMFCircle annotation = (RMFCircle) child;
-            annotation.addToMap(map);
-            features.add(index, annotation);      
-      
-            // Remove from a view group if already present, prevent "specified child
-            // already had a parent" error.
-            ViewGroup annotationParent = (ViewGroup)annotation.getParent();
-            if (annotationParent != null) {
-              annotationParent.removeView(annotation);
-            }                  
-      
-            MFCircle circle = (MFCircle) annotation.getFeature();
-            circleMap.put(circle, annotation);
-          } else if (child instanceof RMFPolyline) {
-            RMFPolyline annotation = (RMFPolyline) child;
-            annotation.addToMap(map);
-            features.add(index, annotation);
-      
-            // Remove from a view group if already present, prevent "specified child
-            // already had a parent" error.
-            ViewGroup annotationParent = (ViewGroup)annotation.getParent();
-            if (annotationParent != null) {
-              annotationParent.removeView(annotation);
-            }                  
-      
-            MFPolyline polyline = (MFPolyline) annotation.getFeature();
-            polylineMap.put(polyline, annotation);
-          } else if (child instanceof RMFPOI) {
-            RMFPOI annotation = (RMFPOI) child;
-            annotation.addToMap(map);
-            features.add(index, annotation);
-      
-            // Remove from a view group if already present, prevent "specified child
-            // already had a parent" error.
-            ViewGroup annotationParent = (ViewGroup) annotation.getParent();
-            if (annotationParent != null) {
-              annotationParent.removeView(annotation);
-            }                  
-      
-            MFPOI poi = (MFPOI) annotation.getFeature();
-            poiMap.put(poi.getId(), annotation);
-          }
-          //else if child instanceof Polyline, Polygon {}
-          else if (child instanceof ViewGroup) {
-            ViewGroup children = (ViewGroup) child;
-            for (int i = 0; i < children.getChildCount(); i++) {
-              addFeature(children.getChildAt(i), index);
-            }
-          } else {
-            addView(child, index);
-          }
-    }
-
-    public int getFeatureCount() {
-      return features.size();
-    }
+  public void addFeature(View child, int index) {
+      if (child instanceof RMFMarker) {
+          RMFMarker annotation = (RMFMarker) child;
+          annotation.addToMap(map);
+          features.add(index, annotation);
     
-    public View getFeatureAt(int index) {
-      return features.get(index);
-    }
+          // Remove from a view group if already present, prevent "specified child
+          // already had a parent" error.
+          ViewGroup annotationParent = (ViewGroup)annotation.getParent();
+          if (annotationParent != null) {
+            annotationParent.removeView(annotation);
+          }
+
+          // Add to the parent group
+          attacherGroup.addView(annotation);
     
-    public void removeFeatureAt(int index) {
-      RMFFeature feature = features.remove(index);
-      if (feature instanceof RMFMarker) {
-          markerMap.remove(feature.getFeature());
-      } else if (feature instanceof RMFCircle) {
-        circleMap.remove(feature.getFeature());
-      }
-      else if (feature instanceof RMFPolyline) {
-        polylineMap.remove(feature.getFeature());
-      }
-      else if (feature instanceof RMFPOI) {
-        MFPOI poi = (MFPOI) feature.getFeature();
-        poiMap.remove(poi.getId());
-      }
-      feature.removeFromMap(map);
+          MFMarker marker = (MFMarker) annotation.getFeature();
+          markerMap.put(marker, annotation);
+        } else if (child instanceof RMFCircle) {
+          RMFCircle annotation = (RMFCircle) child;
+          annotation.addToMap(map);
+          features.add(index, annotation);      
+    
+          // Remove from a view group if already present, prevent "specified child
+          // already had a parent" error.
+          ViewGroup annotationParent = (ViewGroup)annotation.getParent();
+          if (annotationParent != null) {
+            annotationParent.removeView(annotation);
+          }                  
+    
+          MFCircle circle = (MFCircle) annotation.getFeature();
+          circleMap.put(circle, annotation);
+        } else if (child instanceof RMFPolyline) {
+          RMFPolyline annotation = (RMFPolyline) child;
+          annotation.addToMap(map);
+          features.add(index, annotation);
+    
+          // Remove from a view group if already present, prevent "specified child
+          // already had a parent" error.
+          ViewGroup annotationParent = (ViewGroup)annotation.getParent();
+          if (annotationParent != null) {
+            annotationParent.removeView(annotation);
+          }                  
+    
+          MFPolyline polyline = (MFPolyline) annotation.getFeature();
+          polylineMap.put(polyline, annotation);
+        } else if (child instanceof RMFPOI) {
+          RMFPOI annotation = (RMFPOI) child;
+          annotation.addToMap(map);
+          features.add(index, annotation);
+    
+          // Remove from a view group if already present, prevent "specified child
+          // already had a parent" error.
+          ViewGroup annotationParent = (ViewGroup) annotation.getParent();
+          if (annotationParent != null) {
+            annotationParent.removeView(annotation);
+          }                  
+    
+          MFPOI poi = (MFPOI) annotation.getFeature();
+          poiMap.put(poi.getId(), annotation);
+        }
+        //else if child instanceof Polyline, Polygon {}
+        else if (child instanceof ViewGroup) {
+          ViewGroup children = (ViewGroup) child;
+          for (int i = 0; i < children.getChildCount(); i++) {
+            addFeature(children.getChildAt(i), index);
+          }
+        } else {
+          addView(child, index);
+        }
+  }
+
+  public int getFeatureCount() {
+    return features.size();
+  }
+  
+  public View getFeatureAt(int index) {
+    return features.get(index);
+  }
+  
+  public void removeFeatureAt(int index) {
+    RMFFeature feature = features.remove(index);
+    if (feature instanceof RMFMarker) {
+        markerMap.remove(feature.getFeature());
+    } else if (feature instanceof RMFCircle) {
+      circleMap.remove(feature.getFeature());
     }
+    else if (feature instanceof RMFPolyline) {
+      polylineMap.remove(feature.getFeature());
+    }
+    else if (feature instanceof RMFPOI) {
+      MFPOI poi = (MFPOI) feature.getFeature();
+      poiMap.remove(poi.getId());
+    }
+    feature.removeFromMap(map);
+  }
 }

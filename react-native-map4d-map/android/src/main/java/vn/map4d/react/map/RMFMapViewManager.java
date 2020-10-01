@@ -18,11 +18,10 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     private static final int k_animateCamera = 1;
     private static final int k_moveCamera = 2;
     private static final int k_enable3DMode = 3;
-    private static final int k_setSwitchMode = 4;
-    private static final int k_setMyLocationEnabled = 5;
-    private static final int k_setShowsMyLocationButton = 6;
-    private static final int k_setTime = 7;
-    private static final int k_fitBounds = 8;
+    private static final int k_setMyLocationEnabled = 4;
+    private static final int k_setShowsMyLocationButton = 5;
+    private static final int k_setTime = 6;
+    private static final int k_fitBounds = 7;
 
     private ThemedReactContext reactContext;
 
@@ -50,7 +49,9 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
       );
       map.putAll(MapBuilder.of(
         "onMyLocationButtonPress", MapBuilder.of("registrationName", "onMyLocationButtonPress"),
-        "onPress", MapBuilder.of("registrationName", "onPress")
+        "onPress", MapBuilder.of("registrationName", "onPress"),
+        "onShouldChangeMapMode", MapBuilder.of("registrationName", "onShouldChangeMapMode"),
+        "onPoiPress", MapBuilder.of("registrationName", "onPoiPress")
       ));
       return map;
     }
@@ -62,7 +63,6 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     map.put("animateCamera", k_animateCamera);
     map.put("moveCamera", k_moveCamera);
     map.put("enable3DMode", k_enable3DMode);
-    map.put("setSwitchMode", k_setSwitchMode);
     map.put("setMyLocationEnabled", k_setMyLocationEnabled);
     map.put("showsMyLocationButton", k_setShowsMyLocationButton);
     map.put("setTime", k_setTime);
@@ -84,9 +84,6 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
         break;
       case k_enable3DMode:
         view.enable3DMode(args.getBoolean(0));
-        break;
-      case k_setSwitchMode:
-        view.setSwitchMode(args.getInt(0));
         break;
       case k_setMyLocationEnabled:
         view.setMyLocationEnabled(args.getBoolean(0));
@@ -136,5 +133,10 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
   @ReactProp(name = "camera")
   public void setCamera(RMFMapView view, ReadableMap camera) {
     view.moveCamera(camera);
+  }
+
+  @ReactProp(name = "showsBuildings", defaultBoolean = true)
+  public void setBuildingsEnabled(RMFMapView view, boolean buildingsEnable) {
+    view.setBuildingsEnabled(buildingsEnable);
   }
 }

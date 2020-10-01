@@ -181,7 +181,6 @@ export default class MapScreen extends React.Component {
         <MFMapView ref={ref => this.map = ref}
           onMapReady={
             data => {
-              this.map.setSwitchMode("Manual")                
               this.map.setMyLocationEnabled(true)
               this.getCamera();
               this.moveCamera()
