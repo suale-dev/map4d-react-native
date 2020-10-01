@@ -87,6 +87,11 @@ const propTypes = {
    * Callback that is called when user taps on location Button
    */
   onMyLocationButtonPress: PropTypes.func,
+
+  /**
+   * Callback that is called when user zoom in or zoom out through minimum zoom 3D
+   */
+  onShouldChangeMapMode: PropTypes.func
 };
 
 
@@ -142,25 +147,6 @@ class MFMapView extends React.Component {
       return this._runCommand('is3DMode', []);
     }
     return Promise.reject('Function not supported on this platform');
-  }
-
-  setSwitchMode(mode) {
-    let modeInt = 4;
-    switch (mode) {
-      case "Auto2DTo3D":
-        modeInt = 1;
-        break;
-      case "Auto3DTo2D":
-        modeInt = 2;
-        break;
-      case "Auto":
-        modeInt = 3;
-        break;
-      case "Manual":
-        modeInt = 4;
-        break;
-    }
-    this._runCommand('setSwitchMode', [modeInt]);
   }
 
   setMyLocationEnabled(enable) {
