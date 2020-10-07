@@ -30,120 +30,134 @@ import vn.map4d.types.MFLocationCoordinate;
 
 public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
 
-    public Map4D map;
+  public Map4D map;
 
-    private RMFMapViewManager manager;
-    private final List<RMFFeature> features = new ArrayList<>();
-    private final Map<MFMarker, RMFMarker> markerMap = new HashMap<>();
-    private final Map<MFCircle, RMFCircle> circleMap = new HashMap<>();
-    private final Map<MFPolyline, RMFPolyline> polylineMap = new HashMap<>();
-    private final Map<Long, RMFPOI> poiMap = new HashMap<>();
+  private RMFMapViewManager manager;
+  private final List<RMFFeature> features = new ArrayList<>();
+  private final Map<MFMarker, RMFMarker> markerMap = new HashMap<>();
+  private final Map<MFCircle, RMFCircle> circleMap = new HashMap<>();
+  private final Map<MFPolyline, RMFPolyline> polylineMap = new HashMap<>();
+  private final Map<MFPolygon, RMFPolygon> polygonMap = new HashMap<>();
+  private final Map<Long, RMFPOI> poiMap = new HashMap<>();
 
-    private ViewAttacherGroup attacherGroup;
+  private ViewAttacherGroup attacherGroup;
 
-    public RMFMapView(Context context, RMFMapViewManager manager) {
-        super(context, null);
-        this.manager = manager;
-        this.getMapAsync(this);
+  public RMFMapView(Context context, RMFMapViewManager manager) {
+    super(context, null);
+    this.manager = manager;
+    this.getMapAsync(this);
 
-        // Set up a parent view for triggering visibility in subviews that depend on it.
-        // Mainly ReactImageView depends on Fresco which depends on onVisibilityChanged() event
-        attacherGroup = new ViewAttacherGroup(context);
-        LayoutParams attacherLayoutParams = new LayoutParams(0, 0);
-        attacherLayoutParams.width = 0;
-        attacherLayoutParams.height = 0;
-        attacherLayoutParams.leftMargin = 99999999;
-        attacherLayoutParams.topMargin = 99999999;
-        attacherGroup.setLayoutParams(attacherLayoutParams);
-        addView(attacherGroup);
-    } 
+    // Set up a parent view for triggering visibility in subviews that depend on it.
+    // Mainly ReactImageView depends on Fresco which depends on onVisibilityChanged() event
+    attacherGroup = new ViewAttacherGroup(context);
+    LayoutParams attacherLayoutParams = new LayoutParams(0, 0);
+    attacherLayoutParams.width = 0;
+    attacherLayoutParams.height = 0;
+    attacherLayoutParams.leftMargin = 99999999;
+    attacherLayoutParams.topMargin = 99999999;
+    attacherGroup.setLayoutParams(attacherLayoutParams);
+    addView(attacherGroup);
+  }
 
-    @Override
-    public void onMapReady(Map4D map) {
-        this.map = map;
-        final RMFMapView view = this;
+  @Override
+  public void onMapReady(Map4D map) {
+    this.map = map;
+    final RMFMapView view = this;
 
-        manager.pushEvent(getContext(), this, "onMapReady", new WritableNativeMap());
+    manager.pushEvent(getContext(), this, "onMapReady", new WritableNativeMap());
 
-        map.setOnMarkerDragListener((new Map4D.OnMarkerDragListener() {
-          @Override
-          public void onMarkerDrag(MFMarker marker) {
-            RMFMarker rctMarker = markerMap.get(marker);
-            if (rctMarker == null) {
-              return;
-            }
-
-            //Event for MFMapView
-            WritableMap event = getMarkerEventData(marker);
-            event.putString("action", "marker-drag");
-            manager.pushEvent(getContext(), view, "onMarkerDrag", event);
-            
-            //Event for MFMarker
-            event = getMarkerEventData(marker);
-            event.putString("action", "marker-drag");
-            manager.pushEvent(getContext(), rctMarker, "onDrag", event);
-          }
-
-          @Override
-          public void onMarkerDragEnd(MFMarker marker) {
-            RMFMarker rctMarker = markerMap.get(marker);
-            if (rctMarker == null) {
-              return;
-            }
-            WritableMap event = getMarkerEventData(marker);
-            event.putString("action", "marker-drag-end");
-            manager.pushEvent(getContext(), view, "onMarkerDrag", event);
-
-            event = getMarkerEventData(marker);
-            event.putString("action", "marker-drag-end");
-            manager.pushEvent(getContext(), rctMarker, "onDragEnd", event);
-          }
-
-          @Override
-          public void onMarkerDragStart(MFMarker marker) {
-            RMFMarker rctMarker = markerMap.get(marker);
-            if (rctMarker == null) {
-              return;
-            }
-            WritableMap event = getMarkerEventData(marker);
-            event.putString("action", "marker-drag-start");
-            manager.pushEvent(getContext(), view, "onMarkerDrag", event);
-
-            event = getMarkerEventData(marker);
-            event.putString("action", "marker-drag-start");
-            manager.pushEvent(getContext(), rctMarker, "onDragStart", event);
-          }
-      }));
-
-      map.setOnMarkerClickListener(new Map4D.OnMarkerClickListener() {
-        @Override
-        public boolean onMarkerClick(MFMarker marker) {
-          RMFMarker rctMarker = markerMap.get(marker);
-          if (rctMarker == null) {
-            return false;
-          }
-          WritableMap event = getMarkerEventData(marker);
-          event.putString("action", "marker-press");
-          manager.pushEvent(getContext(), view, "onMarkerPress", event);
-
-          event = getMarkerEventData(marker);
-          event.putString("action", "marker-press");
-          manager.pushEvent(getContext(), rctMarker, "onPress", event);
-          return true;
+    map.setOnMarkerDragListener((new Map4D.OnMarkerDragListener() {
+      @Override
+      public void onMarkerDrag(MFMarker marker) {
+        RMFMarker rctMarker = markerMap.get(marker);
+        if (rctMarker == null) {
+          return;
         }
-      });
 
-      map.setOnPolylineClickListener(new Map4D.OnPolylineClickListener() {
-        @Override
-        public void onPolylineClick(MFPolyline polyline) {
-          RMFPolyline rctPolyline = polylineMap.get(polyline);
-          if (rctPolyline == null) {
-            return;
-          }
-          WritableMap event = getPolylineEventData(polyline);
-          event.putString("action", "polyline-press");
-          manager.pushEvent(getContext(), rctPolyline, "onPress", event);
+        //Event for MFMapView
+        WritableMap event = getMarkerEventData(marker);
+        event.putString("action", "marker-drag");
+        manager.pushEvent(getContext(), view, "onMarkerDrag", event);
+        
+        //Event for MFMarker
+        event = getMarkerEventData(marker);
+        event.putString("action", "marker-drag");
+        manager.pushEvent(getContext(), rctMarker, "onDrag", event);
+      }
+
+      @Override
+      public void onMarkerDragEnd(MFMarker marker) {
+        RMFMarker rctMarker = markerMap.get(marker);
+        if (rctMarker == null) {
+          return;
         }
+        WritableMap event = getMarkerEventData(marker);
+        event.putString("action", "marker-drag-end");
+        manager.pushEvent(getContext(), view, "onMarkerDrag", event);
+
+        event = getMarkerEventData(marker);
+        event.putString("action", "marker-drag-end");
+        manager.pushEvent(getContext(), rctMarker, "onDragEnd", event);
+      }
+
+      @Override
+      public void onMarkerDragStart(MFMarker marker) {
+        RMFMarker rctMarker = markerMap.get(marker);
+        if (rctMarker == null) {
+          return;
+        }
+        WritableMap event = getMarkerEventData(marker);
+        event.putString("action", "marker-drag-start");
+        manager.pushEvent(getContext(), view, "onMarkerDrag", event);
+
+        event = getMarkerEventData(marker);
+        event.putString("action", "marker-drag-start");
+        manager.pushEvent(getContext(), rctMarker, "onDragStart", event);
+      }
+    }));
+
+    map.setOnMarkerClickListener(new Map4D.OnMarkerClickListener() {
+      @Override
+      public boolean onMarkerClick(MFMarker marker) {
+        RMFMarker rctMarker = markerMap.get(marker);
+        if (rctMarker == null) {
+          return false;
+        }
+        WritableMap event = getMarkerEventData(marker);
+        event.putString("action", "marker-press");
+        manager.pushEvent(getContext(), view, "onMarkerPress", event);
+
+        event = getMarkerEventData(marker);
+        event.putString("action", "marker-press");
+        manager.pushEvent(getContext(), rctMarker, "onPress", event);
+        return true;
+      }
+    });
+
+    map.setOnPolylineClickListener(new Map4D.OnPolylineClickListener() {
+      @Override
+      public void onPolylineClick(MFPolyline polyline) {
+        RMFPolyline rctPolyline = polylineMap.get(polyline);
+        if (rctPolyline == null) {
+          return;
+        }
+        WritableMap event = getPolylineEventData(polyline);
+        event.putString("action", "polyline-press");
+        manager.pushEvent(getContext(), rctPolyline, "onPress", event);
+      }
+    });
+
+    map.setOnPolygonClickListener(new Map4D.OnPolygonClickListener() {
+      @Override
+      public void onPolygonClick(final MFPolygon polygon) {
+        RMFPolygon rctPolygon = polygonMap.get(polygon);
+        if (rctPolygon == null) {
+          return;
+        }
+        WritableMap event = getPolygonEventData(polygon);
+        event.putString("action", "polygon-press");
+        manager.pushEvent(getContext(), rctPolygon, "onPress", event);
+      }
     });
 
     map.setOnCircleClickListener(new Map4D.OnCircleClickListener() {
@@ -273,7 +287,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       int end = userDataByString.length() - 2;
       userDataByString = userDataByString.substring(begin, end);
       event.putString("userData", userDataByString);
-    }      
+    }
     return event;
   }
 
@@ -290,22 +304,22 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
 
 
   private WritableMap getMarkerEventData(MFMarker marker) {
-      WritableMap event = new WritableNativeMap();
-      WritableMap location = new WritableNativeMap();
-      location.putDouble("latitude", marker.getPosition().getLatitude());
-      location.putDouble("longitude", marker.getPosition().getLongitude());
-      event.putMap("coordinate", location);
-      Object userData = marker.getUserData();
+    WritableMap event = new WritableNativeMap();
+    WritableMap location = new WritableNativeMap();
+    location.putDouble("latitude", marker.getPosition().getLatitude());
+    location.putDouble("longitude", marker.getPosition().getLongitude());
+    event.putMap("coordinate", location);
+    Object userData = marker.getUserData();
 
-      if (userData != null) {
-        String userDataByString = "";
-        userDataByString = userData.toString();
-        int begin = userDataByString.indexOf(":") + 2;
-        int end = userDataByString.length() - 2;
-        userDataByString = userDataByString.substring(begin, end);
-        event.putString("userData", userDataByString);
-      }        
-      return event;
+    if (userData != null) {
+      String userDataByString = "";
+      userDataByString = userData.toString();
+      int begin = userDataByString.indexOf(":") + 2;
+      int end = userDataByString.length() - 2;
+      userDataByString = userDataByString.substring(begin, end);
+      event.putString("userData", userDataByString);
+    }
+    return event;
   }
 
   private WritableMap getPolylineEventData(MFPolyline polyline) {
@@ -316,6 +330,26 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     location.putDouble("longitude", coordinate.getLongitude());
     event.putMap("coordinate", location);
     Object userData = polyline.getUserData();
+    
+    if (userData != null) {
+      String userDataByString = "";
+      userDataByString = userData.toString();
+      int begin = userDataByString.indexOf(":") + 2;
+      int end = userDataByString.length() - 2;
+      userDataByString = userDataByString.substring(begin, end);
+      event.putString("userData", userDataByString);
+    }      
+    return event;
+  }
+
+  private WritableMap getPolygonEventData(MFPolygon polygon) {
+    WritableMap event = new WritableNativeMap();
+    WritableMap location = new WritableNativeMap();
+    MFLocationCoordinate coordinate = polygon.getPoints().get(0);
+    location.putDouble("latitude", coordinate.getLatitude());
+    location.putDouble("longitude", coordinate.getLongitude());
+    event.putMap("coordinate", location);
+    Object userData = polygon.getUserData();
     
     if (userData != null) {
       String userDataByString = "";
@@ -342,21 +376,21 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
   }
 
   private MFCameraPosition parseCamera(ReadableMap camera) {
-      MFCameraPosition.Builder builder = new MFCameraPosition.Builder(map.getCameraPosition());
-      if (camera.hasKey("zoom")) {
-        builder.zoom(camera.getDouble("zoom"));
-      }
-      if (camera.hasKey("bearing")) {
-        builder.bearing(camera.getDouble("bearing"));
-      }
-      if (camera.hasKey("tilt")) {
-        builder.tilt(camera.getDouble("tilt"));
-      }
-      if (camera.hasKey("center")) {
-        ReadableMap center = camera.getMap("center");
-        builder.target(new MFLocationCoordinate(center.getDouble("latitude"), center.getDouble("longitude")));
-      }
-      return builder.build();
+    MFCameraPosition.Builder builder = new MFCameraPosition.Builder(map.getCameraPosition());
+    if (camera.hasKey("zoom")) {
+      builder.zoom(camera.getDouble("zoom"));
+    }
+    if (camera.hasKey("bearing")) {
+      builder.bearing(camera.getDouble("bearing"));
+    }
+    if (camera.hasKey("tilt")) {
+      builder.tilt(camera.getDouble("tilt"));
+    }
+    if (camera.hasKey("center")) {
+      ReadableMap center = camera.getMap("center");
+      builder.target(new MFLocationCoordinate(center.getDouble("latitude"), center.getDouble("longitude")));
+    }
+    return builder.build();
   }
 
   public void moveCamera(ReadableMap camera) {
@@ -367,10 +401,10 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
   }
 
   public void animateCamera(ReadableMap camera) {
-      if (map == null) return;
-      MFCameraPosition cameraPosition = parseCamera(camera);
-      MFCameraUpdate cameraUpdate = MFCameraUpdateFactory.newCameraPosition(cameraPosition);
-      map.animateCamera(cameraUpdate);
+    if (map == null) return;
+    MFCameraPosition cameraPosition = parseCamera(camera);
+    MFCameraUpdate cameraUpdate = MFCameraUpdateFactory.newCameraPosition(cameraPosition);
+    map.animateCamera(cameraUpdate);
   }
 
   public void enable3DMode(Boolean enable) {
@@ -439,75 +473,88 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
   }
 
   public void addFeature(View child, int index) {
-      if (child instanceof RMFMarker) {
-          RMFMarker annotation = (RMFMarker) child;
-          annotation.addToMap(map);
-          features.add(index, annotation);
-    
-          // Remove from a view group if already present, prevent "specified child
-          // already had a parent" error.
-          ViewGroup annotationParent = (ViewGroup)annotation.getParent();
-          if (annotationParent != null) {
-            annotationParent.removeView(annotation);
-          }
+    if (child instanceof RMFMarker) {
+      RMFMarker annotation = (RMFMarker) child;
+      annotation.addToMap(map);
+      features.add(index, annotation);
 
-          // Add to the parent group
-          attacherGroup.addView(annotation);
-    
-          MFMarker marker = (MFMarker) annotation.getFeature();
-          markerMap.put(marker, annotation);
-        } else if (child instanceof RMFCircle) {
-          RMFCircle annotation = (RMFCircle) child;
-          annotation.addToMap(map);
-          features.add(index, annotation);      
-    
-          // Remove from a view group if already present, prevent "specified child
-          // already had a parent" error.
-          ViewGroup annotationParent = (ViewGroup)annotation.getParent();
-          if (annotationParent != null) {
-            annotationParent.removeView(annotation);
-          }                  
-    
-          MFCircle circle = (MFCircle) annotation.getFeature();
-          circleMap.put(circle, annotation);
-        } else if (child instanceof RMFPolyline) {
-          RMFPolyline annotation = (RMFPolyline) child;
-          annotation.addToMap(map);
-          features.add(index, annotation);
-    
-          // Remove from a view group if already present, prevent "specified child
-          // already had a parent" error.
-          ViewGroup annotationParent = (ViewGroup)annotation.getParent();
-          if (annotationParent != null) {
-            annotationParent.removeView(annotation);
-          }                  
-    
-          MFPolyline polyline = (MFPolyline) annotation.getFeature();
-          polylineMap.put(polyline, annotation);
-        } else if (child instanceof RMFPOI) {
-          RMFPOI annotation = (RMFPOI) child;
-          annotation.addToMap(map);
-          features.add(index, annotation);
-    
-          // Remove from a view group if already present, prevent "specified child
-          // already had a parent" error.
-          ViewGroup annotationParent = (ViewGroup) annotation.getParent();
-          if (annotationParent != null) {
-            annotationParent.removeView(annotation);
-          }                  
-    
-          MFPOI poi = (MFPOI) annotation.getFeature();
-          poiMap.put(poi.getId(), annotation);
-        }
-        //else if child instanceof Polyline, Polygon {}
-        else if (child instanceof ViewGroup) {
-          ViewGroup children = (ViewGroup) child;
-          for (int i = 0; i < children.getChildCount(); i++) {
-            addFeature(children.getChildAt(i), index);
-          }
-        } else {
-          addView(child, index);
-        }
+      // Remove from a view group if already present, prevent "specified child
+      // already had a parent" error.
+      ViewGroup annotationParent = (ViewGroup)annotation.getParent();
+      if (annotationParent != null) {
+        annotationParent.removeView(annotation);
+      }
+
+      // Add to the parent group
+      attacherGroup.addView(annotation);
+
+      MFMarker marker = (MFMarker) annotation.getFeature();
+      markerMap.put(marker, annotation);
+    } else if (child instanceof RMFCircle) {
+      RMFCircle annotation = (RMFCircle) child;
+      annotation.addToMap(map);
+      features.add(index, annotation);
+
+      // Remove from a view group if already present, prevent "specified child
+      // already had a parent" error.
+      ViewGroup annotationParent = (ViewGroup)annotation.getParent();
+      if (annotationParent != null) {
+        annotationParent.removeView(annotation);
+      }
+
+      MFCircle circle = (MFCircle) annotation.getFeature();
+      circleMap.put(circle, annotation);
+    } else if (child instanceof RMFPolyline) {
+      RMFPolyline annotation = (RMFPolyline) child;
+      annotation.addToMap(map);
+      features.add(index, annotation);
+
+      // Remove from a view group if already present, prevent "specified child
+      // already had a parent" error.
+      ViewGroup annotationParent = (ViewGroup)annotation.getParent();
+      if (annotationParent != null) {
+        annotationParent.removeView(annotation);
+      }
+
+      MFPolyline polyline = (MFPolyline) annotation.getFeature();
+      polylineMap.put(polyline, annotation);
+    } else if (child instanceof RMFPolygon) {
+      RMFPolygon annotation = (RMFPolygon) child;
+      annotation.addToMap(map);
+      features.add(index, annotation);
+
+      // Remove from a view group if already present, prevent "specified child
+      // already had a parent" error.
+      ViewGroup annotationParent = (ViewGroup)annotation.getParent();
+      if (annotationParent != null) {
+        annotationParent.removeView(annotation);
+      }
+
+      MFPolygon polygon = (MFPolygon) annotation.getFeature();
+      polygonMap.put(polygon, annotation);
+    } else if (child instanceof RMFPOI) {
+      RMFPOI annotation = (RMFPOI) child;
+      annotation.addToMap(map);
+      features.add(index, annotation);
+
+      // Remove from a view group if already present, prevent "specified child
+      // already had a parent" error.
+      ViewGroup annotationParent = (ViewGroup) annotation.getParent();
+      if (annotationParent != null) {
+        annotationParent.removeView(annotation);
+      }
+
+      MFPOI poi = (MFPOI) annotation.getFeature();
+      poiMap.put(poi.getId(), annotation);
+    }
+    else if (child instanceof ViewGroup) {
+      ViewGroup children = (ViewGroup) child;
+      for (int i = 0; i < children.getChildCount(); i++) {
+        addFeature(children.getChildAt(i), index);
+      }
+    } else {
+      addView(child, index);
+    }
   }
 
   public int getFeatureCount() {
@@ -527,6 +574,9 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
     }
     else if (feature instanceof RMFPolyline) {
       polylineMap.remove(feature.getFeature());
+    }
+    else if (feature instanceof RMFPolygon) {
+      polygonMap.remove(feature.getFeature());
     }
     else if (feature instanceof RMFPOI) {
       MFPOI poi = (MFPOI) feature.getFeature();
