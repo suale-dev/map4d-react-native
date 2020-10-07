@@ -11,16 +11,16 @@
 
 #import <React/RCTConvert.h>
 
-@class MFCoordinate;
+@class RMFCoordinate;
 @class MFCameraPosition;
 @class RMFIcon;
 @class MFCoordinateBounds;
 
 @interface RCTConvert(Map4dMap)
 
-+ (MFCoordinate *)MFCoordinate:(id)json;
-+ (NSArray<MFCoordinate *> *)MFCoordinateArray:(id)json;
-+ (NSArray<NSArray<MFCoordinate *> *> *)MFCoordinateArrayArray:(id)json;
++ (RMFCoordinate *)RMFCoordinate:(id)json;
++ (NSArray<RMFCoordinate *> *)RMFCoordinateArray:(id)json;
++ (NSArray<NSArray<RMFCoordinate *> *> *)RMFCoordinateArrayArray:(id)json;
 + (MFCameraPosition *)MFCameraPosition:(id)json;
 + (MFCameraPosition *)MFCameraPosition:(id)json withDefaultCamera:(MFCameraPosition*)camera;
 + (RMFIcon *)RMFIcon:(id)json;

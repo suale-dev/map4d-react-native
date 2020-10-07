@@ -1,5 +1,5 @@
 //
-//  MFEventResponse.h
+//  RMFEventResponse.h
 //  Map4dMap
 //
 //  Created by Huy Dang on 7/8/20.
@@ -15,12 +15,13 @@
 @class RMFCircle;
 @class RMFPOI;
 @class RMFPolyline;
+@class RMFPolygon;
 
 @class MFPOI;
 @class MFProjection;
 @class MFCameraPosition;
 
-@interface MFEventResponse : NSObject
+@interface RMFEventResponse : NSObject
 
 + (NSDictionary*)eventFromCoordinate:(CLLocationCoordinate2D)coordinate;
 + (NSMutableDictionary*)eventFromCoordinate:(CLLocationCoordinate2D)coordinate
@@ -31,6 +32,7 @@
 + (NSDictionary*)eventFromMarker:(RMFMarker*) marker action:(NSString*)action;
 + (NSDictionary*)eventFromCircle:(RMFCircle*) circle action:(NSString*)action;
 + (NSDictionary*)eventFromPolyline:(RMFPolyline*) line action:(NSString*)action;
++ (NSDictionary*)eventFromPolygon:(RMFPolygon*) fill action:(NSString*)action;
 
 + (NSDictionary*)eventFromMap4dPOI:(MFPOI*) poi action:(NSString*)action;
 + (NSDictionary*)eventFromUserPOI:(RMFPOI*) poi action:(NSString*)action;
@@ -40,4 +42,4 @@
 
 @end
 
-#endif /* MFEventResponse_h */
+#endif /* RMFEventResponse_h */

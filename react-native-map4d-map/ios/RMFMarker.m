@@ -11,7 +11,7 @@
 #import <React/RCTLog.h>
 #import <React/RCTImageView.h>
 #import <Map4dMap/Map4dMap.h>
-#import "MFEventResponse.h"
+#import "RMFEventResponse.h"
 #import "RMFDummyView.h"
 
 @implementation RMFMarker {
@@ -139,27 +139,27 @@
 /** Event */
 - (void)didBeginDraggingMarker {
   if (!self.onDragStart) return;
-  self.onDragStart([MFEventResponse eventFromMarker:self action:@"marker-drag-start"]);
+  self.onDragStart([RMFEventResponse eventFromMarker:self action:@"marker-drag-start"]);
 }
 
 - (void)didEndDraggingMarker {
   if (!self.onDragEnd) return;
-  self.onDragEnd([MFEventResponse eventFromMarker:self action:@"marker-drag-end"]);
+  self.onDragEnd([RMFEventResponse eventFromMarker:self action:@"marker-drag-end"]);
 }
 
 - (void)didDragMarker {
   if (!self.onDrag) return;
-  self.onDrag([MFEventResponse eventFromMarker:self action:@"marker-drag"]);
+  self.onDrag([RMFEventResponse eventFromMarker:self action:@"marker-drag"]);
 }
 
 - (void)didTapInfoWindowOfMarker {
   if (!self.onPressInfoWindow) return;
-  self.onPressInfoWindow([MFEventResponse eventFromMarker:self action:@"marker-info-window-press"]);
+  self.onPressInfoWindow([RMFEventResponse eventFromMarker:self action:@"marker-info-window-press"]);
 }
 
 - (void)didTapMarker {
   if (!self.onPress) return;
-  self.onPress([MFEventResponse eventFromMarker:self action:@"marker-press"]);
+  self.onPress([RMFEventResponse eventFromMarker:self action:@"marker-press"]);
 }
 
 - (void)layoutSubviews {

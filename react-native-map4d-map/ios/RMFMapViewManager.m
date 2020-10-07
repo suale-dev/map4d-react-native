@@ -11,6 +11,7 @@
 #import "RMFMarker.h"
 #import "RMFCircle.h"
 #import "RMFPolyline.h"
+#import "RMFPolygon.h"
 #import "RMFPOI.h"
 #import <Foundation/Foundation.h>
 #import <React/RCTLog.h>
@@ -18,7 +19,7 @@
 #import <React/RCTUIManager.h>
 #import <React/RCTConvert+CoreLocation.h>
 #import "RCTConvert+Map4dMap.h"
-#import "MFEventResponse.h"
+#import "RMFEventResponse.h"
 
 @interface RMFMapViewManager () <MFMapViewDelegate>
 
@@ -74,7 +75,7 @@ RCT_EXPORT_METHOD(getCamera:(nonnull NSNumber *)reactTag
     } else {
       RMFMapView *mapView = (RMFMapView *)view;
       MFCameraPosition *camera = [mapView camera];
-      resolve([MFEventResponse eventFromCameraPosition:camera]);
+      resolve([RMFEventResponse eventFromCameraPosition:camera]);
     }
   }];
 }
@@ -102,7 +103,7 @@ RCT_EXPORT_METHOD(cameraForBounds:(nonnull NSNumber *)reactTag
           camera = [mapView cameraForBounds:bounds];
         }
       }
-      resolve([MFEventResponse eventFromCameraPosition:camera]);
+      resolve([RMFEventResponse eventFromCameraPosition:camera]);
     }
   }];
 }
@@ -145,7 +146,7 @@ RCT_EXPORT_METHOD(pointForCoordinate:(nonnull NSNumber *)reactTag
     } else {
       RMFMapView *mapView = (RMFMapView *)view;
       CGPoint point = [mapView.projection pointForCoordinate:[RCTConvert CLLocationCoordinate2D:json]];
-      resolve([MFEventResponse eventFromCGPoint:point]);
+      resolve([RMFEventResponse eventFromCGPoint:point]);
     }
   }];
 }
@@ -162,7 +163,7 @@ RCT_EXPORT_METHOD(coordinateForPoint:(nonnull NSNumber *)reactTag
     } else {
       RMFMapView *mapView = (RMFMapView *)view;
       CLLocationCoordinate2D coordinate = [mapView.projection coordinateForPoint:[RCTConvert CGPoint:json]];
-      resolve([MFEventResponse eventFromCoordinate:coordinate]);
+      resolve([RMFEventResponse eventFromCoordinate:coordinate]);
     }
   }];
 }
@@ -319,7 +320,8 @@ RCT_EXPORT_METHOD(setTime:(nonnull NSNumber *)reactTag
 }
 
 - (void)mapview: (MFMapView*)  mapView didTapPolygon: (MFPolygon*) polygon {
-  
+  RMFPolygonMap4d * rPolygon = (RMFPolygonMap4d*) polygon;
+  [rPolygon.reactPolygon didTap];
 }
 
 - (void)mapview: (MFMapView*)  mapView didTapCircle: (MFCircle*) circle {

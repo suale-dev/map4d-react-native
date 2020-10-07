@@ -13,7 +13,7 @@
 #import <Map4dMap/Map4dMap.h>
 #import "RMFPolylineMap4d.h"
 #import "RMFMapView.h"
-#import "MFCoordinate.h"
+#import "RMFCoordinate.h"
 
 @interface RMFPolyline : UIView
 
@@ -21,7 +21,7 @@
 
 @property (nonatomic, copy) RCTBubblingEventBlock _Nullable onPress;
 
-@property(nonatomic, strong) NSArray<MFCoordinate *> * coordinates;
+@property(nonatomic, strong) NSArray<RMFCoordinate *> * coordinates;
 @property(nonatomic, assign) CGFloat width;
 @property(nonatomic, assign) NSString * lineStyle;
 @property(nonatomic, assign, nullable) UIColor * color;

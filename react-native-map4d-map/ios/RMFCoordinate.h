@@ -1,5 +1,5 @@
 //
-//  MFCoordinate.h
+//  RMFCoordinate.h
 //  Map4dMap
 //
 //  Created by Huy Dang on 7/4/20.
@@ -12,11 +12,11 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface MFCoordinate : NSObject
+@interface RMFCoordinate : NSObject
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 
 @end
 
 
-#endif /* MFCoordinate_h */
+#endif /* RMFCoordinate_h */

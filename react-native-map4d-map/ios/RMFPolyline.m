@@ -7,7 +7,7 @@
 //
 
 #import "RMFPolyline.h"
-#import "MFEventResponse.h"
+#import "RMFEventResponse.h"
 
 @implementation RMFPolyline
 
@@ -33,7 +33,7 @@
 
 /** Properties */
 
-- (void)setCoordinates:(NSArray<MFCoordinate *> *)coordinates {
+- (void)setCoordinates:(NSArray<RMFCoordinate *> *)coordinates {
   _coordinates = coordinates;
   MFMutablePath* path = [[MFMutablePath alloc] init];
   for(int i = 0; i < coordinates.count; i++)
@@ -86,7 +86,7 @@
 
 - (void)didTap {
   if (!self.onPress) return;
-  self.onPress([MFEventResponse eventFromPolyline:self action:@"polyline-press"]);
+  self.onPress([RMFEventResponse eventFromPolyline:self action:@"polyline-press"]);
 }
 
 @end

@@ -23,7 +23,7 @@ RCT_EXPORT_MODULE(RMFPolyline)
   return polyline;
 }
 
-RCT_EXPORT_VIEW_PROPERTY(coordinates, MFCoordinateArray)
+RCT_EXPORT_VIEW_PROPERTY(coordinates, RMFCoordinateArray)
 RCT_EXPORT_VIEW_PROPERTY(width, CGFloat)
 RCT_EXPORT_VIEW_PROPERTY(color, UIColor)
 RCT_EXPORT_VIEW_PROPERTY(lineStyle, NSString)
@@ -43,7 +43,7 @@ RCT_EXPORT_METHOD(setCoordinates:(nonnull NSNumber *)reactTag
       RCTLogError(@"Invalid view returned from registry, expecting RMFCircle, got: %@", view);
     } else {
       RMFPolyline *polyline = (RMFPolyline *)view;
-      [polyline setCoordinates:[RCTConvert MFCoordinateArray:coordinates]];
+      [polyline setCoordinates:[RCTConvert RMFCoordinateArray:coordinates]];
     }
   }];
 }

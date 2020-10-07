@@ -1,18 +1,19 @@
 //
-//  MFEventResponse.m
+//  RMFEventResponse.m
 //  Map4dMap
 //
 //  Created by Huy Dang on 7/8/20.
 //  Copyright © 2020 IOTLink. All rights reserved.
 //
 
-#import "MFEventResponse.h"
+#import "RMFEventResponse.h"
 #import "RMFMarker.h"
 #import "RMFCircle.h"
 #import "RMFPolyline.h"
+#import "RMFPolygon.h"
 #import "RMFPOI.h"
 
-@implementation MFEventResponse
+@implementation RMFEventResponse
 
 + (NSString*) hexStringFromColor:(UIColor*) color {
   if (color != nil) {
@@ -103,6 +104,18 @@
   }
   if (reactPolyline.userData != nil) {
     dict[@"userData"] = reactPolyline.userData;
+  }
+  
+  return dict;
+}
+
++ (NSDictionary*)eventFromPolygon:(RMFPolygon *)reactPolygon action:(NSString *)action {
+  NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
+  if (action != nil) {
+    dict[@"action"] = action;
+  }
+  if (reactPolygon.userData != nil) {
+    dict[@"userData"] = reactPolygon.userData;
   }
   
   return dict;

@@ -21,6 +21,7 @@ import {MFMapView} from './components/MFMapView'
 import {MFMarker} from './components/MFMarker'
 import {MFCircle} from './components/MFCircle'
 import {MFPolyline} from './components/MFPolyline'
+import {MFPolygon} from './components/MFPolygon'
 import {MFPOI} from './components/MFPOI'
 import { Navigation } from 'react-native-navigation';
 
@@ -313,6 +314,53 @@ export default class MapScreen extends React.Component {
             onPress={this.onPressPOI}
             zIndex={10}
           /> */}
+          <MFPolyline ref={ref => this.polyline = ref}
+            coordinates={[
+              { longitude: 106.69870376586914, latitude: 10.787569188027405 },
+              { longitude: 106.69998586177826, latitude: 10.787247741194244 },
+              { longitude: 106.70092999935150, latitude: 10.78798548751378 }
+            ]}
+            // lineStyle="dotted"
+            width={15}
+            color="#00FFFFFF"
+            onPress={this.onPressPolyline}
+            zIndex={4.0}
+            userData={{ten: "Dung", id: 10}}
+            visible={true}
+          />
+          <MFPolygon
+            coordinates={[
+              { longitude: 106.70058667659760, latitude: 10.789113181961360 },
+              { longitude: 106.70086562633514, latitude: 10.787869556069147 },
+              { longitude: 106.70188486576080, latitude: 10.787816859943165 },
+              { longitude: 106.70218527317047, latitude: 10.788417595231817 },
+              { longitude: 106.70169711112976, latitude: 10.789234382514742 },
+              { longitude: 106.70058667659760, latitude: 10.789113181961360 }
+            ]}
+            holes={[
+              [
+                { longitude: 106.70073151588440, latitude: 10.788754849604677 },
+                { longitude: 106.70108020305634, latitude: 10.788754849604677 },
+                { longitude: 106.70108020305634, latitude: 10.789055216462020 },
+                { longitude: 106.70073151588440, latitude: 10.789055216462020 },
+                { longitude: 106.70073151588440, latitude: 10.788754849604677 }
+              ],
+              [
+                { longitude: 106.70157909393310, latitude: 10.788449212845343 },
+                { longitude: 106.70140743255614, latitude: 10.788127766952915 },
+                { longitude: 106.70179367065430, latitude: 10.788059262046180 },
+                { longitude: 106.70190095901489, latitude: 10.788375438408615 },
+                { longitude: 106.70157909393310, latitude: 10.788449212845343 }
+              ]
+            ]}
+            fillColor="#00FF00FF"
+            strokeColor="#FF0000FF"
+            strokeWidth={5}
+            visible={true}
+            zIndex={7}
+            userData={{data: 1}}
+            onPress={(e) => { console.log('Press Polygon:', e.nativeEvent) }}
+          />
         </MFMapView>
         <Button title={"Rotate image"} onPress={() => this.rotateImage()}>
         </Button>

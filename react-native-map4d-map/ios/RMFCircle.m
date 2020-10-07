@@ -8,7 +8,7 @@
 
 #import "RMFCircle.h"
 #import <Foundation/Foundation.h>
-#import "MFEventResponse.h"
+#import "RMFEventResponse.h"
 
 @implementation RMFCircle
 
@@ -82,7 +82,7 @@
 /** Event */
 - (void)didTap {
   if(!self.onPress) return;
-  self.onPress([MFEventResponse eventFromCircle:self action:@"circle-press"]);
+  self.onPress([RMFEventResponse eventFromCircle:self action:@"circle-press"]);
 }
 
 @end

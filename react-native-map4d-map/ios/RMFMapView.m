@@ -15,8 +15,9 @@
 #import "RMFMarker.h"
 #import "RMFCircle.h"
 #import "RMFPolyline.h"
+#import "RMFPolygon.h"
 #import "RMFPOI.h"
-#import "MFEventResponse.h"
+#import "RMFEventResponse.h"
 
 @class GLKView;
 
@@ -63,6 +64,10 @@
     [polyline setMapView:self];
     //[super insertReactSubview:polyline atIndex:atIndex];
   }
+  else if ([subview isKindOfClass:[RMFPolygon class]]) {
+    RMFPolygon* polygon = (RMFPolygon*)subview;
+    [polygon setMapView:self];
+  }
   else if ([subview isKindOfClass:[RMFPOI class]]) {
     RMFPOI* poi = (RMFPOI*)subview;
     [poi setMapView:self];
@@ -92,6 +97,10 @@
   else if ([subview isKindOfClass:[RMFPolyline class]]) {
     RMFPolyline* polyline = (RMFPolyline*)subview;
     polyline.map4dPolyline.map = nil;
+  }
+  else if ([subview isKindOfClass:[RMFPolygon class]]) {
+    RMFPolygon* polygon = (RMFPolygon*)subview;
+    polygon.map4dPolygon.map = nil;
   }
   else if ([subview isKindOfClass:[RMFPOI class]]) {
     RMFPOI* poi = (RMFPOI*)subview;
@@ -124,7 +133,7 @@
 
 - (void)didTapAtCoordinate:(CLLocationCoordinate2D)coordinate {
   if (!self.onPress) return;
-  self.onPress([MFEventResponse eventFromCoordinate:coordinate action:@"coordinate-press" projection:nil userData:nil]);
+  self.onPress([RMFEventResponse eventFromCoordinate:coordinate action:@"coordinate-press" projection:nil userData:nil]);
 }
 
 - (void)didTapPOIWithPlaceID:(NSString *)placeID name:(NSString *)name location:(CLLocationCoordinate2D)location {
@@ -155,14 +164,14 @@
 
 - (void)willMove: (BOOL) gesture {
   if (!self.onCameraMoveStart) return;
-    NSMutableDictionary* data = [[NSMutableDictionary alloc] initWithDictionary:[MFEventResponse eventFromCameraPosition: self.camera]];
+    NSMutableDictionary* data = [[NSMutableDictionary alloc] initWithDictionary:[RMFEventResponse eventFromCameraPosition: self.camera]];
     data[@"gesture"] = [NSNumber numberWithBool:gesture];
     self.onCameraMoveStart(data);
 }
 
 - (void)movingCameraPosition: (MFCameraPosition*) position {
   if (!self.onCameraMove) return;
-  self.onCameraMove([MFEventResponse eventFromCameraPosition:position]);
+  self.onCameraMove([RMFEventResponse eventFromCameraPosition:position]);
 }
 
 - (void)didChangeCameraPosition:(MFCameraPosition *)position {
@@ -171,7 +180,7 @@
 
 - (void)idleAtCameraPosition: (MFCameraPosition *) position {
   if (!self.onCameraIdle) return;
-  self.onCameraIdle([MFEventResponse eventFromCameraPosition:position]);
+  self.onCameraIdle([RMFEventResponse eventFromCameraPosition:position]);
 }
 
 - (void)on3dModeChange: (bool) is3DMode {

@@ -8,7 +8,7 @@
 
 #import "RMFPOI.h"
 #import <Foundation/Foundation.h>
-#import "MFEventResponse.h"
+#import "RMFEventResponse.h"
 
 @interface RMFPOI()
 @property (nonatomic, copy, nullable) UIImage* iconImage;
@@ -112,7 +112,7 @@
 
 - (bool)didTap {
   if (!self.onPress) return false;
-  self.onPress([MFEventResponse eventFromUserPOI:self action:@"poi-press"]);
+  self.onPress([RMFEventResponse eventFromUserPOI:self action:@"poi-press"]);
   return true;
 }
 

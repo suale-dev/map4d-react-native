@@ -9,21 +9,21 @@
 #import "RCTConvert+Map4dMap.h"
 #import <React/RCTConvert+CoreLocation.h>
 #import <Map4dMap/Map4dMap.h>
-#import "MFCoordinate.h"
+#import "RMFCoordinate.h"
 #import "RMFIcon.h"
 
 @implementation RCTConvert(Map4dMap)
 
-+ (MFCoordinate *)MFCoordinate:(id)json {
-    MFCoordinate *coord = [MFCoordinate new];
++ (RMFCoordinate *)RMFCoordinate:(id)json {
+    RMFCoordinate *coord = [RMFCoordinate new];
     coord.coordinate = [self CLLocationCoordinate2D:json];
     return coord;
 }
 
-RCT_ARRAY_CONVERTER(MFCoordinate)
+RCT_ARRAY_CONVERTER(RMFCoordinate)
 
-+ (NSArray<NSArray<MFCoordinate *> *> *)MFCoordinateArrayArray:(id)json {
-    return RCTConvertArrayValue(@selector(MFCoordinateArray:), json);
++ (NSArray<NSArray<RMFCoordinate *> *> *)RMFCoordinateArrayArray:(id)json {
+    return RCTConvertArrayValue(@selector(RMFCoordinateArray:), json);
 }
 
 + (MFCameraPosition *)MFCameraPosition:(id)json withDefaultCamera:(MFCameraPosition*)camera {

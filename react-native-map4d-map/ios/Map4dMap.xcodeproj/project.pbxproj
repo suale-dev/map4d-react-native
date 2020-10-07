@@ -10,6 +10,9 @@
 		445DDF0A2457CD8F00E8F9D1 /* RMFMarkerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 445DDF092457CD8F00E8F9D1 /* RMFMarkerManager.m */; };
 		445DDF0D2457CDE300E8F9D1 /* RMFMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 445DDF0C2457CDE300E8F9D1 /* RMFMarker.m */; };
 		445E2A9A24BBF983006F6D8F /* RMFIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 445E2A9924BBF983006F6D8F /* RMFIcon.m */; };
+		4464EF24252D5D9400A2496A /* RMFPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = 4464EF23252D5D9400A2496A /* RMFPolygon.m */; };
+		4464EF27252D5DD500A2496A /* RMFPolygonMap4d.m in Sources */ = {isa = PBXBuildFile; fileRef = 4464EF26252D5DD500A2496A /* RMFPolygonMap4d.m */; };
+		4464EF2A252D5E0400A2496A /* RMFPolygonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4464EF29252D5E0400A2496A /* RMFPolygonManager.m */; };
 		446637A624B5763000407A5C /* MFEventResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 446637A524B5763000407A5C /* MFEventResponse.m */; };
 		447AFDD3245691000088C383 /* RMFMapViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 447AFDD2245691000088C383 /* RMFMapViewManager.m */; };
 		447AFDD72456BEDA0088C383 /* RMFMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 447AFDD62456BEDA0088C383 /* RMFMapView.m */; };
@@ -47,6 +50,12 @@
 		445DDF0C2457CDE300E8F9D1 /* RMFMarker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMFMarker.m; sourceTree = "<group>"; };
 		445E2A9824BBF959006F6D8F /* RMFIcon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMFIcon.h; sourceTree = "<group>"; };
 		445E2A9924BBF983006F6D8F /* RMFIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMFIcon.m; sourceTree = "<group>"; };
+		4464EF22252D5D8000A2496A /* RMFPolygon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMFPolygon.h; sourceTree = "<group>"; };
+		4464EF23252D5D9400A2496A /* RMFPolygon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMFPolygon.m; sourceTree = "<group>"; };
+		4464EF25252D5DC800A2496A /* RMFPolygonMap4d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMFPolygonMap4d.h; sourceTree = "<group>"; };
+		4464EF26252D5DD500A2496A /* RMFPolygonMap4d.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMFPolygonMap4d.m; sourceTree = "<group>"; };
+		4464EF28252D5DF400A2496A /* RMFPolygonManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMFPolygonManager.h; sourceTree = "<group>"; };
+		4464EF29252D5E0400A2496A /* RMFPolygonManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMFPolygonManager.m; sourceTree = "<group>"; };
 		446637A424B5761500407A5C /* MFEventResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MFEventResponse.h; sourceTree = "<group>"; };
 		446637A524B5763000407A5C /* MFEventResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MFEventResponse.m; sourceTree = "<group>"; };
 		447AFDD2245691000088C383 /* RMFMapViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RMFMapViewManager.m; sourceTree = "<group>"; };
@@ -104,6 +113,12 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				4464EF29252D5E0400A2496A /* RMFPolygonManager.m */,
+				4464EF28252D5DF400A2496A /* RMFPolygonManager.h */,
+				4464EF26252D5DD500A2496A /* RMFPolygonMap4d.m */,
+				4464EF25252D5DC800A2496A /* RMFPolygonMap4d.h */,
+				4464EF23252D5D9400A2496A /* RMFPolygon.m */,
+				4464EF22252D5D8000A2496A /* RMFPolygon.h */,
 				445E2A9924BBF983006F6D8F /* RMFIcon.m */,
 				445E2A9824BBF959006F6D8F /* RMFIcon.h */,
 				446637A524B5763000407A5C /* MFEventResponse.m */,
@@ -208,15 +223,18 @@
 				E52828DE24AF94F70052B91F /* RMFCircleManager.m in Sources */,
 				447AFDD3245691000088C383 /* RMFMapViewManager.m in Sources */,
 				E5E1A23F24B0706C009EA9E6 /* RMFCircleMap4d.m in Sources */,
+				4464EF27252D5DD500A2496A /* RMFPolygonMap4d.m in Sources */,
 				E5AD638424AF90A500783E1D /* RMFCircle.m in Sources */,
 				E5AD357B24B17F5D00270CD6 /* RMFPOIManager.m in Sources */,
 				E5B00F8824B0DBC400B6AB0A /* MFCoordinate.m in Sources */,
+				4464EF24252D5D9400A2496A /* RMFPolygon.m in Sources */,
 				E5AD638C24AF92DF00783E1D /* RCTConvert+Map4dMap.m in Sources */,
 				E52828DB24AF94C90052B91F /* RMFPolylineManager.m in Sources */,
 				446637A624B5763000407A5C /* MFEventResponse.m in Sources */,
 				447AFDD72456BEDA0088C383 /* RMFMapView.m in Sources */,
 				44BD9A70245FCF0E00C078BA /* RMFMarkerMap4d.m in Sources */,
 				E5AD357824B17F1700270CD6 /* RMFPOIMap4d.m in Sources */,
+				4464EF2A252D5E0400A2496A /* RMFPolygonManager.m in Sources */,
 				445DDF0A2457CD8F00E8F9D1 /* RMFMarkerManager.m in Sources */,
 				445E2A9A24BBF983006F6D8F /* RMFIcon.m in Sources */,
 				445DDF0D2457CDE300E8F9D1 /* RMFMarker.m in Sources */,
