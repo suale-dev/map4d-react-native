@@ -49,6 +49,7 @@ RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onRegionChange, RCTDirectEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onRegionChangeComplete, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onPoiPress, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onBuildingPress, RCTDirectEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onIndoorLevelActivated, RCTDirectEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onIndoorBuildingFocused, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onModeChange, RCTDirectEventBlock)
@@ -367,6 +368,11 @@ RCT_EXPORT_METHOD(setTime:(nonnull NSNumber *)reactTag
 - (void)mapView:(MFMapView *)mapView didTapPOIWithPlaceID:(NSString *)placeID name:(NSString *)name location:(CLLocationCoordinate2D)location {
   RMFMapView* reactMapView = (RMFMapView*) mapView;
   [reactMapView didTapPOIWithPlaceID:placeID name:name location:location];
+}
+
+- (void)mapView:(MFMapView *)mapView didTapBuildingWithBuildingID:(NSString *)buildingID name:(NSString *)name location:(CLLocationCoordinate2D)location {
+  RMFMapView* reactMapView = (RMFMapView*) mapView;
+  [reactMapView didTapBuildingWithBuildingID:buildingID name:name location:location];
 }
 
 - (void)mapView: (MFMapView*)  mapView didTapMyLocation: (CLLocationCoordinate2D) location {

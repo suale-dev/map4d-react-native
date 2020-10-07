@@ -149,6 +149,19 @@
   });
 }
 
+- (void)didTapBuildingWithBuildingID:(NSString *)buildingID name:(NSString *)name location:(CLLocationCoordinate2D)location {
+  if (!self.onBuildingPress) return;
+  self.onBuildingPress(@{
+    @"action":@"building-press",
+    @"buildingID": buildingID,
+    @"name": name,
+    @"location": @{
+      @"latitude": @(location.latitude),
+      @"longitude": @(location.longitude)
+    }
+  });
+}
+
 - (BOOL)didTapMyLocationButton {
   if (self.onMyLocationButtonPress) {
     self.onMyLocationButtonPress(@{});

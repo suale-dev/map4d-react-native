@@ -25,6 +25,7 @@
 //@property (nonatomic, copy) RCTBubblingEventBlock onMarkerPress;
 //@property (nonatomic, copy) RCTBubblingEventBlock onChange;
 @property (nonatomic, copy) RCTBubblingEventBlock onPoiPress;
+@property (nonatomic, copy) RCTBubblingEventBlock onBuildingPress;
 //@property (nonatomic, copy) RCTDirectEventBlock onRegionChange;
 //@property (nonatomic, copy) RCTDirectEventBlock onRegionChangeComplete;
 //@property (nonatomic, copy) RCTDirectEventBlock onIndoorLevelActivated;
@@ -66,6 +67,7 @@
 
 - (void)didTapAtCoordinate:(CLLocationCoordinate2D)coordinate;
 - (void)didTapPOIWithPlaceID:(NSString *)placeID name:(NSString *)name location:(CLLocationCoordinate2D)location;
+- (void)didTapBuildingWithBuildingID:(NSString *)buildingID name:(NSString *)name location:(CLLocationCoordinate2D)location;
 - (BOOL)didTapMyLocationButton;
 - (void)didShouldChangeMapMode;
 
