@@ -183,7 +183,7 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
         }
 
         WritableMap event = getPOIEventData(poi);
-        event.putString("action", "poi-press");
+        event.putString("action", "user-poi-press");
         manager.pushEvent(getContext(), rctPOI, "onPress", event);
       }
     });
@@ -410,6 +410,11 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
   public void enable3DMode(Boolean enable) {
     if (map == null) return;
     map.enable3DMode(enable);
+  }
+
+  public void setPOIsEnabled(Boolean enable) {
+    if (map == null) return;
+    map.setPOIsEnabled(enable);
   }
 
   public void setMyLocationEnabled(Boolean enable) {

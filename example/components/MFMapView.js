@@ -152,6 +152,10 @@ class MFMapView extends React.Component {
     this._runCommand('showsMyLocationButton', [enable]);
   }
 
+  setPOIsEnabled(enable) {
+    this._runCommand('setPOIsEnabled', [enable]);
+  }
+
   setTime(time) {
     let t = Date.parse(time)
     if (isNaN(t)) {
