@@ -208,6 +208,7 @@ export default class MapScreen extends React.Component {
           onPress={this.onPressMapView}
           showsMyLocationButton={true}
           showsBuildings={true}
+          showsPOIs={true}
           camera={{
             center: {latitude: 10.7881732, longitude: 106.7000933},
             zoom: 16,

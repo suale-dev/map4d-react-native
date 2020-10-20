@@ -46,6 +46,7 @@
 //@property (nonatomic, assign) NSString *paddingAdjustmentBehaviorString;
 
 @property (nonatomic, assign) BOOL showsBuildings;
+@property (nonatomic, assign) BOOL showsPOIs;
 //@property (nonatomic, assign) BOOL showsTraffic;
 //@property (nonatomic, assign) BOOL showsCompass;
 //@property (nonatomic, assign) BOOL scrollEnabled;

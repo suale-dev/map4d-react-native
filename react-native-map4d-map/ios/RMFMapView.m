@@ -123,7 +123,12 @@
 
 - (void)setShowsBuildings:(BOOL)showsBuildings {
   _showsBuildings = showsBuildings;
-    [self setBuildingsEnabled:showsBuildings];
+  [self setBuildingsEnabled:showsBuildings];
+}
+
+- (void)setShowsPOIs:(BOOL)showsPOIs {
+  _showsPOIs = showsPOIs;
+  [self setPOIsEnabled:showsPOIs];
 }
 
 - (void)setShowsMyLocationButton:(BOOL)showsMyLocationButton {

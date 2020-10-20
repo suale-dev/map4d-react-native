@@ -62,6 +62,7 @@ RCT_EXPORT_VIEW_PROPERTY(onShouldChangeMapMode, RCTDirectEventBlock)
 RCT_REMAP_VIEW_PROPERTY(camera, cameraProp, MFCameraPosition)
 
 RCT_EXPORT_VIEW_PROPERTY(showsBuildings, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(showsPOIs, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(showsMyLocationButton, BOOL)
 
 
@@ -233,6 +234,19 @@ RCT_EXPORT_METHOD(setMyLocationEnabled:(nonnull NSNumber *)reactTag
     } else {
       RMFMapView *mapView = (RMFMapView *)view;
       [mapView setMyLocationEnabled:enable];
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(setPOIsEnabled:(nonnull NSNumber *)reactTag
+                  enable:(BOOL)enable) {
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFMapView class]]) {
+      
+    } else {
+      RMFMapView *mapView = (RMFMapView *)view;
+      [mapView setPOIsEnabled:enable];
     }
   }];
 }

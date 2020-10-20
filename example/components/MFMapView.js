@@ -37,6 +37,13 @@ const propTypes = {
    */
   showsBuildings: PropTypes.bool,
 
+
+  /**
+   * A Boolean indicating whether the map displays POIs.
+   * Default value is `true`.
+   */
+  showsPOIs: PropTypes.bool,
+
   /**
    * The camera view position.
    */
