@@ -143,6 +143,10 @@ export default class MapScreen extends React.Component {
     console.log('press poi:', event.nativeEvent)
   }
 
+  onPressBuilding(event) {
+    console.log('press building:', event.nativeEvent)
+  }
+
   onPressMapView(event) {
     console.log('on press coordinate:', event.nativeEvent)
   }
@@ -195,6 +199,7 @@ export default class MapScreen extends React.Component {
           }
           onShouldChangeMapMode={this.onShouldChangeMapMode}
           onPoiPress={(event)=>{console.log('place:', event.nativeEvent)}}
+          onBuildingPress={this.onPressBuilding}
           onCameraMove={this.onCameraMove}
           onCameraMoveStart={this.onCameraMoveStart}
           onCameraIdle={this.onCameraIdle}
@@ -203,6 +208,7 @@ export default class MapScreen extends React.Component {
           onPress={this.onPressMapView}
           showsMyLocationButton={true}
           showsBuildings={true}
+          showsPOIs={true}
           camera={{
             center: {latitude: 10.7881732, longitude: 106.7000933},
             zoom: 16,

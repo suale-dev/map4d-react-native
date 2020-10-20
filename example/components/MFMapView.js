@@ -37,6 +37,13 @@ const propTypes = {
    */
   showsBuildings: PropTypes.bool,
 
+
+  /**
+   * A Boolean indicating whether the map displays POIs.
+   * Default value is `true`.
+   */
+  showsPOIs: PropTypes.bool,
+
   /**
    * The camera view position.
    */
@@ -57,6 +64,11 @@ const propTypes = {
    * Callback that is called when user taps on the POIs
    */
   onPoiPress: PropTypes.func,
+
+  /**
+   * Callback that is called when user taps on the POIs
+   */
+  onBuildingPress: PropTypes.func,
 
   /**
    * Callback that is called when change 3d mode

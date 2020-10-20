@@ -49,6 +49,7 @@ RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onRegionChange, RCTDirectEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onRegionChangeComplete, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onPoiPress, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onBuildingPress, RCTDirectEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onIndoorLevelActivated, RCTDirectEventBlock)
 //RCT_EXPORT_VIEW_PROPERTY(onIndoorBuildingFocused, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onModeChange, RCTDirectEventBlock)
@@ -61,6 +62,7 @@ RCT_EXPORT_VIEW_PROPERTY(onShouldChangeMapMode, RCTDirectEventBlock)
 RCT_REMAP_VIEW_PROPERTY(camera, cameraProp, MFCameraPosition)
 
 RCT_EXPORT_VIEW_PROPERTY(showsBuildings, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(showsPOIs, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(showsMyLocationButton, BOOL)
 
 
@@ -236,6 +238,19 @@ RCT_EXPORT_METHOD(setMyLocationEnabled:(nonnull NSNumber *)reactTag
   }];
 }
 
+RCT_EXPORT_METHOD(setPOIsEnabled:(nonnull NSNumber *)reactTag
+                  enable:(BOOL)enable) {
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFMapView class]]) {
+      
+    } else {
+      RMFMapView *mapView = (RMFMapView *)view;
+      [mapView setPOIsEnabled:enable];
+    }
+  }];
+}
+
 RCT_EXPORT_METHOD(setSwitchMode:(nonnull NSNumber *)reactTag
                   mode:(NSInteger)mode) {
   [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
@@ -367,6 +382,11 @@ RCT_EXPORT_METHOD(setTime:(nonnull NSNumber *)reactTag
 - (void)mapView:(MFMapView *)mapView didTapPOIWithPlaceID:(NSString *)placeID name:(NSString *)name location:(CLLocationCoordinate2D)location {
   RMFMapView* reactMapView = (RMFMapView*) mapView;
   [reactMapView didTapPOIWithPlaceID:placeID name:name location:location];
+}
+
+- (void)mapView:(MFMapView *)mapView didTapBuildingWithBuildingID:(NSString *)buildingID name:(NSString *)name location:(CLLocationCoordinate2D)location {
+  RMFMapView* reactMapView = (RMFMapView*) mapView;
+  [reactMapView didTapBuildingWithBuildingID:buildingID name:name location:location];
 }
 
 - (void)mapView: (MFMapView*)  mapView didTapMyLocation: (CLLocationCoordinate2D) location {

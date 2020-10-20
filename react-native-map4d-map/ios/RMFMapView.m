@@ -123,7 +123,12 @@
 
 - (void)setShowsBuildings:(BOOL)showsBuildings {
   _showsBuildings = showsBuildings;
-    [self setBuildingsEnabled:showsBuildings];
+  [self setBuildingsEnabled:showsBuildings];
+}
+
+- (void)setShowsPOIs:(BOOL)showsPOIs {
+  _showsPOIs = showsPOIs;
+  [self setPOIsEnabled:showsPOIs];
 }
 
 - (void)setShowsMyLocationButton:(BOOL)showsMyLocationButton {
@@ -141,6 +146,19 @@
   self.onPoiPress(@{
     @"action":@"poi-press",
     @"placeID": placeID,
+    @"name": name,
+    @"location": @{
+      @"latitude": @(location.latitude),
+      @"longitude": @(location.longitude)
+    }
+  });
+}
+
+- (void)didTapBuildingWithBuildingID:(NSString *)buildingID name:(NSString *)name location:(CLLocationCoordinate2D)location {
+  if (!self.onBuildingPress) return;
+  self.onBuildingPress(@{
+    @"action":@"building-press",
+    @"buildingID": buildingID,
     @"name": name,
     @"location": @{
       @"latitude": @(location.latitude),
