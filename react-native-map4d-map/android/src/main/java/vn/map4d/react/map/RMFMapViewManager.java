@@ -22,6 +22,7 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     private static final int k_setShowsMyLocationButton = 5;
     private static final int k_setTime = 6;
     private static final int k_fitBounds = 7;
+    private static final int k_setPOIsEnabled = 8;
 
     private ThemedReactContext reactContext;
 
@@ -65,6 +66,7 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     map.put("enable3DMode", k_enable3DMode);
     map.put("setMyLocationEnabled", k_setMyLocationEnabled);
     map.put("showsMyLocationButton", k_setShowsMyLocationButton);
+    map.put("setPOIsEnabled", k_setPOIsEnabled);
     map.put("setTime", k_setTime);
     map.put("fitBounds", k_fitBounds);
     return map;
@@ -96,6 +98,9 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
         break;
       case k_fitBounds:
         view.fitBounds(args.getMap(0));
+        break;
+      case k_setPOIsEnabled:
+        view.setPOIsEnabled(args.getBoolean(0));
         break;
     }
   }

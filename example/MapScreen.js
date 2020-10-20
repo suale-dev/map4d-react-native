@@ -188,6 +188,7 @@ export default class MapScreen extends React.Component {
           onMapReady={
             data => {
               this.map.setMyLocationEnabled(true)
+              // this.map.setPOIsEnabled(false)
               this.getCamera();
               this.moveCamera()
             }
