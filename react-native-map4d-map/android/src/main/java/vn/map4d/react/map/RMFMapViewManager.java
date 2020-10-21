@@ -52,7 +52,8 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
         "onMyLocationButtonPress", MapBuilder.of("registrationName", "onMyLocationButtonPress"),
         "onPress", MapBuilder.of("registrationName", "onPress"),
         "onShouldChangeMapMode", MapBuilder.of("registrationName", "onShouldChangeMapMode"),
-        "onPoiPress", MapBuilder.of("registrationName", "onPoiPress")
+        "onPoiPress", MapBuilder.of("registrationName", "onPoiPress"),
+        "onBuildingPress", MapBuilder.of("registrationName", "onBuildingPress")
       ));
       return map;
     }
@@ -143,5 +144,10 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
   @ReactProp(name = "showsBuildings", defaultBoolean = true)
   public void setBuildingsEnabled(RMFMapView view, boolean buildingsEnable) {
     view.setBuildingsEnabled(buildingsEnable);
+  }
+
+  @ReactProp(name = "showsPOIs", defaultBoolean = true)
+  public void setPOIsEnabled(RMFMapView view, boolean enable) {
+    view.setPOIsEnabled(enable);
   }
 }
