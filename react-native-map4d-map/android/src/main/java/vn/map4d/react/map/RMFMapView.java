@@ -203,6 +203,21 @@ public class RMFMapView extends MFMapView implements OnMapReadyCallback  {
       }
     });
 
+    map.setOnBuildingClickListener(new Map4D.OnBuildingClickListener() {
+      @Override
+      public void onBuildingClick(String buildingId, String name, MFLocationCoordinate location) {
+        WritableMap event = new WritableNativeMap();
+        WritableMap locationMap = new WritableNativeMap();
+        locationMap.putDouble("latitude", location.getLatitude());
+        locationMap.putDouble("longitude", location.getLongitude());
+        event.putMap("location", locationMap);
+        event.putString("buildingId", buildingId);
+        event.putString("name", name);
+        event.putString("action", "building-press");
+        manager.pushEvent(getContext(), view, "onBuildingPress", event);
+      }
+    });
+
     map.setOnMapModeChange(new Map4D.OnMapModeChangeListener() {
       @Override
       public void onMapModeChange(boolean is3DMode) {
