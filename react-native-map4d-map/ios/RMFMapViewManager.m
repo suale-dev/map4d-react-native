@@ -63,6 +63,7 @@ RCT_REMAP_VIEW_PROPERTY(camera, cameraProp, MFCameraPosition)
 
 RCT_EXPORT_VIEW_PROPERTY(showsBuildings, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(showsPOIs, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(showsMyLocation, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(showsMyLocationButton, BOOL)
 
 
@@ -234,6 +235,22 @@ RCT_EXPORT_METHOD(setMyLocationEnabled:(nonnull NSNumber *)reactTag
     } else {
       RMFMapView *mapView = (RMFMapView *)view;
       [mapView setMyLocationEnabled:enable];
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(getMyLocation:(nonnull NSNumber *)reactTag
+                  resolver: (RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+  [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+    id view = viewRegistry[reactTag];
+    if (![view isKindOfClass:[RMFMapView class]]) {
+      reject(@"Invalid argument", [NSString stringWithFormat:@"Invalid view returned from registry, expecting RMFMapView, got: %@", view], NULL);
+    } else {
+      RMFMapView *mapView = (RMFMapView *)view;
+      CLLocation *location = [mapView getMyLocation];
+      resolve([RMFEventResponse eventFromCLLocation:location]);
     }
   }];
 }

@@ -39,6 +39,7 @@
 
 + (NSDictionary*)eventFromCameraPosition:(MFCameraPosition*) position;
 + (NSDictionary*)eventFromCGPoint:(CGPoint) point;
++ (NSDictionary*)eventFromCLLocation:(CLLocation*) location;
 
 @end
 

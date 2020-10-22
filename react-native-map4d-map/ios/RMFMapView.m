@@ -133,7 +133,12 @@
 
 - (void)setShowsMyLocationButton:(BOOL)showsMyLocationButton {
   _showsMyLocationButton = showsMyLocationButton;
-  [self setMyLocationEnabled:showsMyLocationButton];
+  self.settings.myLocationButton = showsMyLocationButton;
+}
+
+- (void)setShowsMyLocation:(BOOL)showsMyLocation {
+  _showsMyLocation = showsMyLocation;
+  [self setMyLocationEnabled:showsMyLocation];
 }
 
 - (void)didTapAtCoordinate:(CLLocationCoordinate2D)coordinate {

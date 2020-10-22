@@ -32,6 +32,12 @@ const propTypes = {
   showsMyLocationButton: PropTypes.bool,
 
   /**
+   * If `true` the app will ask for the user's location.
+   * Default value is `false`.
+   */
+  showsMyLocation: PropTypes.bool,
+
+  /**
    * A Boolean indicating whether the map displays buildings.
    * Default value is `true`.
    */
@@ -131,6 +137,15 @@ class MFMapView extends React.Component {
       return NativeModules.Map4dMap.getCamera(this._getHandle());
     } else if (Platform.OS === 'ios') {
       return this._runCommand('getCamera', []);
+    }
+    return Promise.reject('Function not supported on this platform');
+  }
+
+  getMyLocation() {
+    if (Platform.OS === 'android') {
+      return NativeModules.Map4dMap.getMyLocation(this._getHandle());
+    } else if (Platform.OS === 'ios') {
+      return this._runCommand('getMyLocation', []);
     }
     return Promise.reject('Function not supported on this platform');
   }
