@@ -136,6 +136,11 @@ public class RMFMapViewManager extends ViewGroupManager<RMFMapView> {
     view.setShowsMyLocationButton(showMyLocationButton);
   }
 
+  @ReactProp(name = "showsMyLocation", defaultBoolean = true)
+  public void setShowsMyLocation(RMFMapView view, boolean showsMyLocation) {
+    view.setMyLocationEnabled(showsMyLocation);
+  }
+
   @ReactProp(name = "camera")
   public void setCamera(RMFMapView view, ReadableMap camera) {
     view.moveCamera(camera);
