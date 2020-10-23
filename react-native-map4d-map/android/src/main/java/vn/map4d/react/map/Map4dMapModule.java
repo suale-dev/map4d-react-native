@@ -17,6 +17,7 @@ import com.facebook.react.bridge.Callback;
 import android.view.View;
 import android.util.Log;
 import android.graphics.Point;
+import android.location.Location;
 
 import vn.map4d.map.camera.MFCameraPosition;
 import vn.map4d.map.core.*;
@@ -61,9 +62,9 @@ public class Map4dMapModule extends ReactContextBaseJavaModule {
       });
     }
 
-    @ReactMethod
+  @ReactMethod
   public void getCamera(final int tag, final Promise promise) {
-    getView(tag, new ResolveViewCallback(){
+    getView(tag, new ResolveViewCallback() {
       @Override
       public void found(View view) {
         RMFMapView mapView = (RMFMapView) view;
@@ -80,6 +81,41 @@ public class Map4dMapModule extends ReactContextBaseJavaModule {
         cameraJson.putDouble("tilt", (double)position.getTilt());
 
         promise.resolve(cameraJson);
+      }
+    });
+  }
+
+  @ReactMethod
+  public void getMyLocation(final int tag, final Promise promise) {
+    getView(tag, new ResolveViewCallback() {
+      @Override
+      public void found(View view) {
+        RMFMapView mapView = (RMFMapView) view;
+        Location location = mapView.map.getMyLocation();
+
+        WritableMap locationJson = new WritableNativeMap();
+        if (location == null) {
+          locationJson.putNull("coordinate");
+          locationJson.putNull("altitude");
+          locationJson.putNull("timestamp");
+          locationJson.putNull("accuracy");
+          locationJson.putNull("altitudeAccuracy");
+          locationJson.putNull("speed");
+          locationJson.putNull("heading");
+        }
+        else {
+          WritableMap coordinateJson = new WritableNativeMap();
+          coordinateJson.putDouble("latitude", location.getLatitude());
+          coordinateJson.putDouble("longitude", location.getLongitude());
+          locationJson.putMap("coordinate", coordinateJson);
+          locationJson.putDouble("altitude", location.getAltitude());
+          locationJson.putDouble("timestamp", location.getTime());
+          locationJson.putDouble("accuracy", location.getAccuracy());
+          locationJson.putDouble("altitudeAccuracy", location.getAccuracy());
+          locationJson.putDouble("speed", location.getSpeed());
+          locationJson.putDouble("heading", location.getBearing());
+        }
+        promise.resolve(locationJson);
       }
     });
   }
