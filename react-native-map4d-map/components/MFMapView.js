@@ -32,10 +32,23 @@ const propTypes = {
   showsMyLocationButton: PropTypes.bool,
 
   /**
+   * If `true` the app will ask for the user's location.
+   * Default value is `false`.
+   */
+  showsMyLocation: PropTypes.bool,
+
+  /**
    * A Boolean indicating whether the map displays buildings.
    * Default value is `true`.
    */
   showsBuildings: PropTypes.bool,
+
+
+  /**
+   * A Boolean indicating whether the map displays POIs.
+   * Default value is `true`.
+   */
+  showsPOIs: PropTypes.bool,
 
   /**
    * The camera view position.
@@ -57,6 +70,11 @@ const propTypes = {
    * Callback that is called when user taps on the POIs
    */
   onPoiPress: PropTypes.func,
+
+  /**
+   * Callback that is called when user taps on the POIs
+   */
+  onBuildingPress: PropTypes.func,
 
   /**
    * Callback that is called when change 3d mode
@@ -82,6 +100,11 @@ const propTypes = {
    * Callback that is called when user taps on location Button
    */
   onMyLocationButtonPress: PropTypes.func,
+
+  /**
+   * Callback that is called when user zoom in or zoom out through minimum zoom 3D
+   */
+  onShouldChangeMapMode: PropTypes.func
 };
 
 
@@ -118,6 +141,15 @@ class MFMapView extends React.Component {
     return Promise.reject('Function not supported on this platform');
   }
 
+  getMyLocation() {
+    if (Platform.OS === 'android') {
+      return NativeModules.Map4dMap.getMyLocation(this._getHandle());
+    } else if (Platform.OS === 'ios') {
+      return this._runCommand('getMyLocation', []);
+    }
+    return Promise.reject('Function not supported on this platform');
+  }
+
   animateCamera(camera) {
     this._runCommand('animateCamera', [camera]);
   }
@@ -145,6 +177,10 @@ class MFMapView extends React.Component {
 
   showsMyLocationButton(enable) {
     this._runCommand('showsMyLocationButton', [enable]);
+  }
+
+  setPOIsEnabled(enable) {
+    this._runCommand('setPOIsEnabled', [enable]);
   }
 
   setTime(time) {
