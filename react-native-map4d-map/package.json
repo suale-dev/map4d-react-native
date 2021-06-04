@@ -1,8 +1,8 @@
 {
   "name": "react-native-map4d-map",
   "title": "React Native Map4dMap",
-  "version": "1.0.9",
-  "description": "TODO",
+  "version": "1.0.10",
+  "description": "Map4dMap SDK for React Native",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

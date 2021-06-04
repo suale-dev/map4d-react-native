@@ -7,16 +7,16 @@ Pod::Spec.new do |s|
   s.version      = package["version"]
   s.summary      = package["description"]
   s.description  = <<-DESC
-                  react-native-map4d-map
+Map4dMap SDK for React Native
                    DESC
-  s.homepage     = "https://github.com/sua8051/map4d-react-native.git"
+  s.homepage     = "https://map4d.vn"
   # brief license entry:
   s.license      = "MIT"
   # optional - use expanded license entry instead:
   # s.license    = { :type => "MIT", :file => "LICENSE" }
-  s.authors      = { "Your Name" => "yourname@email.com" }
-  s.platforms    = { :ios => "10.0" }
-  s.source       = { :git => "https://github.com/sua8051/map4d-react-native.git", :tag => "#{s.version}" }
+  s.authors      = { "IOTLink" => "admin@iotlink.com.vn" }
+  s.platforms    = { :ios => "9.0" }
+  s.source       = { :git => "https://github.com/map4d/map4d-map-react-native", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,swift}"
   s.requires_arc = true
